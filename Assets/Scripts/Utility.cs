@@ -5,6 +5,11 @@ using UnityEngine;
 
 public static class Utility
 {
+    public static string RemoveSpaceFromString(string stringToModify)
+    {
+        string modifiedString = stringToModify.Replace(" ", "");
+        return modifiedString;
+    }
 
     public static float CalculateValueWithPercentage(float value, float percentageAmount, bool increase)
     {

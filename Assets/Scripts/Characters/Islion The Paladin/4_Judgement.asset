@@ -10,11 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: aedde484368609b4c9360ed52ccf1928, type: 3}
-  m_Name: New Ability
+  m_Name: 4_Judgement
   m_EditorClassIdentifier: 
-  abilityName: 
-  abilityDescription: 
+  abilityName: Divine Storm
+  abilityDescription: 'judges the target, dealing 20% Base Weapon Damage as Holy
+    Damage and applies a debuff based on the currently selected judgement Type. '
   abilityIcon: {fileID: 0}
-  abilityValue: 140
-  abilityCooldown: 4.5
-  abilityManaCostPercentage: 10
+  abilityManaCost: 3
+  abilityData:
+    values:
+    - 20
+    castTime: 0
+    coolDownTime: 8
