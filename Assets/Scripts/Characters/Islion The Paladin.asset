@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b66951dc8189e564ea02805ab175a03b, type: 3}
+  m_Name: Islion The Paladin
+  m_EditorClassIdentifier: 
+  ID: 0
+  characterName: Islion The Paladin
+  health: 800
+  mana: 500
+  physicalDamageReduction: 40
+  attackSpeed: 2.4
+  minbaseDamage: 37
+  maxbaseDamage: 58
+  chanceToHit: 87
+  chanceToCrit: 11
+  criticalDamageMultipier: 1.5
+  healingMultipier: 1.5
+  spellChancetoCrit: 17
+  spellCriticalDamageMultipier: 1.7
+  spellHealingMultipier: 1.7
+  manaRegenWhileCasting:
+    amount: 6
+    seconds: 5
+  manaRegenWhileNotCasting:
+    amount: 15
+    seconds: 5
+  manaRegenWhileNotInCombat:
+    amount: 34
+    seconds: 5

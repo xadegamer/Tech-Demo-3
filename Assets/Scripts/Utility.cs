@@ -5,6 +5,19 @@ using UnityEngine;
 
 public static class Utility
 {
+
+    public static float CalculateValueWithPercentage(float value, float percentageAmount, bool increase)
+    {
+        float percentageValue = CalculatePercentageOfValue(value, percentageAmount);
+        return increase ? value += percentageValue : value -= percentageValue;
+    }
+
+    public static float CalculatePercentageOfValue(float value, float percentageAmount)
+    {
+        float percentageValue = ((float)percentageAmount / 100) * value;
+        return Mathf.RoundToInt(percentageValue);
+    }
+    
     public static void FaceVelocityDirection(Rigidbody2D rigidbody2D)
     {
         rigidbody2D.transform.localScale = new Vector2(rigidbody2D.velocity.x > 0 ? 1 : -1, 1);
@@ -13,12 +26,7 @@ public static class Utility
     {
         return scale > 0 ? 1 : -1;
     }
-
-    public static int VectorToDirection(Vector3 vector3)
-    {
-        return vector3.x > 0 ? 1 : -1;
-    }
-
+    
     public static void FaceVectorDirection(Vector3 vector3, Transform transform)
     {
         transform.localScale = new Vector2(vector3.x > 0 ? 1 : -1, 1);
@@ -33,6 +41,24 @@ public static class Utility
         {
             float distanceToEnemy = (currentObject.transform.position - ownerPos.position).sqrMagnitude;
             if (distanceToEnemy < distanceToClosestObject)
+            {
+                distanceToClosestObject = distanceToEnemy;
+                closestObject = currentObject;
+            }
+        }
+
+        return closestObject;
+    }
+
+    public static GameObject FindFarObject(this Transform ownerPos, List<GameObject> gameObjects)
+    {
+        float distanceToClosestObject = 0;
+        GameObject closestObject = null;
+
+        foreach (GameObject currentObject in gameObjects)
+        {
+            float distanceToEnemy = (currentObject.transform.position - ownerPos.position).sqrMagnitude;
+            if (distanceToEnemy > distanceToClosestObject)
             {
                 distanceToClosestObject = distanceToEnemy;
                 closestObject = currentObject;

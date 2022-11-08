@@ -8,12 +8,15 @@ public class MovementHandler : MonoBehaviour
     [SerializeField] private float moveSpeed;
     [SerializeField] private float rotateSpeed;
 
+    [SerializeField] private Animator animator;
+
     private Vector3 move;
     private bool canRotate = true;
 
     void Update()
     {
         Walk();
+        HandleAnimation();
     }
 
     public void Walk()
@@ -22,8 +25,15 @@ public class MovementHandler : MonoBehaviour
         {
             move = MovementJoystick.Instance.Input();
             transform.Translate(move * moveSpeed * Time.deltaTime, Space.World);
-            Utility.FaceVectorDirection(-move, transform);
+            Utility.FaceVectorDirection(move, transform);
         }
+        else move = Vector3.zero;
+    }
+
+    public void HandleAnimation()
+    {
+        animator.SetFloat("MoveX", Mathf.Abs(move.x));
+        animator.SetFloat("MoveY", move.y);
     }
 
     public void PlayerRotation()
