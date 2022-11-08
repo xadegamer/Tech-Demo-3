@@ -1,16 +1,12 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
-using UnityEngine.Events;
-using static UnityEngine.RuleTile.TilingRuleOutput;
 
-public class PlayerMovement : MonoBehaviour
+public class MovementHandler : MonoBehaviour
 {
     [Header("Movement")]
-    [SerializeField] float moveSpeed;
-    [SerializeField] float rotateSpeed;
+    [SerializeField] private float moveSpeed;
+    [SerializeField] private float rotateSpeed;
 
     private Vector3 move;
     private bool canRotate = true;
@@ -19,7 +15,7 @@ public class PlayerMovement : MonoBehaviour
     {
         Walk();
     }
-    
+
     public void Walk()
     {
         if (MovementJoystick.Instance.IsStickMoving())
@@ -27,7 +23,7 @@ public class PlayerMovement : MonoBehaviour
             move = MovementJoystick.Instance.Input();
             transform.Translate(move * moveSpeed * Time.deltaTime, Space.World);
             Utility.FaceVectorDirection(-move, transform);
-        } 
+        }
     }
 
     public void PlayerRotation()
@@ -36,7 +32,7 @@ public class PlayerMovement : MonoBehaviour
         transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(move), rotateSpeed * Time.deltaTime);
     }
 
-    public void ToggleRotation( bool newState) =>  canRotate = newState;
+    public void ToggleRotation(bool newState) => canRotate = newState;
 
-    public void StopMovement() =>  move = Vector3.zero;
+    public void StopMovement() => move = Vector3.zero;
 }

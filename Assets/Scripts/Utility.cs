@@ -24,6 +24,24 @@ public static class Utility
         transform.localScale = new Vector2(vector3.x > 0 ? 1 : -1, 1);
     }
 
+    public static GameObject FindClosestObject(this Transform ownerPos, List<GameObject> gameObjects)
+    {
+        float distanceToClosestObject = Mathf.Infinity;
+        GameObject closestObject = null;
+
+        foreach (GameObject currentObject in gameObjects)
+        {
+            float distanceToEnemy = (currentObject.transform.position - ownerPos.position).sqrMagnitude;
+            if (distanceToEnemy < distanceToClosestObject)
+            {
+                distanceToClosestObject = distanceToEnemy;
+                closestObject = currentObject;
+            }
+        }
+
+        return closestObject;
+    }
+
     public static bool ObstacleDetectedRaycast(Transform startTransfrom, float normalisedDirection, float distanceCheck, LayerMask detectLayer, bool showDebug = true)
     {
         if (showDebug) Debug.DrawRay(startTransfrom.position, new Vector2(normalisedDirection * distanceCheck, 0), Color.yellow);
