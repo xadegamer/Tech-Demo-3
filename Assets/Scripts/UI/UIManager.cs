@@ -30,10 +30,21 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
-        SwapHandler.Instance.OnDownSwipe += SwapHandler_OnDownSwipe;
-        SwapHandler.Instance.OnUpSwipe += SwapHandler_OnUpSwipe;
-        SwapHandler.Instance.OnLeftSwipe += SwapHandler_OnLeftSwipe;
-        SwapHandler.Instance.OnRightSwipe += SwapHandler_OnRightSwipe;
+        ScreenSwapHandler.Instance.OnDownSwipe += SwapHandler_OnDownSwipe;
+        ScreenSwapHandler.Instance.OnUpSwipe += SwapHandler_OnUpSwipe;
+        ScreenSwapHandler.Instance.OnLeftSwipe += SwapHandler_OnLeftSwipe;
+        ScreenSwapHandler.Instance.OnRightSwipe += SwapHandler_OnRightSwipe;
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.RightArrow)) ShowAbililitySetUI(abilitySetUI[0]);
+        
+        if (Input.GetKeyDown(KeyCode.LeftArrow)) ShowAbililitySetUI(abilitySetUI[1]);
+
+        if (Input.GetKeyDown(KeyCode.UpArrow)) ShowAbililitySetUI(abilitySetUI[2]);
+
+        if (Input.GetKeyDown(KeyCode.DownArrow)) ShowAbililitySetUI(abilitySetUI[3]);
     }
 
     private void SwapHandler_OnRightSwipe(object sender, EventArgs e)
@@ -66,10 +77,7 @@ public class UIManager : MonoBehaviour
 
     public void SetAbilities(AbilitySOSet[] abilitySOSets)
     {
-        for (int i = 0; i < abilitySetUI.Length; i++)
-        {
-            abilitySetUI[i].SetAbility(abilitySOSets[i]);
-        }
+        for (int i = 0; i < abilitySetUI.Length; i++) abilitySetUI[i].SetAbility(abilitySOSets[i]);
     }
 }
 

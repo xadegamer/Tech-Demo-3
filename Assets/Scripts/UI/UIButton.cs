@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
-using UnityStandardAssets.CrossPlatformInput;
 
 public class UIButton : MonoBehaviour
 {
@@ -16,7 +15,7 @@ public class UIButton : MonoBehaviour
 
     public void SetDownState()
     {
-        CrossPlatformInputManager.SetButtonDown(buttonName);
+        //CrossPlatformInputManager.SetButtonDown(buttonName);
         OnClickDown.Invoke();
 
         toggle = !toggle;
@@ -25,7 +24,7 @@ public class UIButton : MonoBehaviour
 
     public void SetUpState()
     {
-        CrossPlatformInputManager.SetButtonUp(buttonName);
+       // CrossPlatformInputManager.SetButtonUp(buttonName);
         OnClickUp.Invoke();
     }
 }

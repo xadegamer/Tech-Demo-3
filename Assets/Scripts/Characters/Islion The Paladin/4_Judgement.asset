@@ -15,10 +15,14 @@ MonoBehaviour:
   abilityName: Divine Storm
   abilityDescription: 'judges the target, dealing 20% Base Weapon Damage as Holy
     Damage and applies a debuff based on the currently selected judgement Type. '
-  abilityIcon: {fileID: 0}
+  abilityIcon: {fileID: 21300000, guid: 9f3e1e7faa8d9874088e29eaf48c1840, type: 3}
   abilityManaCost: 3
   abilityData:
     values:
     - 20
-    castTime: 0
-    coolDownTime: 8
+    castTime:
+      timeType: 0
+      duration: 0
+    coolDownTime:
+      timeType: 0
+      duration: 8
