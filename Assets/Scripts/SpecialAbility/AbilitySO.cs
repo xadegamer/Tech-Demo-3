@@ -49,3 +49,9 @@ public class AbilityData
     public float castTime;
     public float coolDownTime;
 }
+
+[Serializable]
+public class AbilitySOSet
+{
+    public AbilitySO[] abilities;
+}

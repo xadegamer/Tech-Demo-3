@@ -21,7 +21,7 @@ public class MovementHandler : MonoBehaviour
 
     public void Walk()
     {
-        if (MovementJoystick.Instance.IsStickMoving())
+        if (MovementJoystick.Instance.IsDragingStick())
         {
             move = MovementJoystick.Instance.Input();
             transform.Translate(move * moveSpeed * Time.deltaTime, Space.World);

@@ -91,7 +91,7 @@ public class MovementJoystick : MonoBehaviour, IDragHandler, IPointerUpHandler, 
         positionfocus[3].gameObject.SetActive(move.x < 0 && move.y < 0);
     }
 
-    public bool IsStickMoving() {return isMovingStick;}
+    public bool IsDragingStick() {return isMovingStick;}
 
     public Vector3 Input() {return move;}
 }
