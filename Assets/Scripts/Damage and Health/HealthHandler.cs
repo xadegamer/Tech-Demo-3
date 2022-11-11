@@ -39,7 +39,7 @@ public class HealthHandler : MonoBehaviour
     [SerializeField] bool isInvulnerable = false;
     [SerializeField] bool damageDelay;
 
-    public event EventHandler<Vector3> Knockback;
+    public event EventHandler<Vector3> OnKnockback;
 
     WaitForSeconds coolDownTime;
 
@@ -124,7 +124,7 @@ public class HealthHandler : MonoBehaviour
                 else OnHit.Invoke();
             }
 
-            if (Knockback != null && damageInfo.knockback) Knockback(this, damageInfo.direction);
+            if (OnKnockback != null && damageInfo.knockback) OnKnockback(this, damageInfo.direction);
 
             if (damageInfo.critical) OnReceiveCriticalDamage.Invoke(); OnReceiveNormalDamage.Invoke();
             PopUpTextManager.Instance.PopUpText(transform, finalDamage.ToString(), damageInfo.critical ? Color.red : Color.yellow);
@@ -210,19 +210,4 @@ public class HealthEvent
     public float healthPercentage;
     public UnityEvent OnReach;
     [HideInInspector]public bool done;
-}
-
-public class DamageInfo
-{
-    public enum DamageType { Melee, Projectile }
-
-    public DamageType damageType;
-    public int damageAmount;
-    public bool critical;
-    public bool knockback;
-    public bool stun;
-    public Vector3 direction;
-
-    public int damageIncrease;
-    public int damageIncreasePercent;
 }

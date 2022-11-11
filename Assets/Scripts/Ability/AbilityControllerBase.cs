@@ -7,22 +7,25 @@ public abstract class AbilityControllerBase : MonoBehaviour
 {
     [SerializeField] protected AbilitySOSet[] abilitySOSets;
 
+    protected StatHandler statHandler;
+
     private void Awake()
     {
+        statHandler = GetComponent<StatHandler>();
         AssignAbilityActions();
     }
 
-    private void Start()
+    protected virtual void Start()
     {
         UIManager.Instance.SetAbilities(abilitySOSets);
     }
 
     protected void AssignAbilityActions()
     {
-        AssignSetAbilityActions(abilitySOSets[0]);
-        AssignSetAbilityActions(abilitySOSets[1]);
-        AssignSetAbilityActions(abilitySOSets[2]);
-        AssignSetAbilityActions(abilitySOSets[3]);
+        foreach (AbilitySOSet abilitySOSet in abilitySOSets)
+        {
+            AssignSetAbilityActions(abilitySOSet);
+        }
     }
 
     protected abstract void AssignSetAbilityActions(AbilitySOSet abilitySOSet);

@@ -1,46 +1,60 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Sirenix.OdinInspector;
 using UnityEngine.Events;
 
-public class Damager : MonoBehaviour
+public abstract class Damager : MonoBehaviour
 {
-	[Header("Damage Multiplier")]
-	[SerializeField] protected bool ragedDamage;
-	[SerializeField] protected float damageMultiplier = 1f;
+    public enum DealType { Damage}
 
-	[Header("Damage")]
-	[SerializeField] protected int damage;
-	[SerializeField] protected int criticalDamage;
-	[SerializeField] protected float criticalChance;
-	[SerializeField] protected LayerMask targetLayer;
-	[SerializeField] protected bool hasHit;
+    [SerializeField] protected DealType dealType;
 
-	public MonoBehaviour owner { get; private set; }
+    [Header("KnockBack")]
+    [SerializeField] protected bool hasKnockBack;
+    [SerializeField] protected Vector2 knockBackDirection;
+    [SerializeField] protected float knockBackForce;
 
-	private protected DamageInfo damageInfo =  new DamageInfo();
 
-	public UnityEvent OnHit;
+    [Tooltip("Insert taget object layer")]
+    [SerializeField] protected LayerMask targetLayer;
 
-	public void SetUp(MonoBehaviour owner, int currentDamage, int currentCriticalDamage, float currentCriticalChance)
+    [Tooltip("Insert the damage amount")]
+    [SerializeField] protected float damage;
+
+    [SerializeField] protected UnityEvent OnHit;
+
+    [Tooltip("Gameobject will destory after it deals damage")]
+    [SerializeField] protected bool destroyOnImpact;
+
+    private protected DamageInfo damageInfo = new DamageInfo();
+    
+    public void DealDamage(Collider2D collision)
     {
-		this.owner = owner;
-		damage = currentDamage;
-		criticalDamage = currentCriticalDamage;
-		criticalChance = currentCriticalChance;
-	}
+        if (collision.TryGetComponent(out HealthHandler healthSystem)) healthSystem.TakeDamage(damageInfo);
+    }
 
-	public virtual void Attack(bool knockBack){}
+    public void SetDamage(int damage)
+    {
+        this.damage = damage;
+    }
 
-	public virtual void ToggleConstantAttack(bool newState) { }
-	public virtual void ToggleConstantKockBackAttack(bool newState) { }
+    public void SetDealType(DealType dealType)
+    {
+        this.dealType = dealType;
+    }
 
-	protected int RandomCriticalDamage()
-	{
-		if ((criticalChance / 100f) >= Random.value) return criticalDamage;
-		else return 0;
-	}
+    public void SetHasKnockback(bool hasKnockback)
+    {
+        this.hasKnockBack = hasKnockback;
+    }
 
-	public bool HasHit() { return hasHit; }
+    public void SetKnockbackDirection(Vector2 direction)
+    {
+        this.knockBackDirection = direction;
+    }
+
+    public void SetKnockbackForce (float force)
+    {
+        this.knockBackForce = force;
+    }
 }

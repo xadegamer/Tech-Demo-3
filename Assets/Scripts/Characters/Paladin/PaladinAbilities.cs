@@ -7,5 +7,10 @@ public enum PaladinAbilities
     CrusaderStrike,
     HammerofJustice,
     DivineStorm,
-    Judgement
+    Judgement,
+    JudgementOfRighteousness,
+    JudgementofWisdom,
+    JudgementofWeakness
+
+        
 }

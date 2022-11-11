@@ -3,10 +3,15 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 [CreateAssetMenu(fileName = "New Ability", menuName = "Special Abilities / Create Ability", order = 1)]
 public class AbilitySO : ScriptableObject
 {
+    public enum Range { Melee, Moderate, Long }
+
+    public enum Type { InstantCast, DelayedCast, SetUp}
+
     [FoldoutGroup("Info")]
     public string abilityName;
     [FoldoutGroup("Info")]
@@ -17,37 +22,45 @@ public class AbilitySO : ScriptableObject
 
     [FoldoutGroup("Stats")]
     [SuffixLabel("%")]
-    public float abilityManaCost;
+    public float abilityCost;
+    [FoldoutGroup("Stats")]
+    [SuffixLabel("%")]
+    public Type type;
+    [FoldoutGroup("Stats")]
+    [SuffixLabel("%")]
+    public Range  range;
     [FoldoutGroup("Stats")]
     [SuffixLabel("%")]
     public AbilityData abilityData;
 
-    private Action<AbilityData> OnUse = null;
+    public AbilitySO[] additionalAbilities;
+
+    [ShowIf("type", Type.SetUp)]
+    public AbilitySO[] optionalabilities;
+
+    private Action<AbilitySO> OnUse = null;
 
     public T GetAbilityType<T>() where T : Enum
     {
         return (T)Enum.Parse(typeof(T), Utility.RemoveSpaceFromString(abilityName));
     }
 
-    public void SetAbilityAction(Action<AbilityData> action)
+    public void SetAbilityAction(Action<AbilitySO> action)
     {
         OnUse = action;
     }
 
-    public float GetManaCost(float baseMana)=> Utility.CalculateValueWithPercentage(baseMana, abilityManaCost, false);
+    public float GetAbilityCost(float baseMana)=> Utility.CalculateValueWithPercentage(baseMana, abilityCost, false);
 
     public void UseAbility()
     {
-        OnUse?.Invoke(abilityData);
+        OnUse?.Invoke(this);
     }
-}
 
-[Serializable]
-public class AbilityData
-{
-    public float [] values;
-    public TimeDuration castTime;
-    public TimeDuration coolDownTime;
+    public Action<AbilitySO> GetAbilityAction()
+    {
+        return OnUse;
+    }
 }
 
 [Serializable]
@@ -57,14 +70,50 @@ public class AbilitySOSet
 }
 
 [Serializable]
-public class TimeDuration
+public class AbilityData
 {
-    public enum TimeType { Seconds,Minutes}
-    public TimeType timeType;
-    public float duration;
+    public AbilityValue[] values;
 
-    public float GetTime()
+    public AbilityValue GetAbilityValueByID(string ID)
     {
-        return timeType == TimeType.Seconds ? duration : duration * 60;
+        AbilityValue abilityValue = values.FirstOrDefault(x => x.ID == ID);
+
+        if (abilityValue != null) return abilityValue;
+        else
+        {
+            Debug.LogError("Ability Value with ID: " + ID + " not found");
+            return null;
+        }
+    }
+}
+
+[Serializable]
+public class AbilityValue
+{
+    public enum Type { Direct, Percentage, Time}
+
+    public enum TimeType { Seconds, Minutes }
+
+    public string ID;
+    
+    public Type valueType;
+
+    [ShowIf("valueType", Type.Time)]
+    public TimeType timeType;
+
+    [SerializeField] private float value;
+
+    public float GetValue()
+    {
+        switch (valueType)
+        {
+            case Type.Direct:
+                return value;
+            case Type.Percentage:
+                return value;
+            case Type.Time:
+                return timeType ==  TimeType.Seconds ? value : value * 60;
+            default: return 0;
+        }
     }
 }

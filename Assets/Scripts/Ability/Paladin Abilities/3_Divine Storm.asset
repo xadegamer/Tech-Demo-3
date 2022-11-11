@@ -17,14 +17,21 @@ MonoBehaviour:
     all enemies within moderate melee range. The divine storm heals the Paladin,
     totaling 20% of damage caused. '
   abilityIcon: {fileID: 21300000, guid: 6da4f6dcd5a67a0418f1a481205c7f6e, type: 3}
-  abilityManaCost: 5
+  abilityCost: 0
+  type: 0
+  range: 0
   abilityData:
     values:
-    - 100
-    - 20
-    castTime:
+    - ID: Cooldown
+      valueType: 2
       timeType: 0
-      duration: 0
-    coolDownTime:
+      value: 10
+    - ID: BasePhysicalDamage
+      valueType: 1
       timeType: 0
-      duration: 10
+      value: 100
+    - ID: Heal
+      valueType: 1
+      timeType: 0
+      value: 20
+  additionalAbilities: []

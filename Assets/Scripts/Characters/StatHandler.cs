@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class StatHandler : MonoBehaviour
 {
-    [SerializeField] private CharacterClassSO classAbilitySO;
+    [SerializeField] private CharacterClassSO  characterClassSO;
 
     [SerializeField] private float currentHealth;
     [SerializeField] private float currentMana;
@@ -20,15 +20,16 @@ public class StatHandler : MonoBehaviour
 
     [FoldoutGroup("ManaRegen")]
     [SerializeField] private float currentManaRegenAmount;
+
+    [FoldoutGroup("ManaRegen")]
     [SerializeField] private float manaRegenInterval;
     private float manaRegenTimer;
     private bool canRegenManner = true;
 
     [FoldoutGroup("Buff")]
     [SerializeField] private BuffSO[] buffSOs;
+    [FoldoutGroup("Buff")]
     [SerializeField] private List<Buff> activeBuffs = new List<Buff>();
-
-    [FoldoutGroup("SpecialAbility")]
 
     public void Start()
     {
@@ -48,7 +49,7 @@ public class StatHandler : MonoBehaviour
 
     public void ManaRegeneration()
     {
-        if(canRegenManner && currentMana < classAbilitySO.mana)
+        if(canRegenManner && currentMana < characterClassSO.mana)
         {
             if(manaRegenTimer >= manaRegenInterval)
             {
@@ -57,5 +58,10 @@ public class StatHandler : MonoBehaviour
             }
             else  manaRegenTimer += Time.deltaTime;
         }
+    }
+
+    public CharacterClassSO GetCharacterClassSO()
+    {
+        return characterClassSO;
     }
 }

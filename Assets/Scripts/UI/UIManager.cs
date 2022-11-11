@@ -21,6 +21,10 @@ public class UIManager : MonoBehaviour
     [Header("Abilities")]
     [SerializeField] private AbilitySetUI[]  abilitySetUI;
 
+    [Header(header: "CastBar")]
+    [SerializeField] private Image castBarFill;
+    [SerializeField] private TextMeshProUGUI castBarText;
+
     private AbilitySetUI currentAbilitySetUI;
 
     private void Awake()
@@ -77,7 +81,24 @@ public class UIManager : MonoBehaviour
 
     public void SetAbilities(AbilitySOSet[] abilitySOSets)
     {
-        for (int i = 0; i < abilitySetUI.Length; i++) abilitySetUI[i].SetAbility(abilitySOSets[i]);
+        for (int i = 0; i < abilitySetUI.Length; i++)
+        {
+            abilitySetUI[i].SpawnAndSetAbility(abilitySOSets[i]);
+        }
+    }
+
+    public CharacterUI GetPlayerrUI() => playerUI;
+    public CharacterUI GetEnemyUI() => enemyUI;
+    public CharacterUI GetTargetOfTargetUI() => targetOfTargetUI;
+
+    public void SetCastBarText(string text)
+    {
+        castBarText.text = text;
+    }
+
+    public void SetCastBarFill(float fillAmount)
+    {
+        castBarFill.fillAmount = fillAmount;
     }
 }
 
@@ -93,21 +114,4 @@ public class CharacterUI
     public void SetEnemyIcon(Sprite icon) { enemyIcon.sprite = icon; }
     public void SetEnemyHealthBar(float health) { enemyHealthBar.fillAmount = health; }
     public void SetEnemyManaBar(float mana) { enemyManaBar.fillAmount = mana; }
-}
-
-[Serializable]
-public class AbilitySetUI
-{
-    [SerializeField] private RectTransform abilityHolder;
-    [SerializeField] private Vector2 hidePos;
-    [SerializeField] private AbilityHolderUI[] abilityHolderUIList;
-
-    public void ShowAbilitySet() => abilityHolder.anchoredPosition = Vector2.zero;
-
-    public void HideAbilitySet() => abilityHolder.anchoredPosition = hidePos;
-
-    public void SetAbility(AbilitySOSet abilitySOSet)
-    {
-        for (int i = 0; i < abilityHolderUIList.Length; i++) abilityHolderUIList[i].SetAbility(abilitySOSet.abilities[i]);
-    }
 }

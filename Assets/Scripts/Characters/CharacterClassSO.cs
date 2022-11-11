@@ -1,7 +1,6 @@
 using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Character", menuName = "Create Character", order = 1)]
