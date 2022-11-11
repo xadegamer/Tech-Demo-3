@@ -7,9 +7,9 @@ public class PaladinAbilityController : AbilityControllerBase
 {
     [SerializeField] AbilitySO currentJudgement;
 
-    protected override void Start()
+    protected void Start()
     {
-        base.Start();
+        UIManager.Instance.SetAbilities(abilitySOSets);
     }
 
     protected override void AssignSetAbilityActions(AbilitySOSet abilitySOSet)
@@ -32,7 +32,7 @@ public class PaladinAbilityController : AbilityControllerBase
 
     public void CrusaderStrike(AbilitySO  abilitySO)
     {
-        float damage = Utility.CalculateValueWithPercentage(statHandler.GetCharacterClassSO().minbaseDamage, abilitySO.abilityData.GetAbilityValueByID("BasePhysicalDamage").GetValue(), true);
+        float damage = Utility.CalculateValueWithPercentage(playerManager.StatHandler.GetCharacterClassSO().minbaseDamage, abilitySO.abilityData.GetAbilityValueByID("BasePhysicalDamage").GetValue(), true);
         Debug.Log("Do Crusader Strike : " + damage);
     }
 
@@ -44,7 +44,7 @@ public class PaladinAbilityController : AbilityControllerBase
 
     public void DivineStorm(AbilitySO abilitySO)
     {
-        float damage = Utility.CalculateValueWithPercentage(statHandler.GetCharacterClassSO().minbaseDamage, abilitySO.abilityData.GetAbilityValueByID("BasePhysicalDamage").GetValue(), true);
+        float damage = Utility.CalculateValueWithPercentage(playerManager.StatHandler.GetCharacterClassSO().minbaseDamage, abilitySO.abilityData.GetAbilityValueByID("BasePhysicalDamage").GetValue(), true);
         float healAmount = Utility.CalculatePercentageOfValue(damage, abilitySO.abilityData.GetAbilityValueByID("Heal").GetValue());
         Debug.Log("Do Divine Storm : " + damage);
         Debug.Log("Heal : " + healAmount);
@@ -52,7 +52,7 @@ public class PaladinAbilityController : AbilityControllerBase
 
     public void Judgement(AbilitySO abilitySO)
     {
-        float damage = Utility.CalculatePercentageOfValue(statHandler.GetCharacterClassSO().minbaseDamage, abilitySO.abilityData.GetAbilityValueByID("BaseWeaponDamage").GetValue());
+        float damage = Utility.CalculatePercentageOfValue(playerManager.StatHandler.GetCharacterClassSO().minbaseDamage, abilitySO.abilityData.GetAbilityValueByID("BaseWeaponDamage").GetValue());
         Debug.Log("Do Judgement : " + damage);
 
         switch (abilitySO.GetAbilityType<PaladinAbilities>())

@@ -33,10 +33,8 @@ public class AbilitySO : ScriptableObject
     [SuffixLabel("%")]
     public AbilityData abilityData;
 
-    public AbilitySO[] additionalAbilities;
-
     [ShowIf("type", Type.SetUp)]
-    public AbilitySO[] optionalabilities;
+    public AbilitySO[] connectedAbilities;
 
     private Action<AbilitySO> OnUse = null;
 

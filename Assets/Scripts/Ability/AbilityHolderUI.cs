@@ -5,8 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using System;
 using UnityEngine.EventSystems;
-using UnityEngine.Events;
-using Unity.VisualScripting;
+using System.Linq;
 
 public class AbilityHolderUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
@@ -16,21 +15,24 @@ public class AbilityHolderUI : MonoBehaviour, IPointerDownHandler, IPointerUpHan
         OnCooldown,      
     }
 
-    [Header("Hold Option")]
-    [Range(1.0f, 10.0f)]
-    [SerializeField] public float holdDuration = 1.0f;
-    
-    [Header("Ability Option")]
-    [SerializeField] private AbilityState abilityState;
-    [SerializeField] private AbilitySO abilitySO;
+    [Header("Ability UI")]
     [SerializeField] private Image abilityImage;
     [SerializeField] private Image coolDownSlider;
     [SerializeField] private TextMeshProUGUI abilityCoolDownText;
 
+    [Header("Hold Option")]
+    [Range(1.0f, 10.0f)]
+    [SerializeField] public float holdDuration = 1.0f;
+
+    [Header("Ability Option")]
+    [SerializeField] private AbilityState abilityState;
+    [SerializeField] private AbilitySO currentAbilitySO;
+    [SerializeField] private List<AbilitySO> connectedAbilitySOList;
+
     [Header("Additional Ability Option")]
     [SerializeField] private AbilityHolderUI additionalAbilityPrefab;
     [SerializeField] private Transform additionAbilitiesHolder;
-    [SerializeField] private List<AbilityHolderUI> additionalAbilityHolders;
+    [SerializeField] private List<AbilityHolderUI> connectedAbilityHolders;
     
     private AbilityHolderUI abilityUIParent;
     private float activeTime;
@@ -40,39 +42,44 @@ public class AbilityHolderUI : MonoBehaviour, IPointerDownHandler, IPointerUpHan
         ResetUI();
     }
 
-    public void SetAbility(AbilitySO abilitySO)
+    public void SetCurrentAbility(AbilitySO abilitySO)
     {
-        this.abilitySO = abilitySO;
         abilityImage.sprite = abilitySO.abilityIcon;
+        currentAbilitySO = abilitySO;
+    }
+
+    public void SetConnectedAbilities(AbilitySO[] abilitySOs = null)
+    {
+        abilitySOs?.ToList().ForEach(x => connectedAbilitySOList.Add(x));
     }
 
     public void Use()
     {
-
         if (abilityState == AbilityState.Ready)
         {
-            switch (abilitySO.type)
+            switch (currentAbilitySO.type)
             {
                 case AbilitySO.Type.InstantCast:
-                    abilitySO.UseAbility();
+                    currentAbilitySO.UseAbility();
                     StartCoroutine(CoolDown());
                     break;
                 case AbilitySO.Type.DelayedCast:
-                    abilitySO.UseAbility();
+                    currentAbilitySO.UseAbility();
                     break;
                 case AbilitySO.Type.SetUp:
 
                     if (!abilityUIParent)
                     {
-                        ToggleAdditionalAbilitiesUI(!additionAbilitiesHolder.gameObject.activeInHierarchy);
+                        ToggleConnectedAbilitiesUI(!additionAbilitiesHolder.gameObject.activeInHierarchy);
                     }
                     else
                     {
                         Debug.Log("New Ability Clicked");
-                        abilitySO.UseAbility();
-                        abilityUIParent.SetAbility(abilitySO);
-                        abilityUIParent.ToggleAdditionalAbilitiesUI(false);
+                        currentAbilitySO.UseAbility();
+                        abilityUIParent.SwapAbility(currentAbilitySO);
+                        abilityUIParent.ToggleConnectedAbilitiesUI(false);
                     }
+                    
                     break;
                 default:  break;
             }
@@ -89,7 +96,7 @@ public class AbilityHolderUI : MonoBehaviour, IPointerDownHandler, IPointerUpHan
         coolDownSlider.fillAmount = 1;
         abilityCoolDownText.enabled = true;
 
-        float cooldownTime = abilitySO.abilityData.GetAbilityValueByID("Cooldown").GetValue();
+        float cooldownTime = currentAbilitySO.abilityData.GetAbilityValueByID("Cooldown").GetValue();
         activeTime = cooldownTime;
 
         while (activeTime > 0)
@@ -119,22 +126,29 @@ public class AbilityHolderUI : MonoBehaviour, IPointerDownHandler, IPointerUpHan
         abilityCoolDownText.enabled = false;
     }
 
+    public void SwapAbility(AbilitySO newCurrentAbilitySO)
+    {
+        connectedAbilitySOList.Remove(newCurrentAbilitySO);
+        connectedAbilitySOList.Insert(0,currentAbilitySO);
+        SetCurrentAbility(newCurrentAbilitySO);
+    }
+
     public void SpawnAdditonalAbilitieUI()
     {
-        for (int i = 0; i < abilitySO.optionalabilities.Length; i++)
+        for (int i = 0; i < connectedAbilitySOList.Count; i++)
         {
             AbilityHolderUI abilityHolderUI = Instantiate(additionalAbilityPrefab, additionAbilitiesHolder);
-            abilityHolderUI.SetAbility(abilitySO.optionalabilities[i]);
+            abilityHolderUI.SetCurrentAbility(connectedAbilitySOList[i]);
             abilityHolderUI.SetAbilityUIParent(this);
-            additionalAbilityHolders.Add(abilityHolderUI);
+            connectedAbilityHolders.Add(abilityHolderUI);
         }
     }
 
-    public void ToggleAdditionalAbilitiesUI(bool toggle)
+    public void ToggleConnectedAbilitiesUI(bool toggle)
     {
         if (toggle)
         {
-            additionalAbilityHolders.Clear();          
+            connectedAbilityHolders.Clear();          
             foreach (Transform itemSlot in additionAbilitiesHolder) Destroy(itemSlot.gameObject);
             SpawnAdditonalAbilitieUI();
         }
@@ -144,7 +158,7 @@ public class AbilityHolderUI : MonoBehaviour, IPointerDownHandler, IPointerUpHan
 
     public void Disable()
     {
-        if (abilitySO.type == AbilitySO.Type.SetUp) ToggleAdditionalAbilitiesUI(false);
+        if (currentAbilitySO.type == AbilitySO.Type.SetUp) ToggleConnectedAbilitiesUI(false);
     }
 
     public void OnPointerDown(PointerEventData eventData)
@@ -166,7 +180,7 @@ public class AbilityHolderUI : MonoBehaviour, IPointerDownHandler, IPointerUpHan
             yield return null;
         }
 
-        ToggleAdditionalAbilitiesUI(true);
+        ToggleConnectedAbilitiesUI(true);
         Debug.Log("Held Down");
     }
 

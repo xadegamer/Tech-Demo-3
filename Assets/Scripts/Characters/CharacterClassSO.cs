@@ -10,6 +10,8 @@ public class CharacterClassSO : ScriptableObjectBase
     public int ID;
     [FoldoutGroup("Info")]
     public string characterName;
+    [FoldoutGroup("Info")]
+    public Sprite characterIcon;
 
     public float health;
     public float mana;
@@ -45,35 +47,6 @@ public class CharacterClassSO : ScriptableObjectBase
     {
         return ID;
     }
-}
-
-[System.Serializable]
-public class ClassInfo
-{
-    [FoldoutGroup("Info")]
-    public int ID;
-    [FoldoutGroup("Info")]
-    public string characterName;
-
-    public float health;
-    public float mana;
-    public float physicalDamageReduction;
-    public float attackSpeed;
-
-    [FoldoutGroup("Damage Stats")]
-    public float minbaseDamage;
-    [FoldoutGroup("Damage Stats")]
-    public float maxbaseDamage;
-
-    public float chanceToHit;
-    public float chanceToCrit;
-    public float criticalDamageMultipier;
-    public float healingMultipier;
-
-    [FoldoutGroup("Spell Stats")]
-    public float spellChancetoCrit;
-    [FoldoutGroup("Spell Stats")]
-    public float spellCriticalDamageMultipier;
 }
 
 [System.Serializable]

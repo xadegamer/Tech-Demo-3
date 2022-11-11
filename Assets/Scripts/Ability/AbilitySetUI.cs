@@ -18,20 +18,22 @@ public class AbilitySetUI : MonoBehaviour
 
     public void HideAbilitySet()
     {
-        abilityHolderUIList.ForEach(x => x.Disable());
-        
+        abilityHolderUIList.ForEach(x => x.Disable());      
         GetComponent<CanvasGroup>().alpha = 0;
         GetComponent<CanvasGroup>().interactable = false;
-        transform.SetAsFirstSibling();
     } 
-
+    
     public void SpawnAndSetAbility(AbilitySOSet abilitySOSet)
     {
         for (int i = 0; i < abilitySOSet.abilities.Length; i++)
         {
             AbilityHolderUI abilityHolderUI = Instantiate(abilityPrefab, transform);
-            abilityHolderUI.SetAbility(abilitySOSet.abilities[i]);
+            
             abilityHolderUIList.Add(abilityHolderUI);
+
+            abilityHolderUI.SetCurrentAbility(abilitySOSet.abilities[i]);
+            
+            if (abilitySOSet.abilities[i].connectedAbilities.Length > 0) abilityHolderUI.SetConnectedAbilities(abilitySOSet.abilities[i].connectedAbilities);
         } 
     }
 }

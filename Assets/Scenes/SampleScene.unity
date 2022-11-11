@@ -845,6 +845,7 @@ GameObject:
   - component: {fileID: 247073727}
   - component: {fileID: 247073725}
   - component: {fileID: 247073730}
+  - component: {fileID: 247073731}
   m_Layer: 5
   m_Name: Abilties Set 3
   m_TagString: Untagged
@@ -963,9 +964,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5229bac57b8532b4f9da1d517e41d5f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hidePos: {x: -620, y: 0}
   abilityPrefab: {fileID: 7866760876697573560, guid: c2f7dd991a6d9bd4a8bcc871bf2f6749, type: 3}
   abilityHolderUIList: []
+--- !u!225 &247073731
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 247073723}
+  m_Enabled: 1
+  m_Alpha: 0
+  m_Interactable: 0
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &272987362
 GameObject:
   m_ObjectHideFlags: 0
@@ -1072,6 +1084,7 @@ GameObject:
   - component: {fileID: 273101645}
   - component: {fileID: 273101647}
   - component: {fileID: 273101648}
+  - component: {fileID: 273101652}
   m_Layer: 0
   m_Name: Paladin
   m_TagString: Untagged
@@ -1211,6 +1224,19 @@ CircleCollider2D:
   m_Offset: {x: 0, y: -0.24}
   serializedVersion: 2
   m_Radius: 0.32
+--- !u!114 &273101652
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 273101643}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcc6b96e349c73e40bef9ef417341ed4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selectedTraget: {fileID: 0}
 --- !u!1 &276943973
 GameObject:
   m_ObjectHideFlags: 0
@@ -1267,6 +1293,7 @@ GameObject:
   - component: {fileID: 282318990}
   - component: {fileID: 282318989}
   - component: {fileID: 282318991}
+  - component: {fileID: 282318992}
   m_Layer: 0
   m_Name: Elem_Top_Idle
   m_TagString: Untagged
@@ -1366,6 +1393,32 @@ BoxCollider2D:
   m_AutoTiling: 0
   serializedVersion: 2
   m_Size: {x: 0.28, y: 0.16663623}
+  m_EdgeRadius: 0
+--- !u!61 &282318992
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 282318988}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.64, y: 0.64}
+    newSize: {x: 0.64, y: 0.64}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.64, y: 0.64}
   m_EdgeRadius: 0
 --- !u!1 &343759499
 GameObject:
@@ -1586,6 +1639,7 @@ GameObject:
   - component: {fileID: 390642520}
   - component: {fileID: 390642518}
   - component: {fileID: 390642523}
+  - component: {fileID: 390642524}
   m_Layer: 5
   m_Name: Abilties Set 1
   m_TagString: Untagged
@@ -1704,9 +1758,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5229bac57b8532b4f9da1d517e41d5f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hidePos: {x: 0, y: 150}
   abilityPrefab: {fileID: 7866760876697573560, guid: c2f7dd991a6d9bd4a8bcc871bf2f6749, type: 3}
   abilityHolderUIList: []
+--- !u!225 &390642524
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 390642516}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &502138102
 GameObject:
   m_ObjectHideFlags: 0
@@ -2319,6 +2384,7 @@ GameObject:
   - component: {fileID: 743401834}
   - component: {fileID: 743401832}
   - component: {fileID: 743401837}
+  - component: {fileID: 743401838}
   m_Layer: 5
   m_Name: Abilties Set 2
   m_TagString: Untagged
@@ -2437,9 +2503,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5229bac57b8532b4f9da1d517e41d5f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hidePos: {x: 0, y: -150}
   abilityPrefab: {fileID: 7866760876697573560, guid: c2f7dd991a6d9bd4a8bcc871bf2f6749, type: 3}
   abilityHolderUIList: []
+--- !u!225 &743401838
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 743401830}
+  m_Enabled: 1
+  m_Alpha: 0
+  m_Interactable: 0
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &833652962
 GameObject:
   m_ObjectHideFlags: 0
@@ -3015,6 +3092,7 @@ GameObject:
   - component: {fileID: 989345253}
   - component: {fileID: 989345251}
   - component: {fileID: 989345256}
+  - component: {fileID: 989345257}
   m_Layer: 5
   m_Name: Abilties Set 4
   m_TagString: Untagged
@@ -3133,9 +3211,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5229bac57b8532b4f9da1d517e41d5f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hidePos: {x: 620, y: 0}
   abilityPrefab: {fileID: 7866760876697573560, guid: c2f7dd991a6d9bd4a8bcc871bf2f6749, type: 3}
   abilityHolderUIList: []
+--- !u!225 &989345257
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 989345249}
+  m_Enabled: 1
+  m_Alpha: 0
+  m_Interactable: 0
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1106257300
 GameObject:
   m_ObjectHideFlags: 0
@@ -5773,7 +5862,6 @@ GameObject:
   - component: {fileID: 4081922375212444054}
   - component: {fileID: 8183509409305838273}
   - component: {fileID: 4860112471093904049}
-  - component: {fileID: 7021694794925729401}
   m_Layer: 5
   m_Name: Abilty Panel
   m_TagString: Untagged
@@ -5948,19 +6036,6 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
---- !u!114 &7021694794925729401
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2849946482156200696}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 31a19414c41e5ae4aae2af33fee712f6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_ShowMaskGraphic: 1
 --- !u!1 &7403735747372879928
 GameObject:
   m_ObjectHideFlags: 0
