@@ -142,6 +142,11 @@ public class AbilityHolderUI : MonoBehaviour, IPointerDownHandler, IPointerUpHan
         additionAbilitiesHolder.gameObject.SetActive(toggle);
     }
 
+    public void Disable()
+    {
+        if (abilitySO.type == AbilitySO.Type.SetUp) ToggleAdditionalAbilitiesUI(false);
+    }
+
     public void OnPointerDown(PointerEventData eventData)
     {
        // StartCoroutine(TrackTimePressed());

@@ -1,29 +1,35 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using System.Linq;
 
 public class AbilitySetUI : MonoBehaviour
 {
-    [SerializeField] private Vector2 hidePos;
     [SerializeField] private AbilityHolderUI abilityPrefab;
-
     [SerializeField] private List<AbilityHolderUI> abilityHolderUIList;
 
-    private RectTransform abilityHolder;
-    private void Awake()
+    public void ShowAbilitySet()
     {
-        abilityHolder = GetComponent<RectTransform>();
+        GetComponent<CanvasGroup>().alpha = 1;
+        GetComponent<CanvasGroup>().interactable = true;
+        transform.SetAsLastSibling();
     }
 
-    public void ShowAbilitySet() => abilityHolder.anchoredPosition = Vector2.zero;
-
-    public void HideAbilitySet() => abilityHolder.anchoredPosition = hidePos;
+    public void HideAbilitySet()
+    {
+        abilityHolderUIList.ForEach(x => x.Disable());
+        
+        GetComponent<CanvasGroup>().alpha = 0;
+        GetComponent<CanvasGroup>().interactable = false;
+        transform.SetAsFirstSibling();
+    } 
 
     public void SpawnAndSetAbility(AbilitySOSet abilitySOSet)
     {
         for (int i = 0; i < abilitySOSet.abilities.Length; i++)
         {
-            AbilityHolderUI abilityHolderUI = Instantiate(abilityPrefab, abilityHolder);
+            AbilityHolderUI abilityHolderUI = Instantiate(abilityPrefab, transform);
             abilityHolderUI.SetAbility(abilitySOSet.abilities[i]);
             abilityHolderUIList.Add(abilityHolderUI);
         } 
