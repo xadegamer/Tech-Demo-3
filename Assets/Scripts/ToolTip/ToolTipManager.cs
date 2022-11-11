@@ -13,11 +13,12 @@ public class ToolTipManager : MonoBehaviour
     [SerializeField] private RectTransform toolTipUI;
     [SerializeField] private Image toolTipBg;
     [SerializeField] private Sprite defaultBg;
+    [SerializeField] private Color bgColor;
     [SerializeField] private TextMeshProUGUI headerField;
     [SerializeField] private TextMeshProUGUI contentField;
     [SerializeField] private LayoutElement layoutElement;
     [SerializeField] private int characterWarpLimit;
-    [SerializeField] float showTimer;
+    [SerializeField] private float waitTime;
 
     private void Awake()
     {
@@ -40,16 +41,29 @@ public class ToolTipManager : MonoBehaviour
 
         int headerLenth = headerField.text.Length;
         int contentLenght = contentField.text.Length;
+        
         layoutElement.enabled = headerLenth > characterWarpLimit || contentLenght > characterWarpLimit;
 
+        Vector2 pos = Input.mousePosition;
+        float pivotX = pos.x / Screen.width;
+        float pivotY = pos.y / Screen.height;
+
+        toolTipUI.pivot = new Vector2(pivotX, pivotY);
+        toolTipUI.transform.position = pos;
         toolTipUI.gameObject.SetActive(true);
+    }
+
+    IEnumerator SetTextCoroutine(string content, string header = "")
+    {
+        yield return new WaitForSeconds(1f);
+        SetText(content, header);
     }
 
 
     public void SetBackgroundImage(Sprite sprite, Color color)
     {
         toolTipBg.sprite = sprite != null ? sprite : defaultBg;
-        toolTipBg.color = color;
+        toolTipBg.color = bgColor;
     }
 }
 

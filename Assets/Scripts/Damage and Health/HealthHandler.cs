@@ -5,8 +5,8 @@ using UnityEngine.Events;
 
 public class HealthHandler : MonoBehaviour
 {
-    [SerializeField] int currentHealth;
-    [SerializeField] int maxHealth;
+    [SerializeField] float currentHealth;
+    [SerializeField] float maxHealth;
 
     [Header("Hits")]
     [SerializeField] bool useHits;
@@ -14,9 +14,9 @@ public class HealthHandler : MonoBehaviour
     [SerializeField] int maxHit;
 
     [Header("Damage Resistance")]
-    [SerializeField] int allDamageResistance;
-    [SerializeField] int meleeDamageResistance;
-    [SerializeField] int projectileDamageResistance;
+    [SerializeField] float allDamageResistance;
+    [SerializeField] float meleeDamageResistance;
+    [SerializeField] float projectileDamageResistance;
 
     [Header("CoolDown")]
     [SerializeField] bool hasCooldown;
@@ -39,8 +39,6 @@ public class HealthHandler : MonoBehaviour
     [SerializeField] bool isInvulnerable = false;
     [SerializeField] bool damageDelay;
 
-    public event EventHandler<Vector3> OnKnockback;
-
     WaitForSeconds coolDownTime;
 
     private void OnEnable()
@@ -55,7 +53,7 @@ public class HealthHandler : MonoBehaviour
         if (hasCooldown) coolDownTime = new WaitForSeconds(coolDownDuration);
     }
 
-    public void SetHealth(int amount)
+    public void SetHealth(float amount)
     {
         currentHealth = maxHealth = amount;
         if (hasCooldown) coolDownTime = new WaitForSeconds(coolDownDuration);
@@ -68,13 +66,13 @@ public class HealthHandler : MonoBehaviour
         projectileDamageResistance = projectileResist;
     }
 
-    public int GetHealth() { return currentHealth; }
-    public int GetMaxHealth() { return maxHealth; }
+    public float GetHealth() { return currentHealth; }
+    public float GetMaxHealth() { return maxHealth; }
 
 
-    public float GetHealthPercent() { return (float)currentHealth / (float)maxHealth; }
+    public float GetNormalisedHealth() { return currentHealth / maxHealth; }
 
-     public bool TakeDamage(DamageInfo damageInfo)
+    public bool TakeDamage(DamageInfo damageInfo)
     {
         if (damageDelay) return false;
 
@@ -90,8 +88,8 @@ public class HealthHandler : MonoBehaviour
         {
             if (hasCooldown) StartCoroutine(nameof(DamageDelay));
 
-            int finalDamage = 0;
-            int damageAfterResisDeduction = 0;
+            float finalDamage = 0;
+            float damageAfterResisDeduction = 0;
 
             damageAfterResisDeduction = CalculateDamage(damageInfo.damageAmount, allDamageResistance, false);
 
@@ -124,8 +122,6 @@ public class HealthHandler : MonoBehaviour
                 else OnHit.Invoke();
             }
 
-            if (OnKnockback != null && damageInfo.knockback) OnKnockback(this, damageInfo.direction);
-
             if (damageInfo.critical) OnReceiveCriticalDamage.Invoke(); OnReceiveNormalDamage.Invoke();
             PopUpTextManager.Instance.PopUpText(transform, finalDamage.ToString(), damageInfo.critical ? Color.red : Color.yellow);
         }
@@ -148,18 +144,18 @@ public class HealthHandler : MonoBehaviour
         damageDelay = false;
     }
 
-    int  CalculateDamage(int damage, int percentage, bool increase)
+    float CalculateDamage(float damage, float percentage, bool increase)
     {
         float percentageValue = ((float)percentage / 100) * damage;
-        return increase ? damage += (int)percentageValue : damage -= (int)percentageValue;
+        return increase ? damage += percentageValue : damage -= percentageValue;
     }
 
-    public void Setvulnerability(bool newState) { isInvulnerable = newState;}
+    public void SetVulnerability(bool newState) { isInvulnerable = newState;}
 
 
     public void TriggerHealthEvents()
     {
-        float healthPercentage = useHits ? GetHitPercent() * 100f : GetHealthPercent() * 100f;
+        float healthPercentage = useHits ? GetHitPercent() * 100f : GetNormalisedHealth() * 100f;
 
         for (int i = 0; i < healthEvents.Length; i++)
         {

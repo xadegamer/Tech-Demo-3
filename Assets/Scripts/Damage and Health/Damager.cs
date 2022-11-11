@@ -26,8 +26,10 @@ public abstract class Damager : MonoBehaviour
     [Tooltip("Gameobject will destory after it deals damage")]
     [SerializeField] protected bool destroyOnImpact;
 
-    private protected DamageInfo damageInfo = new DamageInfo();
-    
+    [SerializeField] DamageInfo damageInfo = new DamageInfo();
+
+    [SerializeField] protected bool hasHit;
+
     public void DealDamage(Collider2D collision)
     {
         if (collision.TryGetComponent(out HealthHandler healthSystem)) healthSystem.TakeDamage(damageInfo);
@@ -43,18 +45,26 @@ public abstract class Damager : MonoBehaviour
         this.dealType = dealType;
     }
 
-    public void SetHasKnockback(bool hasKnockback)
+    protected float RandomCriticalDamage( float chance, float criticalDamage)
     {
-        this.hasKnockBack = hasKnockback;
+        if ((chance / 100f) >= Random.value) return criticalDamage;
+        else return 0;
     }
 
-    public void SetKnockbackDirection(Vector2 direction)
-    {
-        this.knockBackDirection = direction;
-    }
-
-    public void SetKnockbackForce (float force)
-    {
-        this.knockBackForce = force;
-    }
+    public bool HasHit() { return hasHit; }
 }
+
+[System.Serializable]
+public class DamageInfo
+{
+    public enum DamageType { Melee, Projectile }
+
+    public DamageType damageType;
+    public int damageAmount;
+    public bool critical;
+    public bool stun;
+
+    public int damageIncrease;
+    public int damageIncreasePercent;
+}
+

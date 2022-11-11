@@ -13,6 +13,8 @@ public class MovementHandler
     private Rigidbody2D rb2D;
     private Transform owner;
 
+    private bool faceMovementDir = true;
+
     public void SetUp(Transform owner, Rigidbody2D rb2D, Animator animator)
     {
         this.owner = owner;
@@ -30,7 +32,7 @@ public class MovementHandler
     public void HandleMovement()
     {
         rb2D.velocity = movementInput * currentSpeed;
-        if(movementInput != Vector2.zero) Utility.FaceVectorDirection(movementInput, owner);
+        if(faceMovementDir && movementInput != Vector2.zero) Utility.FaceVectorDirection(movementInput, owner);
     }
 
     public void HandleAnimation()
@@ -42,6 +44,8 @@ public class MovementHandler
     public void StopMovement() => movementInput = Vector2.zero;
 
     public void SetSpeed(float speed) => currentSpeed = speed;
+
+    public void ToggleFaceMovementDir(bool state) => faceMovementDir = state;
 
     public void ResetSpeed() => currentSpeed = defaultSpeed;
 

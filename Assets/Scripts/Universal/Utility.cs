@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public static class Utility
 {
@@ -35,6 +37,14 @@ public static class Utility
     public static void FaceVectorDirection(Vector3 vector3, Transform transform)
     {
         transform.localScale = new Vector2(vector3.x > 0 ? 1 : -1, 1);
+    }
+
+    public static void LookAtPosition(Transform owner, Transform target )
+    {
+        Vector2 direction = -(owner.position - target.position).normalized;
+        int newX = Mathf.RoundToInt(direction.x);
+        if (newX == 0) newX = 1;
+        owner.localScale = new Vector3(newX, 1, 1);
     }
 
     public static GameObject FindClosestObject(this Transform ownerPos, List<GameObject> gameObjects)
@@ -217,7 +227,35 @@ public static class Utility
     }
 
 
+   public static IEnumerator LerpBarValue(Image slider, float targetValue, float duration)
+    {
+        float counter = 0;
+        float startValue = slider.fillAmount;
+        while (counter < duration)
+        {
+            counter += Time.deltaTime;
+            slider.fillAmount = Mathf.Lerp(startValue, targetValue, counter / duration);
+            yield return null;
+        }
+        slider.fillAmount = targetValue;
+    }
 
+    public static void DetectUI()
+    {
+        var results = new List<RaycastResult>();
+
+        PointerEventData pointerEventData = new(EventSystem.current) { position = Input.mousePosition };
+
+        EventSystem.current.RaycastAll(pointerEventData, results);
+
+        if (results.Count > 0)
+        {
+            GameObject UI = results[0].gameObject;
+
+            if (UI) Debug.Log(UI.name);
+        }
+    }
+    
     public static void DrawBoxcast2D(Vector2 position, Vector2 size, float direction, float distance, Color color)
     {
         Vector2 directionVector = new Vector2(direction, 0);

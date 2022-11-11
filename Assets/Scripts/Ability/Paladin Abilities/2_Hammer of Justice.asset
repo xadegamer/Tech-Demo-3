@@ -15,7 +15,7 @@ MonoBehaviour:
   abilityName: Hammer of Justice
   abilityDescription: 'Stuns the target for 6 sec. '
   abilityIcon: {fileID: 21300000, guid: 3574bfc5e7c172248a5371755d937528, type: 3}
-  abilityCost: 0
+  abilityCost: 3.5
   type: 0
   range: 0
   abilityData:
@@ -28,4 +28,4 @@ MonoBehaviour:
       valueType: 2
       timeType: 0
       value: 6
-  additionalAbilities: []
+  connectedAbilities: []

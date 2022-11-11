@@ -13,7 +13,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private CharacterUI playerUI;
 
     [Header("Enemy")]
-    [SerializeField] private CharacterUI enemyUI;
+    [SerializeField] private CharacterUI targetUI;
 
     [Header("TargetOfTarget")]
     [SerializeField] private CharacterUI targetOfTargetUI;
@@ -88,7 +88,7 @@ public class UIManager : MonoBehaviour
     }
 
     public CharacterUI GetPlayerrUI() => playerUI;
-    public CharacterUI GetEnemyUI() => enemyUI;
+    public CharacterUI GetTargetUI() => targetUI;
     public CharacterUI GetTargetOfTargetUI() => targetOfTargetUI;
 
     public void SetCastBarText(string text)
@@ -106,12 +106,48 @@ public class UIManager : MonoBehaviour
 [Serializable]
 public class CharacterUI
 {
-    [SerializeField] private Image enemyIcon;
-    [SerializeField] private Image enemyHealthBar;
-    [SerializeField] private Image enemyManaBar;
+    [SerializeField] private GameObject holder;
+    [SerializeField] private Image icon;
+    [SerializeField] private Image healthBar;
+    [SerializeField] private Image manaBar;
     [SerializeField] private Transform buffHolder;
 
-    public void SetEnemyIcon(Sprite icon) { enemyIcon.sprite = icon; }
-    public void SetEnemyHealthBar(float health) { enemyHealthBar.fillAmount = health; }
-    public void SetEnemyManaBar(float mana) { enemyManaBar.fillAmount = mana; }
+    public void SetUp(Sprite sprite)
+    {
+        icon.sprite = sprite;
+        holder.SetActive(true);
+    }
+    
+    public void SetHealthBar(float health) 
+    {
+        UIManager.Instance.StartCoroutine(Utility.LerpBarValue(healthBar, health, .5f));
+      //  healthBar.fillAmount = health; 
+    }
+    public void SetManaBar(float mana) 
+    {
+        UIManager.Instance.StartCoroutine(Utility.LerpBarValue(manaBar, mana, .5f));
+       // manaBar.fillAmount = mana; 
+    }
+
+    public void AddBuff(Buff buff)
+    {
+
+    }
+
+    public void RemoveBuff(Buff buff)
+    {
+
+    }
+
+    public void ClearBuffs()
+    {
+
+    }
+
+    public void Hide()
+    {
+        holder.SetActive(false);
+    }
+
+
 }

@@ -7,11 +7,12 @@ using System;
 using UnityEngine.EventSystems;
 using System.Linq;
 
-public class AbilityHolderUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
+public class AbilityHolderUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IToolTip
 {
     public enum AbilityState
     {
         Ready,
+        active,
         OnCooldown,      
     }
 
@@ -36,6 +37,7 @@ public class AbilityHolderUI : MonoBehaviour, IPointerDownHandler, IPointerUpHan
     
     private AbilityHolderUI abilityUIParent;
     private float activeTime;
+    private bool buttonHeld;
 
     private void Start()
     {
@@ -46,6 +48,7 @@ public class AbilityHolderUI : MonoBehaviour, IPointerDownHandler, IPointerUpHan
     {
         abilityImage.sprite = abilitySO.abilityIcon;
         currentAbilitySO = abilitySO;
+        currentAbilitySO.SetAbilityHolderUI(this);
     }
 
     public void SetConnectedAbilities(AbilitySO[] abilitySOs = null)
@@ -55,16 +58,21 @@ public class AbilityHolderUI : MonoBehaviour, IPointerDownHandler, IPointerUpHan
 
     public void Use()
     {
-        if (abilityState == AbilityState.Ready)
+        if (buttonHeld)
         {
+            buttonHeld = false;
+            return;
+        } 
+        
+        if (abilityState == AbilityState.Ready)
+        {        
             switch (currentAbilitySO.type)
             {
                 case AbilitySO.Type.InstantCast:
-                    currentAbilitySO.UseAbility();
-                    StartCoroutine(CoolDown());
+                    if(PlayerManager.Instance.TryUseAbility(currentAbilitySO)) StartCoroutine(CoolDown());
                     break;
                 case AbilitySO.Type.DelayedCast:
-                    currentAbilitySO.UseAbility();
+                    if (PlayerManager.Instance.TryUseAbility(currentAbilitySO)) abilityState = AbilityState.active;
                     break;
                 case AbilitySO.Type.SetUp:
 
@@ -74,7 +82,6 @@ public class AbilityHolderUI : MonoBehaviour, IPointerDownHandler, IPointerUpHan
                     }
                     else
                     {
-                        Debug.Log("New Ability Clicked");
                         currentAbilitySO.UseAbility();
                         abilityUIParent.SwapAbility(currentAbilitySO);
                         abilityUIParent.ToggleConnectedAbilitiesUI(false);
@@ -86,7 +93,7 @@ public class AbilityHolderUI : MonoBehaviour, IPointerDownHandler, IPointerUpHan
         }
         else
         {
-            Debug.Log("Ability is not ready");
+          //  Debug.Log("Ability is not ready");
         }
     }
     
@@ -163,12 +170,12 @@ public class AbilityHolderUI : MonoBehaviour, IPointerDownHandler, IPointerUpHan
 
     public void OnPointerDown(PointerEventData eventData)
     {
-       // StartCoroutine(TrackTimePressed());
+        StartCoroutine("TrackTimePressed");
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        StopAllCoroutines();
+        StopCoroutine("TrackTimePressed");
     }
 
     private IEnumerator TrackTimePressed()
@@ -180,12 +187,33 @@ public class AbilityHolderUI : MonoBehaviour, IPointerDownHandler, IPointerUpHan
             yield return null;
         }
 
-        ToggleConnectedAbilitiesUI(true);
-        Debug.Log("Held Down");
+        buttonHeld = true;
+
+        ToolTipManager.Instance.ShowToolTip(this);
     }
 
     public void SetAbilityUIParent(AbilityHolderUI abilityHolderUI)
     {
         abilityUIParent = abilityHolderUI;
+    }
+
+    public string GetHeader()
+    {
+        return currentAbilitySO.abilityName;
+    }
+
+    public string GetContent()
+    {
+        return currentAbilitySO.abilityDescription;
+    }
+
+    public Sprite GetBackground()
+    {
+        return null;
+    }
+
+    public Color GetBackgroundColor()
+    {
+        return Color.white;
     }
 }

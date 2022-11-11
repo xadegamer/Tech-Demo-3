@@ -52,8 +52,8 @@ public class CharacterClassSO : ScriptableObjectBase
 [System.Serializable]
 public class ManaRegen
 {
-    public float amount;
-    public float seconds;
+    public float regenAmount;
+    public float regenInterval;
 }
 
 public enum Class

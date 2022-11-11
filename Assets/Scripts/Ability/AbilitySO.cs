@@ -38,6 +38,8 @@ public class AbilitySO : ScriptableObject
 
     private Action<AbilitySO> OnUse = null;
 
+    private AbilityHolderUI  abilityHolderUI;
+
     public T GetAbilityType<T>() where T : Enum
     {
         return (T)Enum.Parse(typeof(T), Utility.RemoveSpaceFromString(abilityName));
@@ -48,7 +50,12 @@ public class AbilitySO : ScriptableObject
         OnUse = action;
     }
 
-    public float GetAbilityCost(float baseMana)=> Utility.CalculateValueWithPercentage(baseMana, abilityCost, false);
+    public void SetAbilityHolderUI(AbilityHolderUI abilityHolderUI)
+    {
+        this.abilityHolderUI = abilityHolderUI;
+    }
+
+    public float GetAbilityCost(float baseMana)=> Utility.CalculatePercentageOfValue(baseMana, abilityCost);
 
     public void UseAbility()
     {
@@ -58,6 +65,11 @@ public class AbilitySO : ScriptableObject
     public Action<AbilitySO> GetAbilityAction()
     {
         return OnUse;
+    }
+
+    public AbilityHolderUI GetAbilityHolderUI()
+    {
+        return abilityHolderUI;
     }
 }
 
