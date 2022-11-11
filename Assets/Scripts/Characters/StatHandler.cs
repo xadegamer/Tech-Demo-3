@@ -4,10 +4,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StatHandler : MonoBehaviour
-{
-    [SerializeField] private CharacterClassSO  characterClassSO;
-
+[Serializable]
+public class StatHandler
+{ 
     [SerializeField] private float currentHealth;
     [SerializeField] private float currentMana;
     [SerializeField] private float currentPhysicalDamageReduction;
@@ -31,13 +30,16 @@ public class StatHandler : MonoBehaviour
     [FoldoutGroup("Buff")]
     [SerializeField] private List<Buff> activeBuffs = new List<Buff>();
 
-    public void Start()
+    private CharacterClassSO characterClassSO;
+
+    public void SetUp(CharacterClassSO characterClassSO)
     {
+        this.characterClassSO = characterClassSO;
         Buff newBuff = new Buff(buffSOs[0], ReduceHealth);
         activeBuffs.Add(newBuff);
     }
 
-    private void Update()
+    public void Update()
     {
         ManaRegeneration();
     }

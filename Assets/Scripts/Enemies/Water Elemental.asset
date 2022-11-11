@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b66951dc8189e564ea02805ab175a03b, type: 3}
+  m_Name: Water Elemental
+  m_EditorClassIdentifier: 
+  ID: 0
+  characterName: Water Elemental
+  characterIcon: {fileID: 0}
+  health: 150
+  mana: 200
+  physicalDamageReduction: 10
+  attackSpeed: 2
+  minbaseDamage: 30
+  maxbaseDamage: 40
+  chanceToHit: 80
+  chanceToCrit: 5
+  criticalDamageMultipier: 1.5
+  healingMultipier: 0
+  spellChancetoCrit: 10
+  spellCriticalDamageMultipier: 1.5
+  manaRegenWhileCasting:
+    amount: 0
+    seconds: 0
+  manaRegenWhileNotCasting:
+    amount: 0
+    seconds: 0
+  manaRegenWhileNotInCombat:
+    amount: 0
+    seconds: 0

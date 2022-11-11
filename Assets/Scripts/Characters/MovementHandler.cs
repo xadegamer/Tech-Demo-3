@@ -2,36 +2,35 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MovementHandler : MonoBehaviour
+[System.Serializable]
+public class MovementHandler 
 {
-    [Header("Movement")]
-    [SerializeField] private float moveSpeed;
-    [SerializeField] private float rotateSpeed;
-
-    [SerializeField] private Animator animator;
-
+    [SerializeField] private float defaultSpeed;
+    private float currentSpeed;
     private Vector2 movementInput;
-    private bool canRotate = true;
+
+    private Animator animator;
     private Rigidbody2D rb2D;
+    private Transform owner;
 
-    private void Awake()
+    public void SetUp(Transform owner, Rigidbody2D rb2D, Animator animator)
     {
-        rb2D = GetComponent<Rigidbody2D>();
+        this.owner = owner;
+        this.rb2D = rb2D;
+        this.animator = animator;
+        currentSpeed = defaultSpeed;
     }
-
-    void Update()
+    public void UpdateMovementAndAnimation(Vector2 movementInput)
     {
-        Walk();
+        this.movementInput = movementInput;
+        HandleMovement();
         HandleAnimation();
-
-        HandleAttack();
     }
 
-    public void Walk()
+    public void HandleMovement()
     {
-        movementInput = InputHandler.Instance.GetMoveVector();
-        rb2D.velocity = movementInput * moveSpeed;
-        if(movementInput != Vector2.zero) Utility.FaceVectorDirection(movementInput, transform);
+        rb2D.velocity = movementInput * currentSpeed;
+        if(movementInput != Vector2.zero) Utility.FaceVectorDirection(movementInput, owner);
     }
 
     public void HandleAnimation()
@@ -39,22 +38,14 @@ public class MovementHandler : MonoBehaviour
         animator.SetFloat("MoveX", Mathf.Abs(movementInput.x));
         animator.SetFloat("MoveY", movementInput.y);
     }
-
-    public void PlayerRotation()
-    {
-        if (!canRotate) return;
-        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(movementInput), rotateSpeed * Time.deltaTime);
-    }
-
-    public void ToggleRotation(bool newState) => canRotate = newState;
-
+    
     public void StopMovement() => movementInput = Vector2.zero;
 
-    public void HandleAttack()
-    {
-        if (InputHandler.Instance.GetAttackInput().WasPressedThisFrame())
-        {
-            Debug.Log("Attack");
-        }
-    }
+    public void SetSpeed(float speed) => currentSpeed = speed;
+
+    public void ResetSpeed() => currentSpeed = defaultSpeed;
+
+    public float GetDefaultSpeed() => defaultSpeed;
+
+    public float GetCurrentSpeed() => currentSpeed;
 }
