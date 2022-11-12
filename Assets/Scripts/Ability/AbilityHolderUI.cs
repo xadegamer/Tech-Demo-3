@@ -7,14 +7,16 @@ using System;
 using UnityEngine.EventSystems;
 using System.Linq;
 
+public enum AbilityState
+{
+    Ready,
+    active,
+    OnCooldown,
+}
+
 public class AbilityHolderUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IToolTip
 {
-    public enum AbilityState
-    {
-        Ready,
-        active,
-        OnCooldown,      
-    }
+
 
     [Header("Ability UI")]
     [SerializeField] private Image abilityImage;
@@ -38,6 +40,7 @@ public class AbilityHolderUI : MonoBehaviour, IPointerDownHandler, IPointerUpHan
     private AbilityHolderUI abilityUIParent;
     private float activeTime;
     private bool buttonHeld;
+    Vector2 pos;
 
     private void Start()
     {
@@ -56,6 +59,17 @@ public class AbilityHolderUI : MonoBehaviour, IPointerDownHandler, IPointerUpHan
         abilitySOs?.ToList().ForEach(x => connectedAbilitySOList.Add(x));
     }
 
+    public AbilitySO GetCurrentAbilitySO()
+    {
+        return currentAbilitySO;
+    }
+
+
+    public AbilityState GetAbilityState()
+    {
+        return abilityState;
+    }
+
     public void Use()
     {
         if (buttonHeld)
@@ -69,10 +83,14 @@ public class AbilityHolderUI : MonoBehaviour, IPointerDownHandler, IPointerUpHan
             switch (currentAbilitySO.type)
             {
                 case AbilitySO.Type.InstantCast:
-                    if(PlayerManager.Instance.TryUseAbility(currentAbilitySO)) StartCoroutine(CoolDown());
+                    if (PlayerUnit.Instance.TryUseAbility(currentAbilitySO))
+                    {
+                        ActivateNormalCooldown();
+                        AbilityUIManager.Instance.GlobalCooldown();
+                    } 
                     break;
                 case AbilitySO.Type.DelayedCast:
-                    if (PlayerManager.Instance.TryUseAbility(currentAbilitySO)) abilityState = AbilityState.active;
+                    if (PlayerUnit.Instance.TryUseAbility(currentAbilitySO)) abilityState = AbilityState.active;
                     break;
                 case AbilitySO.Type.SetUp:
 
@@ -96,21 +114,30 @@ public class AbilityHolderUI : MonoBehaviour, IPointerDownHandler, IPointerUpHan
           //  Debug.Log("Ability is not ready");
         }
     }
-    
-    IEnumerator CoolDown()
+
+    public void ActivateNormalCooldown()
+    {
+        StartCoroutine(CoolDown(currentAbilitySO.abilityData.GetAbilityValueByID("Cooldown").GetValue()));
+    }
+
+    public void ActivateGlobalCooldown()
+    {
+        if (abilityState == AbilityState.Ready) StartCoroutine(CoolDown(1.5f));
+    }
+
+    IEnumerator CoolDown(float duration)
     {
         abilityState = AbilityState.OnCooldown;
         coolDownSlider.fillAmount = 1;
         abilityCoolDownText.enabled = true;
 
-        float cooldownTime = currentAbilitySO.abilityData.GetAbilityValueByID("Cooldown").GetValue();
-        activeTime = cooldownTime;
+        activeTime = duration;
 
         while (activeTime > 0)
         {
             DisplayTime(activeTime);
             activeTime -= Time.deltaTime;
-            coolDownSlider.fillAmount = activeTime / cooldownTime;
+            coolDownSlider.fillAmount = activeTime / duration;
             yield return null;
         }
         abilityCoolDownText.enabled = false;
@@ -170,6 +197,7 @@ public class AbilityHolderUI : MonoBehaviour, IPointerDownHandler, IPointerUpHan
 
     public void OnPointerDown(PointerEventData eventData)
     {
+        pos = Input.mousePosition;
         StartCoroutine("TrackTimePressed");
     }
 
@@ -215,5 +243,10 @@ public class AbilityHolderUI : MonoBehaviour, IPointerDownHandler, IPointerUpHan
     public Color GetBackgroundColor()
     {
         return Color.white;
+    }
+
+    public Vector2 GetTocuchPositon()
+    {
+        return pos;
     }
 }

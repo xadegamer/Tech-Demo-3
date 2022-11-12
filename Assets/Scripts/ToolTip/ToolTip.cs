@@ -31,4 +31,9 @@ public class ToolTip : MonoBehaviour, IToolTip
     {
         return header;
     }
+
+    public Vector2 GetTocuchPositon()
+    {
+        return Input.mousePosition;
+    }
 }

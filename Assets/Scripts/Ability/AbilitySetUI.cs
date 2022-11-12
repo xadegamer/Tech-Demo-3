@@ -36,4 +36,9 @@ public class AbilitySetUI : MonoBehaviour
             if (abilitySOSet.abilities[i].connectedAbilities.Length > 0) abilityHolderUI.SetConnectedAbilities(abilitySOSet.abilities[i].connectedAbilities);
         } 
     }
+
+    public List<AbilityHolderUI> GetAbilityHolderUIList()
+    {
+        return abilityHolderUIList;
+    }
 }

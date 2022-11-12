@@ -33,7 +33,6 @@ public class StatBase
 {
     [field: SerializeField] public float currentPhysicalDamageReduction { get; private set; }
     [field: SerializeField] public float currentattackSpeed { get; private set; }
-    [field: SerializeField] public float currentbaseDamage { get; private set; }
     [field: SerializeField] public float currentChanceToHit { get; private set; }
     [field: SerializeField] public float currentChanceToCrit { get; private set; }
     [field: SerializeField] public float currentCriticalDamageMultipier { get; private set; }
@@ -50,7 +49,6 @@ public class StatBase
         this.characterClassSO = characterClassSO;
         currentPhysicalDamageReduction = characterClassSO.physicalDamageReduction;
         currentattackSpeed = characterClassSO.attackSpeed;
-        currentbaseDamage = characterClassSO.minbaseDamage;
         currentChanceToHit = characterClassSO.chanceToHit;
         currentChanceToCrit = characterClassSO.chanceToCrit;
         currentCriticalDamageMultipier = characterClassSO.criticalDamageMultipier;

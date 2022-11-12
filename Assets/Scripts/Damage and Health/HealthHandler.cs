@@ -66,8 +66,8 @@ public class HealthHandler : MonoBehaviour
         projectileDamageResistance = projectileResist;
     }
 
-    public float GetHealth() { return currentHealth; }
-    public float GetMaxHealth() { return maxHealth; }
+    public float GetHealth() => currentHealth;
+    public float GetMaxHealth() => maxHealth;
 
 
     public float GetNormalisedHealth() { return currentHealth / maxHealth; }
@@ -97,14 +97,12 @@ public class HealthHandler : MonoBehaviour
             {
                 damageAfterResisDeduction = CalculateDamage(damageAfterResisDeduction, meleeDamageResistance , false);
             }
-            else if (damageInfo.damageType == DamageInfo.DamageType.Projectile)
+            else if (damageInfo.damageType == DamageInfo.DamageType.Spell)
             {
                 damageAfterResisDeduction = CalculateDamage(damageAfterResisDeduction, projectileDamageResistance , false);
             }
 
-            finalDamage = CalculateDamage(damageAfterResisDeduction, damageInfo.damageIncreasePercent, true);
-
-            finalDamage += damageInfo.damageIncrease;
+            finalDamage = damageAfterResisDeduction;
 
             currentHealth -= finalDamage;
             

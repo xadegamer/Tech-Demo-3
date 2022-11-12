@@ -3,13 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PaladinAbilityController : AbilityControllerBase
+public class PaladinAbilityController : GameUnitAbilityController
 {
     [SerializeField] AbilitySO currentJudgement;
 
     protected void Start()
     {
-        UIManager.Instance.SetAbilities(abilitySOSets);
+        AbilityUIManager.Instance.SetAbilities(abilitySOSets);
     }
 
     protected override void AssignSetAbilityActions(AbilitySOSet abilitySOSet)

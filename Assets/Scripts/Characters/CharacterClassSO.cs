@@ -42,6 +42,8 @@ public class CharacterClassSO : ScriptableObjectBase
 
     public float spellHealingMultipier { get => healingMultipier; }
 
+    public float baseDamage { get => Random.Range(minbaseDamage, baseDamage + 1) ; }
+
 
     public override int GetID()
     {

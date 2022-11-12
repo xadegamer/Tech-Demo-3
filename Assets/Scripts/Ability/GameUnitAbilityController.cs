@@ -3,15 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class AbilityControllerBase : MonoBehaviour
+public abstract class GameUnitAbilityController : MonoBehaviour
 {
     [SerializeField] protected AbilitySOSet[] abilitySOSets;
 
-    protected PlayerManager playerManager;
+    protected PlayerUnit playerManager;
 
     private void Awake()
     {
-        playerManager = GetComponent<PlayerManager>();
+        playerManager = GetComponent<PlayerUnit>();
         AssignAbilityActions();
     }
 

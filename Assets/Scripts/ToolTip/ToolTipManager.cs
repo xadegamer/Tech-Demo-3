@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using TMPro;
 using UnityEngine.UI;
+using static UnityEditor.PlayerSettings;
 
 public class ToolTipManager : MonoBehaviour
 {
@@ -27,11 +28,11 @@ public class ToolTipManager : MonoBehaviour
 
     public void ShowToolTip(IToolTip objectTouched)
     {
-        SetText(objectTouched.GetContent(), objectTouched.GetHeader());
+        SetText(objectTouched.GetContent(), objectTouched.GetHeader(), objectTouched.GetTocuchPositon());
         SetBackgroundImage(objectTouched.GetBackground(), objectTouched.GetBackgroundColor());
     }
 
-    public void SetText(string content, string header = "")
+    public void SetText(string content, string header = "", Vector2 pos = default)
     {
         contentField.gameObject.SetActive(!string.IsNullOrEmpty(content));
         headerField.gameObject.SetActive(!string.IsNullOrEmpty(header));
@@ -44,7 +45,6 @@ public class ToolTipManager : MonoBehaviour
         
         layoutElement.enabled = headerLenth > characterWarpLimit || contentLenght > characterWarpLimit;
 
-        Vector2 pos = Input.mousePosition;
         float pivotX = pos.x / Screen.width;
         float pivotY = pos.y / Screen.height;
 
@@ -53,7 +53,7 @@ public class ToolTipManager : MonoBehaviour
         toolTipUI.gameObject.SetActive(true);
     }
 
-    IEnumerator SetTextCoroutine(string content, string header = "")
+    IEnumerator SetTextCoroutine(string content, string header = "", Vector2 pos = default)
     {
         yield return new WaitForSeconds(1f);
         SetText(content, header);
@@ -73,4 +73,5 @@ public interface IToolTip
     public string GetContent();
     public Sprite GetBackground();
     public Color GetBackgroundColor();
+    public Vector2 GetTocuchPositon();
 }

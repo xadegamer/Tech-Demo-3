@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
@@ -255,7 +256,24 @@ public static class Utility
             if (UI) Debug.Log(UI.name);
         }
     }
-    
+
+    public static bool RandomPosition(Vector3 center, float range, out Vector2 result)
+    {
+        Vector2 randomPoint = center + UnityEngine.Random.insideUnitSphere * range;
+
+        NavMeshHit hit;
+        bool isValid = NavMesh.SamplePosition(randomPoint, out hit, .5f, NavMesh.AllAreas);
+
+        while (!isValid)
+        {
+            randomPoint = center + UnityEngine. Random.insideUnitSphere * range;
+            isValid = NavMesh.SamplePosition(randomPoint, out hit, .5f, NavMesh.AllAreas);
+        }
+
+        result = hit.position;
+        return true;
+    }
+
     public static void DrawBoxcast2D(Vector2 position, Vector2 size, float direction, float distance, Color color)
     {
         Vector2 directionVector = new Vector2(direction, 0);
