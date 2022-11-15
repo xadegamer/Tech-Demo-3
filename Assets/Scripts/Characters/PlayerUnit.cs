@@ -52,6 +52,8 @@ public class PlayerUnit : GameUnit
         _movementHandler.ToggleFaceMovementDir(!target);
 
         if (target) Utility.LookAtPosition(transform, target);
+
+        HandleMeleeAbilities();
     }
 
     protected override void OnHealthChanged()
@@ -107,5 +109,10 @@ public class PlayerUnit : GameUnit
     void StatHandler_OnManaChanged(object sender, float value)
     {
         UIManager.Instance.GetPlayerrUI().SetManaBar(value);
+    }
+
+    public void HandleMeleeAbilities()
+    {
+        AbilityUIManager.Instance.ToggleMeleeAbilities(target != null && radar.TargetInRange());
     }
 }

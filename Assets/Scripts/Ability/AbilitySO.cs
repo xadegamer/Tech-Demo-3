@@ -8,7 +8,7 @@ using System.Linq;
 [CreateAssetMenu(fileName = "New Ability", menuName = "Special Abilities / Create Ability", order = 1)]
 public class AbilitySO : ScriptableObject
 {
-    public enum Range { Melee, Moderate, Long }
+    public enum Range { None, Melee, Moderate, Long }
 
     public enum Type { InstantCast, DelayedCast, SetUp}
 

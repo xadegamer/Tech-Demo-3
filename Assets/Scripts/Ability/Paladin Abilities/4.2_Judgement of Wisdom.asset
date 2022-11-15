@@ -21,8 +21,17 @@ MonoBehaviour:
   type: 2
   range: 0
   abilityData:
-    values: []
-  additionalAbilities: []
-  optionalabilities:
-  - {fileID: 11400000, guid: aff4826e3a35a4f448d8eb13c08fed87, type: 2}
-  - {fileID: 11400000, guid: e3ef6b1d285f4424f80c5e995de4cf00, type: 2}
+    values:
+    - ID: DebuffDuration
+      valueType: 2
+      timeType: 0
+      value: 20
+    - ID: DebuffChance
+      valueType: 1
+      timeType: 0
+      value: 30
+    - ID: DebuffInterval
+      valueType: 0
+      timeType: 0
+      value: 0
+  connectedAbilities: []

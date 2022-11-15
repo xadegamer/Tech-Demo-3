@@ -1467,6 +1467,8 @@ MonoBehaviour:
   - abilities:
     - {fileID: 11400000, guid: 157a336ac6745764bb7e1a9e515afdf0, type: 2}
     - {fileID: 11400000, guid: e3ef6b1d285f4424f80c5e995de4cf00, type: 2}
+  targets: []
+  allies: []
   currentJudgement: {fileID: 11400000, guid: aff4826e3a35a4f448d8eb13c08fed87, type: 2}
 --- !u!50 &273101650
 Rigidbody2D:
@@ -2631,7 +2633,7 @@ Camera:
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 4.78
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2

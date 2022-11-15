@@ -19,7 +19,7 @@ MonoBehaviour:
   abilityIcon: {fileID: 21300000, guid: 6da4f6dcd5a67a0418f1a481205c7f6e, type: 3}
   abilityCost: 5
   type: 0
-  range: 0
+  range: 1
   abilityData:
     values:
     - ID: Cooldown

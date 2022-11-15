@@ -60,7 +60,7 @@ public class EnemyUnit : GameUnit
                 HandleCombat();
             }
         }
-        else Patrol();
+       // else Patrol();
     }
 
     protected override void OnHealthChanged()
@@ -107,24 +107,6 @@ public class EnemyUnit : GameUnit
         Utility.FaceVectorDirection(agent.velocity.normalized, transform);
         animator.SetFloat("MoveX", Mathf.Abs(agent.velocity.normalized.x));
         animator.SetFloat("MoveY", agent.velocity.normalized.y);
-
-        //Vector2 worldDeltaPosition = agent.nextPosition - transform.position;
-        //float dx = Vector3.Dot(transform.up, worldDeltaPosition);
-        //float dy = Vector3.Dot(transform.right, worldDeltaPosition);
-
-        //Vector2 deltaPosition = new Vector2(dx, dy);
-
-        //// Low-pass filter the deltaMove
-        //float smooth = Mathf.Min(1.0f, Time.deltaTime / 0.15f);
-        //smoothDeltaPosition = Vector2.Lerp(smoothDeltaPosition, deltaPosition, smooth);
-
-        //velocity = smoothDeltaPosition / Time.deltaTime;
-
-        //Debug.Log("Agent NextPosition" + agent.nextPosition);
-        //Debug.Log("Agent Velocity" + agent.velocity.normalized);
-        //Debug.Log("Our Transfrom" + transform.position);
-
-        //Debug.Log(worldDeltaPosition.x + " " + worldDeltaPosition.y);
     }
 
     private void LateUpdate()

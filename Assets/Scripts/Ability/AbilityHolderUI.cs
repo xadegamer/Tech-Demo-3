@@ -16,8 +16,6 @@ public enum AbilityState
 
 public class AbilityHolderUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IToolTip
 {
-
-
     [Header("Ability UI")]
     [SerializeField] private Image abilityImage;
     [SerializeField] private Image coolDownSlider;
@@ -59,16 +57,9 @@ public class AbilityHolderUI : MonoBehaviour, IPointerDownHandler, IPointerUpHan
         abilitySOs?.ToList().ForEach(x => connectedAbilitySOList.Add(x));
     }
 
-    public AbilitySO GetCurrentAbilitySO()
-    {
-        return currentAbilitySO;
-    }
+    public AbilitySO GetCurrentAbilitySO() => currentAbilitySO;
 
-
-    public AbilityState GetAbilityState()
-    {
-        return abilityState;
-    }
+    public AbilityState GetAbilityState() => abilityState;
 
     public void Use()
     {
@@ -122,7 +113,7 @@ public class AbilityHolderUI : MonoBehaviour, IPointerDownHandler, IPointerUpHan
 
     public void ActivateGlobalCooldown()
     {
-        if (abilityState == AbilityState.Ready) StartCoroutine(CoolDown(1.5f));
+        if (abilityState == AbilityState.Ready && currentAbilitySO.type != AbilitySO.Type.SetUp) StartCoroutine(CoolDown(1.5f));
     }
 
     IEnumerator CoolDown(float duration)
@@ -195,6 +186,13 @@ public class AbilityHolderUI : MonoBehaviour, IPointerDownHandler, IPointerUpHan
         if (currentAbilitySO.type == AbilitySO.Type.SetUp) ToggleConnectedAbilitiesUI(false);
     }
 
+    public void ToggleUseAbility(bool toggle)
+    {
+        if (abilityState == AbilityState.OnCooldown) return;
+        GetComponent<Button>().interactable = toggle;
+        coolDownSlider.fillAmount = toggle ? 0 : 1;
+    }
+
     public void OnPointerDown(PointerEventData eventData)
     {
         pos = Input.mousePosition;
@@ -220,33 +218,15 @@ public class AbilityHolderUI : MonoBehaviour, IPointerDownHandler, IPointerUpHan
         ToolTipManager.Instance.ShowToolTip(this);
     }
 
-    public void SetAbilityUIParent(AbilityHolderUI abilityHolderUI)
-    {
-        abilityUIParent = abilityHolderUI;
-    }
+    public void SetAbilityUIParent(AbilityHolderUI abilityHolderUI) => abilityUIParent = abilityHolderUI;
 
-    public string GetHeader()
-    {
-        return currentAbilitySO.abilityName;
-    }
+    public string GetHeader() => currentAbilitySO.abilityName;
 
-    public string GetContent()
-    {
-        return currentAbilitySO.abilityDescription;
-    }
+    public string GetContent() => currentAbilitySO.abilityDescription;
 
-    public Sprite GetBackground()
-    {
-        return null;
-    }
+    public Sprite GetBackground() => null;
 
-    public Color GetBackgroundColor()
-    {
-        return Color.white;
-    }
+    public Color GetBackgroundColor() => Color.white;
 
-    public Vector2 GetTocuchPositon()
-    {
-        return pos;
-    }
+    public Vector2 GetTocuchPositon() => pos;
 }

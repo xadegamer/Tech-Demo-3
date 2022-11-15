@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class GameUnit : MonoBehaviour
 {
-    public enum State { Wandering, Combat, Casting, Dead }
+    public enum State { Wandering, Combat, Casting, Stun, Dead }
 
     [Header("Abstract Properties")]
     [SerializeField] protected CharacterClassSO characterClassSO;
@@ -65,5 +65,22 @@ public abstract class GameUnit : MonoBehaviour
     {
         state = newState;
         animator.SetInteger("State", (int)state);
+    }
+
+    public Transform GetTarget()
+    {
+        return target;
+    }
+
+    public IEnumerator StunRoutine(float duration)
+    {
+        ChangeState(State.Stun);
+        yield return new WaitForSeconds(duration);
+        ChangeState(State.Combat);
+    }
+
+    protected virtual void SetResistance()
+    {
+        
     }
 }

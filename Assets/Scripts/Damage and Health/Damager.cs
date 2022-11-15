@@ -58,5 +58,15 @@ public class DamageInfo
     public float damageAmount;
     public bool critical;
     public bool stun;
+
+    public DamageInfo(){}
+
+    public void SetUp(DamageType damageType, float damageAmount, bool critical, bool stun)
+    {
+        this.damageType = damageType;
+        this.damageAmount = damageAmount;
+        this.critical = critical;
+        this.stun = stun;
+    }
 }
 

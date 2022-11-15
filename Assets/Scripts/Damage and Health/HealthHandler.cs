@@ -8,15 +8,10 @@ public class HealthHandler : MonoBehaviour
     [SerializeField] float currentHealth;
     [SerializeField] float maxHealth;
 
-    [Header("Hits")]
-    [SerializeField] bool useHits;
-    [SerializeField] int curentHit;
-    [SerializeField] int maxHit;
-
     [Header("Damage Resistance")]
     [SerializeField] float allDamageResistance;
     [SerializeField] float meleeDamageResistance;
-    [SerializeField] float projectileDamageResistance;
+    [SerializeField] float physicalDamageReduction;
 
     [Header("CoolDown")]
     [SerializeField] bool hasCooldown;
@@ -44,8 +39,6 @@ public class HealthHandler : MonoBehaviour
     private void OnEnable()
     {
         ResetTriggerHealthEvents();
-
-        ResetHits();
     }
 
     private void Start()
@@ -59,53 +52,47 @@ public class HealthHandler : MonoBehaviour
         if (hasCooldown) coolDownTime = new WaitForSeconds(coolDownDuration);
     }
 
-    public void SetDamageResistance(int allDamageResist,int meleeResist, int projectileResist)
+    public void SetDamageResistance(float allDamageResist, float meleeResist, float physicalDamageReduction)
     {
         allDamageResistance = allDamageResist;
         meleeDamageResistance = meleeResist;
-        projectileDamageResistance = projectileResist;
+        this.physicalDamageReduction = physicalDamageReduction;
     }
 
     public float GetHealth() => currentHealth;
     public float GetMaxHealth() => maxHealth;
 
-
     public float GetNormalisedHealth() { return currentHealth / maxHealth; }
 
-    public bool TakeDamage(DamageInfo damageInfo)
+    public float TakeDamage(DamageInfo damageInfo)
     {
-        if (damageDelay) return false;
+        if (damageDelay) return 0;
 
-        if (useHits)
-        {
-            ManageHit();
-            return false;
-        }
+        if (isInvulnerable) { OnHitWhileInvulnerable.Invoke(); return 0; }
 
-        if (isInvulnerable) { OnHitWhileInvulnerable.Invoke(); return false;}
+        float finalDamage = 0;
 
         if (currentHealth > 0)
         {
             if (hasCooldown) StartCoroutine(nameof(DamageDelay));
 
-            float finalDamage = 0;
             float damageAfterResisDeduction = 0;
 
-            damageAfterResisDeduction = CalculateDamage(damageInfo.damageAmount, allDamageResistance, false);
+            damageAfterResisDeduction = Utility.CalculateValueWithPercentage(damageInfo.damageAmount, allDamageResistance, false);
 
             if (damageInfo.damageType == DamageInfo.DamageType.Melee)
             {
-                damageAfterResisDeduction = CalculateDamage(damageAfterResisDeduction, meleeDamageResistance , false);
+                damageAfterResisDeduction = Utility.CalculateValueWithPercentage(damageAfterResisDeduction, meleeDamageResistance, false);
             }
             else if (damageInfo.damageType == DamageInfo.DamageType.Spell)
             {
-                damageAfterResisDeduction = CalculateDamage(damageAfterResisDeduction, projectileDamageResistance , false);
+                damageAfterResisDeduction = Utility.CalculateValueWithPercentage(damageAfterResisDeduction, physicalDamageReduction, false);
             }
 
             finalDamage = damageAfterResisDeduction;
 
             currentHealth -= finalDamage;
-            
+
             OnReceiveDamage?.Invoke();
 
             if (currentHealth <= 0)
@@ -124,10 +111,10 @@ public class HealthHandler : MonoBehaviour
             PopUpTextManager.Instance.PopUpText(transform, finalDamage.ToString(), damageInfo.critical ? Color.red : Color.yellow);
         }
 
-        return true;
+        return finalDamage;
     }
 
-    public void RestoreHealth(int amount)
+    public void RestoreHealth(float amount)
     {
         currentHealth += amount;
         if (currentHealth > maxHealth) currentHealth = maxHealth;
@@ -135,6 +122,7 @@ public class HealthHandler : MonoBehaviour
 
         PopUpTextManager.Instance.PopUpText(transform, amount.ToString(),  Color.green);
     }
+    
     IEnumerator DamageDelay()
     {
         damageDelay = true;
@@ -142,18 +130,11 @@ public class HealthHandler : MonoBehaviour
         damageDelay = false;
     }
 
-    float CalculateDamage(float damage, float percentage, bool increase)
-    {
-        float percentageValue = ((float)percentage / 100) * damage;
-        return increase ? damage += percentageValue : damage -= percentageValue;
-    }
-
     public void SetVulnerability(bool newState) { isInvulnerable = newState;}
-
 
     public void TriggerHealthEvents()
     {
-        float healthPercentage = useHits ? GetHitPercent() * 100f : GetNormalisedHealth() * 100f;
+        float healthPercentage = GetNormalisedHealth() * 100f;
 
         for (int i = 0; i < healthEvents.Length; i++)
         {
@@ -172,28 +153,6 @@ public class HealthHandler : MonoBehaviour
     {
         for (int i = 0; i < healthEvents.Length; i++) healthEvents[i].done = false;
     }
-
-    public void ManageHit()
-    {
-        if(curentHit <= 0) return;
-        curentHit--;
-        TriggerHealthEvents();
-        StartCoroutine(nameof(DamageDelay));
-
-        if (curentHit <= 0)
-        {
-            curentHit = 0;
-            OnDied.Invoke();
-        }
-        else OnReceiveDamage?.Invoke();
-    }
-
-    public void ResetHits()
-    {
-        if (useHits) curentHit = maxHit;
-    }
-
-    public float GetHitPercent() => (float)curentHit / (float)maxHit;
 }
 
 [System.Serializable]

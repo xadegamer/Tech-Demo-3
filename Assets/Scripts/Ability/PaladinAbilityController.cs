@@ -34,6 +34,10 @@ public class PaladinAbilityController : GameUnitAbilityController
     {
         float damage = Utility.CalculateValueWithPercentage(playerManager.PlayerStatHandler.GetCharacterClassSO().minbaseDamage, abilitySO.abilityData.GetAbilityValueByID("BasePhysicalDamage").GetValue(), true);
         Debug.Log("Do Crusader Strike : " + damage);
+
+        damageInfo.SetUp(DamageInfo.DamageType.Melee, damage, false, false);
+        
+        PlayerUnit.Instance.GetTarget().GetComponent<HealthHandler>().TakeDamage(damageInfo);
     }
 
     public void HammerofJustice(AbilitySO abilitySO)
@@ -45,9 +49,15 @@ public class PaladinAbilityController : GameUnitAbilityController
     public void DivineStorm(AbilitySO abilitySO)
     {
         float damage = Utility.CalculateValueWithPercentage(playerManager.PlayerStatHandler.GetCharacterClassSO().minbaseDamage, abilitySO.abilityData.GetAbilityValueByID("BasePhysicalDamage").GetValue(), true);
-        float healAmount = Utility.CalculatePercentageOfValue(damage, abilitySO.abilityData.GetAbilityValueByID("Heal").GetValue());
+
+        damageInfo.SetUp(DamageInfo.DamageType.Melee, damage, false, false);
+
+        float healAmount = Utility.CalculatePercentageOfValue(PlayerUnit.Instance.GetTarget().GetComponent<HealthHandler>().TakeDamage(damageInfo), abilitySO.abilityData.GetAbilityValueByID("Heal").GetValue());
         Debug.Log("Do Divine Storm : " + damage);
         Debug.Log("Heal : " + healAmount);
+
+
+        GetComponent<HealthHandler>().RestoreHealth(healAmount);
     }
 
     public void Judgement(AbilitySO abilitySO)
@@ -55,10 +65,22 @@ public class PaladinAbilityController : GameUnitAbilityController
         float damage = Utility.CalculatePercentageOfValue(playerManager.PlayerStatHandler.GetCharacterClassSO().minbaseDamage, abilitySO.abilityData.GetAbilityValueByID("BaseWeaponDamage").GetValue());
         Debug.Log("Do Judgement : " + damage);
 
+        damageInfo.SetUp(DamageInfo.DamageType.Melee, damage, false, false);
+        PlayerUnit.Instance.GetTarget().GetComponent<HealthHandler>().TakeDamage(damageInfo);
+
+
+        float debufDuration = 0;
+        float debufChance = 0;
+        float DebuffInterval = 0;
+
         switch (abilitySO.GetAbilityType<PaladinAbilities>())
         {
             case PaladinAbilities.JudgementOfRighteousness:
 
+                debufDuration = abilitySO.abilityData.GetAbilityValueByID("DebuffDuration").GetValue();
+                debufChance = abilitySO.abilityData.GetAbilityValueByID("DebuffChance").GetValue();
+                DebuffInterval = abilitySO.abilityData.GetAbilityValueByID("DebuffInterval").GetValue();
+                
                 Debug.Log("Do Judgement of Righteousness : " + damage);
 
                 break;
@@ -69,6 +91,7 @@ public class PaladinAbilityController : GameUnitAbilityController
                 break;
             case PaladinAbilities.JudgementofWeakness:
 
+                float defuffValue = abilitySO.abilityData.GetAbilityValueByID("DebuffValue").GetValue();
                 Debug.Log("Do Judgement of Weakness : " + damage);
 
                 break;

@@ -6,13 +6,20 @@ using UnityEngine;
 public abstract class GameUnitAbilityController : MonoBehaviour
 {
     [SerializeField] protected AbilitySOSet[] abilitySOSets;
+    
+    [SerializeField] protected List<GameUnit> targets;
+
+    [SerializeField] protected List<GameUnit> allies;
 
     protected PlayerUnit playerManager;
+
+    protected DamageInfo damageInfo;
 
     private void Awake()
     {
         playerManager = GetComponent<PlayerUnit>();
         AssignAbilityActions();
+        damageInfo = new DamageInfo();
     }
 
     protected void AssignAbilityActions()
