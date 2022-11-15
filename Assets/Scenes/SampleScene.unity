@@ -1557,12 +1557,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentHealth: 0
   maxHealth: 0
-  useHits: 0
-  curentHit: 0
-  maxHit: 0
   allDamageResistance: 0
   meleeDamageResistance: 0
-  projectileDamageResistance: 0
+  physicalDamageReduction: 0
   hasCooldown: 0
   coolDownDuration: 0
   OnReceiveDamage:
@@ -1914,12 +1911,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentHealth: 0
   maxHealth: 0
-  useHits: 0
-  curentHit: 0
-  maxHit: 0
   allDamageResistance: 0
   meleeDamageResistance: 0
-  projectileDamageResistance: 0
+  physicalDamageReduction: 0
   hasCooldown: 0
   coolDownDuration: 0
   OnReceiveDamage:
@@ -2128,7 +2122,7 @@ Animator:
   m_GameObject: {fileID: 389506541}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: ab46197fa6334c14eb847f9ce9b07a05, type: 2}
+  m_Controller: {fileID: 9100000, guid: 9c457a11eabf3e549af97e7e62ae9e54, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

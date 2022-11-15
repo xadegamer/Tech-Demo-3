@@ -17,14 +17,14 @@ public class EnemyUnit : GameUnit
     [SerializeField] NavMeshAgent agent;
 
     ObservableList<GameObject> _targets = new();
-    private Vector2 smoothDeltaPosition = Vector2.zero;
-    private Vector2 velocity = Vector2.zero;
+    private Vector2 startPos;
 
     protected override void Awake()
     {
         base.Awake();
         agent.updateRotation = false;
         agent.updateUpAxis = false;
+        startPos = transform.position;
     }
 
     protected override void Start()
@@ -100,7 +100,7 @@ public class EnemyUnit : GameUnit
     {
         if (agent.velocity.magnitude <= 0)
         {
-            Utility.RandomPosition(transform.position, patrolRange, out Vector2 newPos);
+            Utility.RandomPosition(startPos, patrolRange, out Vector2 newPos);
             agent.SetDestination(newPos);
         }
 
