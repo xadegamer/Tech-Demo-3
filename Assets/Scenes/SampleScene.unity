@@ -1405,8 +1405,8 @@ GameObject:
   - component: {fileID: 273101651}
   - component: {fileID: 273101653}
   - component: {fileID: 273101648}
-  - component: {fileID: 273101654}
   - component: {fileID: 273101655}
+  - component: {fileID: 273101654}
   m_Layer: 7
   m_Name: Paladin
   m_TagString: Untagged
