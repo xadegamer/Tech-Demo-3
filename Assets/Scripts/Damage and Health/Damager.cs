@@ -19,6 +19,7 @@ public abstract class Damager : MonoBehaviour
     [Tooltip("Insert the damage amount")]
     [SerializeField] protected float minDamage;
     [SerializeField] protected float maxDamage;
+    [SerializeField] protected float damageReductionPer;
 
     [SerializeField] protected UnityEvent OnHit;
 
@@ -36,8 +37,13 @@ public abstract class Damager : MonoBehaviour
 
     public void DealDamage(Collider2D collision)
     {
-        damageInfo.damageAmount = Random.Range(minDamage, maxDamage + 1);
+        damageInfo.damageAmount = Utility.CalculateValueWithPercentage(Random.Range(minDamage, maxDamage + 1), damageReductionPer, false);     
         if (collision.TryGetComponent(out HealthHandler healthSystem)) healthSystem.TakeDamage(damageInfo);
+    }
+
+    public void SetDamageReducion(float damageReductionPer)
+    {
+        this.damageReductionPer = damageReductionPer;
     }
 
     protected float RandomCriticalDamage( float chance, float criticalDamage)

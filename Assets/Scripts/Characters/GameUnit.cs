@@ -6,6 +6,8 @@ public abstract class GameUnit : MonoBehaviour
 {
     public enum State { Wandering, Combat, Casting, Stun, Dead }
 
+    public Damager Damager { get => damager; }
+
     [Header("Abstract Properties")]
     [SerializeField] protected CharacterClassSO characterClassSO;
     [SerializeField] protected State state;
@@ -62,6 +64,8 @@ public abstract class GameUnit : MonoBehaviour
             animator.SetTrigger("Melee");
         }
     }
+
+    public abstract StatBase GetStat();
 
     public void ChangeState(State newState)
     {

@@ -274,6 +274,19 @@ public static class Utility
         return true;
     }
 
+    public static IEnumerator ActivateBuff(Action OnBuffStart, Action<float> InProgress, Action OnBuffEnd, float duration)
+    {
+        OnBuffStart?.Invoke();
+        float startDuration = duration;
+        while (duration > 0)
+        {
+            duration -= Time.deltaTime;
+            InProgress?.Invoke(duration / startDuration);
+            yield return null;
+        }
+        OnBuffEnd?.Invoke();
+    }
+
     public static void DrawBoxcast2D(Vector2 position, Vector2 size, float direction, float distance, Color color)
     {
         Vector2 directionVector = new Vector2(direction, 0);

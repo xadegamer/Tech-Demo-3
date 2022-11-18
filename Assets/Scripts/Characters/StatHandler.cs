@@ -40,7 +40,7 @@ public class StatBase
     [FoldoutGroup("Buff")]
     [SerializeField] private BuffSO[] allBuffsSO;
     [FoldoutGroup("Buff")]
-    [SerializeField] private List<Buff> activeBuffs = new List<Buff>();
+    [SerializeField] private List<BuffSO> activeBuffs = new List<BuffSO>();
 
     private CharacterClassSO characterClassSO;
 

@@ -45,7 +45,6 @@ public class EnemyUnit : GameUnit
         {
             agent.SetDestination(target.position); //Set NavMesh Position
 
-
             if (Vector2.Distance(transform.position, target.position) > agent.stoppingDistance) //Check Distance between enemy and Player
             {
                 if (target != null)
@@ -113,8 +112,8 @@ public class EnemyUnit : GameUnit
         animator.SetFloat("MoveY", agent.velocity.normalized.y);
     }
 
-    private void LateUpdate()
+    public override StatBase GetStat()
     {
-
+        return _statHandler;
     }
 }

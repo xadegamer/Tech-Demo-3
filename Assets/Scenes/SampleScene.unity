@@ -1727,6 +1727,7 @@ MonoBehaviour:
     m_Bits: 256
   minDamage: 0
   maxDamage: 0
+  damageReductionPer: 0
   OnHit:
     m_PersistentCalls:
       m_Calls: []
@@ -1872,6 +1873,7 @@ GameObject:
   - component: {fileID: 381469182}
   - component: {fileID: 381469181}
   - component: {fileID: 381469186}
+  - component: {fileID: 381469187}
   m_Layer: 8
   m_Name: Blackfathom Myrmidon
   m_TagString: Untagged
@@ -2008,6 +2010,22 @@ NavMeshAgent:
   m_BaseOffset: 0.9
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &381469187
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 381469180}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d44c8609008325640a1508d06fea4efd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  abilitySetSOArray:
+  - {fileID: 11400000, guid: 0795ec81e3ef3264e9fbaa8b8e89c11a, type: 2}
+  targets: []
+  allies: []
 --- !u!1 &389506541
 GameObject:
   m_ObjectHideFlags: 0
@@ -2139,6 +2157,7 @@ MonoBehaviour:
     m_Bits: 256
   minDamage: 0
   maxDamage: 0
+  damageReductionPer: 0
   OnHit:
     m_PersistentCalls:
       m_Calls: []
@@ -7841,6 +7860,7 @@ GameObject:
   - component: {fileID: 6587267881767893051}
   - component: {fileID: 2453502836339598782}
   - component: {fileID: 6587267881767893052}
+  - component: {fileID: 6587267881767893053}
   m_Layer: 5
   m_Name: Buff
   m_TagString: Untagged
@@ -7904,6 +7924,21 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &6587267881767893053
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5962092043771055189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef44332a66931944b9c579fef7ddcad9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  abilityImage: {fileID: 2010915560}
+  coolDownSlider: {fileID: 546171641}
+  buffSO: {fileID: 11400000, guid: da4292b39922b794c8e26f6e15e7a10b, type: 2}
 --- !u!1 &7403735747372879928
 GameObject:
   m_ObjectHideFlags: 0

@@ -7,7 +7,6 @@ using UnityEngine.EventSystems;
 public class PlayerUnit : GameUnit
 {
     public static PlayerUnit Instance { get; private set; }
-
     public PlayerStatHandler PlayerStatHandler { get => _playerStatHandler; }
     public MovementHandler MovementHandler { get => _movementHandler; }
 
@@ -16,7 +15,6 @@ public class PlayerUnit : GameUnit
     [SerializeField] private PlayerStatHandler _playerStatHandler;
     
     private RaycastHit2D hitInfo;
-
     private Rigidbody2D rb2D;
 
     protected override void Awake()
@@ -119,5 +117,10 @@ public class PlayerUnit : GameUnit
     public void HandleMeleeAbilities()
     {
         AbilityUIManager.Instance.ToggleMeleeAbilities(target != null && radar.TargetInRange());
+    }
+
+    public override StatBase GetStat()
+    {
+        return _playerStatHandler;
     }
 }

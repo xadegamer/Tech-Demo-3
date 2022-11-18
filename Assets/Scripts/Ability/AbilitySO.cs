@@ -31,7 +31,7 @@ public class AbilitySO : ScriptableObject
     public Range  range;
     [FoldoutGroup("Stats")]
     [SuffixLabel("%")]
-    public AbilityData abilityData;
+    public ValueDataContainer abilityData;
 
     [ShowIf("type", Type.SetUp)]
     public AbilitySO[] connectedAbilities;
@@ -74,13 +74,13 @@ public class AbilitySO : ScriptableObject
 }
 
 [Serializable]
-public class AbilityData
+public class ValueDataContainer
 {
-    public AbilityValue[] values;
+    public ValueData[] values;
 
-    public AbilityValue GetAbilityValueByID(string ID)
+    public ValueData GetAbilityValueByID(string ID)
     {
-        AbilityValue abilityValue = values.FirstOrDefault(x => x.ID == ID);
+        ValueData abilityValue = values.FirstOrDefault(x => x.ID == ID);
 
         if (abilityValue != null) return abilityValue;
         else
@@ -92,7 +92,7 @@ public class AbilityData
 }
 
 [Serializable]
-public class AbilityValue
+public class ValueData
 {
     public enum Type { Direct, Percentage, Time}
 

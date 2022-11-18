@@ -56,12 +56,12 @@ public class CharacterUI
        // manaBar.fillAmount = mana; 
     }
 
-    public void AddBuff(Buff buff)
+    public void AddBuff(BuffSO buff)
     {
 
     }
 
-    public void RemoveBuff(Buff buff)
+    public void RemoveBuff(BuffSO buff)
     {
 
     }

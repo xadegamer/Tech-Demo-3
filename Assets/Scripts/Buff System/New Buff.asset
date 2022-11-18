@@ -17,3 +17,13 @@ MonoBehaviour:
   buffDescription: 
   buffIcon: {fileID: 0}
   buffType: 0
+  buffData:
+    values:
+    - ID: Duration
+      valueType: 2
+      timeType: 0
+      value: 20
+    - ID: MeleeAttackDamage
+      valueType: 1
+      timeType: 0
+      value: 8
