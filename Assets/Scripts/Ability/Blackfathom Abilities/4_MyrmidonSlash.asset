@@ -19,6 +19,14 @@ MonoBehaviour:
   type: 0
   range: 0
   abilityData:
-    values: []
+    values:
+    - ID: 
+      valueType: 0
+      timeType: 0
+      value: 0
+    - ID: 
+      valueType: 0
+      timeType: 0
+      value: 0
   connectedAbilities: []
   buff: {fileID: 0}
