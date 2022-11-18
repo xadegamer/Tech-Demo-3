@@ -1,44 +1,84 @@
+using Sirenix.Serialization;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class BuffManager : MonoBehaviour
 {
-    [SerializeField] private BuffSO[] buffs;
-    private GameUnit target;
+    [SerializeField] private List<Buff> activeBuffs = new List<Buff>();
 
-    protected void AssignBuffActions()
+    private void Start()
     {
-        foreach (BuffSO buff in buffs)
-        {
-            if(buff.buffType == BuffType.Permanent)
-            {
-                JudgementOfWeaknessDebuff(buff);
-            }
-
-            
-        }
+        BuffHolderUI.OnBuffHolderUIRemoved += BuffHolderUI_OnBuffHolderUIRemoved;
     }
 
-    public void JudgementOfWeaknessDebuff(BuffSO buffSO)
+    public void SendBuff(BuffSO buffSO, GameUnit target)
     {
-        float damageReduction = buffSO.buffData.GetAbilityValueByID("MeleeAttackDamage").GetValue();
+        Buff newBuff = CreateBuff(buffSO, target);
+        target.GetComponent<BuffManager>().AddBuff(newBuff);
+    }
 
-        void OnStart()
+    public Buff CreateBuff(BuffSO buffSO, GameUnit target)
+    {
+        switch (buffSO.GetBuffType<PaladinBuff>())
         {
+            case PaladinBuff.JudgementOfRighteousness: return JudgementOfWeaknessBuff(buffSO, target);
+            case PaladinBuff.JudgementofWisdom: return JudgementOfWeaknessBuff(buffSO, target);
+            case PaladinBuff.JudgementofWeakness: return JudgementOfWeaknessBuff(buffSO, target);
+            default: return null;
+        } 
+    }
+
+    public Buff JudgementOfWeaknessBuff(BuffSO buffSO, GameUnit target)
+    {
+        Debug.Log("Found JudgementOfWeaknessBuff");
+        
+        float damageReduction = buffSO.buffData.GetAbilityValueByID("MeleeAttackDamage").GetValue();
+        
+        DamageInfo damageInfo = new DamageInfo();
+
+        float timer = 2;
+
+        return new Buff(buffSO, target, () =>
+        { //Start
             target.Damager.SetDamageReducion(damageReduction);
         }
-
-        void InProgress()
-        {
+        , () =>
+        {// In Progress
+            if(timer > 0)
+            {
+                timer -= Time.deltaTime;
+            }
+            else
+            {
+                damageInfo.damageAmount = 5;
+                target.HealthHandler.TakeDamage(damageInfo);
+                timer = 2;
+            }
+        }, () =>
+        { // End
             target.Damager.SetDamageReducion(0f);
+        });
+    }
+
+    private void AddBuff(Buff newBuff)
+    {
+        Buff existingBuff = activeBuffs.FirstOrDefault(x => x.buffSO == newBuff.buffSO);
+
+        if (existingBuff != null) 
+        {
+            existingBuff.ResetBuff();
+            return;
         }
 
-        void OnEnd()
-        {
-            target.Damager.SetDamageReducion(0f);
-        }
+        activeBuffs.Add(newBuff);
+        UIManager.Instance.SpawnPlayerBuffUI(newBuff);
+    }
 
-        buffSO.SetActions(OnStart, InProgress, OnEnd);
+    private void BuffHolderUI_OnBuffHolderUIRemoved(object sender, EventArgs e)
+    {
+        if (activeBuffs.Contains((Buff)sender)) activeBuffs.Remove((Buff)sender);
     }
 }

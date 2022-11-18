@@ -36,9 +36,11 @@ public class AbilitySO : ScriptableObject
     [ShowIf("type", Type.SetUp)]
     public AbilitySO[] connectedAbilities;
 
+    public BuffSO buff;
+
     private Action<AbilitySO> OnUse = null;
 
-    private AbilityHolderUI  abilityHolderUI;
+    private AbilityHolderUI abilityHolderUI;
 
     public T GetAbilityType<T>() where T : Enum
     {

@@ -19,8 +19,17 @@ public class BlackfathomAbilityController : GameUnitAbilityController
         }
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            abilitySetSOArray[0].abilities[0].UseAbility();
+        }
+    }
+
     public void BlackfathomHamstring(AbilitySO abilitySO)
     {
+        buffManager.SendBuff(abilitySO.buff, gameUnit.GetTarget());
         Debug.Log("BlackfathomHamstring");
     }
 

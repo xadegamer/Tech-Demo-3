@@ -18,6 +18,9 @@ public class UIManager : MonoBehaviour
     [Header("TargetOfTarget")]
     [SerializeField] private CharacterUI targetOfTargetUI;
 
+    [Header("Buff")]
+    [SerializeField] private BuffHolderUI buffHolderUI;
+
     private void Awake()
     {
         Instance = this;
@@ -27,6 +30,11 @@ public class UIManager : MonoBehaviour
     public CharacterUI GetPlayerrUI() => playerUI;
     public CharacterUI GetTargetUI() => targetUI;
     public CharacterUI GetTargetOfTargetUI() => targetOfTargetUI;
+
+    public void SpawnPlayerBuffUI(Buff buff)
+    {
+        playerUI.AddBuff(buffHolderUI,buff);
+    }
 }
 
 
@@ -56,9 +64,9 @@ public class CharacterUI
        // manaBar.fillAmount = mana; 
     }
 
-    public void AddBuff(BuffSO buff)
+    public void AddBuff(BuffHolderUI buffHolderUI , Buff buff)
     {
-
+        GameObject.Instantiate(buffHolderUI, buffHolder).ActivateBuff(buff);
     }
 
     public void RemoveBuff(BuffSO buff)

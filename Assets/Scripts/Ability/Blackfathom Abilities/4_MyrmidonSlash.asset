@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aedde484368609b4c9360ed52ccf1928, type: 3}
   m_Name: 4_MyrmidonSlash
   m_EditorClassIdentifier: 
-  abilityName: 
+  abilityName: Myrmidon Slash
   abilityDescription: 
   abilityIcon: {fileID: 0}
   abilityCost: 0
@@ -21,3 +21,4 @@ MonoBehaviour:
   abilityData:
     values: []
   connectedAbilities: []
+  buff: {fileID: 0}

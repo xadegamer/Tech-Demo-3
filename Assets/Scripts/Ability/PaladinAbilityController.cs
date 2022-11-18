@@ -32,28 +32,29 @@ public class PaladinAbilityController : GameUnitAbilityController
 
     public void CrusaderStrike(AbilitySO  abilitySO)
     {
-        float damage = Utility.CalculateValueWithPercentage(playerManager.PlayerStatHandler.GetCharacterClassSO().minbaseDamage, abilitySO.abilityData.GetAbilityValueByID("BasePhysicalDamage").GetValue(), true);
-        Debug.Log("Do Crusader Strike : " + damage);
+        float damage = Utility.CalculateValueWithPercentage(gameUnit.GetStat().GetCharacterClassSO().minbaseDamage, abilitySO.abilityData.GetAbilityValueByID("BasePhysicalDamage").GetValue(), true);
 
         damageInfo.SetUp(DamageInfo.DamageType.Melee, damage, false, false);
         
         PlayerUnit.Instance.GetTarget().GetComponent<HealthHandler>().TakeDamage(damageInfo);
+
+        Debug.Log("Did Crusader Strike : " + damage);
     }
 
     public void HammerofJustice(AbilitySO abilitySO)
     {
         float stunDuration = abilitySO.abilityData.GetAbilityValueByID("StunDuration").GetValue();
-        Debug.Log("Do Hammer of Justice : " + stunDuration);
+        Debug.Log("Did Hammer of Justice : " + stunDuration);
     }
 
     public void DivineStorm(AbilitySO abilitySO)
     {
-        float damage = Utility.CalculateValueWithPercentage(playerManager.PlayerStatHandler.GetCharacterClassSO().minbaseDamage, abilitySO.abilityData.GetAbilityValueByID("BasePhysicalDamage").GetValue(), true);
+        float damage = Utility.CalculateValueWithPercentage(gameUnit.GetStat().GetCharacterClassSO().minbaseDamage, abilitySO.abilityData.GetAbilityValueByID("BasePhysicalDamage").GetValue(), true);
 
         damageInfo.SetUp(DamageInfo.DamageType.Melee, damage, false, false);
 
         float healAmount = Utility.CalculatePercentageOfValue(PlayerUnit.Instance.GetTarget().GetComponent<HealthHandler>().TakeDamage(damageInfo), abilitySO.abilityData.GetAbilityValueByID("Heal").GetValue());
-        Debug.Log("Do Divine Storm : " + damage);
+        Debug.Log("Did Divine Storm : " + damage);
         Debug.Log("Heal : " + healAmount);
 
 
@@ -62,41 +63,14 @@ public class PaladinAbilityController : GameUnitAbilityController
 
     public void Judgement(AbilitySO abilitySO)
     {
-        float damage = Utility.CalculatePercentageOfValue(playerManager.PlayerStatHandler.GetCharacterClassSO().minbaseDamage, abilitySO.abilityData.GetAbilityValueByID("BaseWeaponDamage").GetValue());
-        Debug.Log("Do Judgement : " + damage);
+        float damage = Utility.CalculatePercentageOfValue(gameUnit.GetStat().GetCharacterClassSO().minbaseDamage, abilitySO.abilityData.GetAbilityValueByID("BaseWeaponDamage").GetValue());
 
         damageInfo.SetUp(DamageInfo.DamageType.Melee, damage, false, false);
         PlayerUnit.Instance.GetTarget().GetComponent<HealthHandler>().TakeDamage(damageInfo);
+        Debug.Log("Did Judgement : " + damage);
 
-
-        float debufDuration = 0;
-        float debufChance = 0;
-        float DebuffInterval = 0;
-
-        switch (abilitySO.GetAbilityType<PaladinAbilities>())
-        {
-            case PaladinAbilities.JudgementOfRighteousness:
-
-                debufDuration = abilitySO.abilityData.GetAbilityValueByID("DebuffDuration").GetValue();
-                debufChance = abilitySO.abilityData.GetAbilityValueByID("DebuffChance").GetValue();
-                DebuffInterval = abilitySO.abilityData.GetAbilityValueByID("DebuffInterval").GetValue();
-                
-                Debug.Log("Do Judgement of Righteousness : " + damage);
-
-                break;
-            case PaladinAbilities.JudgementofWisdom:
-
-                Debug.Log("Do Judgement of Wisdom : " + damage);
-
-                break;
-            case PaladinAbilities.JudgementofWeakness:
-
-                float defuffValue = abilitySO.abilityData.GetAbilityValueByID("DebuffValue").GetValue();
-                Debug.Log("Do Judgement of Weakness : " + damage);
-
-                break;
-            default: break;
-        }
+        buffManager.SendBuff(currentJudgement.buff, PlayerUnit.Instance.GetTarget());
+        Debug.Log("Do " + currentJudgement.abilityName);
     }
 
     public void JudgementOfRighteousness(AbilitySO abilitySO)

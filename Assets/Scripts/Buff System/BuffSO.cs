@@ -21,19 +21,12 @@ public class BuffSO : ScriptableObjectBase
     public BuffType buffType;
 
     [FoldoutGroup("Properties")]
-    public ValueDataContainer buffData;
-
-    public Action OnBuffStart;
-    public Action InBuffProgress;
-    public Action OnBuffEnd;
-    
+    public ValueDataContainer buffData;  
     public override int GetID() => ID;
 
-    public void SetActions(Action onBuffStart, Action inProgress, Action onBuffEnd)
+    public T GetBuffType<T>() where T : Enum
     {
-        OnBuffStart = onBuffStart;
-        InBuffProgress = inProgress;
-        OnBuffEnd = onBuffEnd;
+        return (T)Enum.Parse(typeof(T), Utility.RemoveSpaceFromString(buffName));
     }
 }
 
@@ -44,3 +37,31 @@ public enum BuffType
 }
 
 public enum BuffValueModifyType {Add, Subtract,Multiply,Divide,Set, Precentage};
+
+
+[Serializable]
+public class Buff
+{
+    public BuffSO buffSO;
+    public GameUnit target;
+    public Action OnBuffStart;
+    public Action InBuffProgress;
+    public Action OnBuffEnd;
+
+    public event EventHandler OnBuffReset;
+
+    public Buff(BuffSO buffSO, GameUnit target, Action onBuffStart, Action inProgress, Action onBuffEnd)
+    {
+        this.buffSO = buffSO;
+        this.target = target;
+        OnBuffStart = onBuffStart;
+        InBuffProgress = inProgress;
+        OnBuffEnd = onBuffEnd;
+    }
+
+
+    public void ResetBuff()
+    {
+        OnBuffReset?.Invoke(this, EventArgs.Empty);
+    }
+}

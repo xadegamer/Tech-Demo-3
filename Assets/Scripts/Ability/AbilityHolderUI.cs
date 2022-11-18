@@ -126,22 +126,13 @@ public class AbilityHolderUI : MonoBehaviour, IPointerDownHandler, IPointerUpHan
 
         while (activeTime > 0)
         {
-            DisplayTime(activeTime);
+            abilityCoolDownText.text = Utility.FloatToTime(activeTime);
             activeTime -= Time.deltaTime;
             coolDownSlider.fillAmount = activeTime / duration;
             yield return null;
         }
         abilityCoolDownText.enabled = false;
         abilityState = AbilityState.Ready;
-    }
-
-    void DisplayTime(float timeToDisplay)
-    {
-        if (timeToDisplay < 0) return;
-        float minutes = Mathf.FloorToInt(timeToDisplay / 60);
-        float seconds = timeToDisplay % 60;
-   
-        abilityCoolDownText.text = (minutes == 0) ? $"{seconds.ToString("F1")}s" : $"{minutes:00}m : {seconds:00}s";
     }
 
     void ResetUI()

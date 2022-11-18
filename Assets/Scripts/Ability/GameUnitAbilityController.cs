@@ -12,13 +12,17 @@ public abstract class GameUnitAbilityController : MonoBehaviour
 
     [SerializeField] protected List<GameUnit> allies;
 
-    protected PlayerUnit playerManager;
+    protected GameUnit gameUnit;
 
     protected DamageInfo damageInfo;
 
+    protected BuffManager buffManager;
+
     private void Awake()
     {
-        playerManager = GetComponent<PlayerUnit>();
+        gameUnit = GetComponent<GameUnit>();
+        buffManager = GetComponent<BuffManager>();
+        
         AssignAbilityActions();
         damageInfo = new DamageInfo();
     }

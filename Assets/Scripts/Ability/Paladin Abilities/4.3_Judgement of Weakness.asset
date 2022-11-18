@@ -30,3 +30,4 @@ MonoBehaviour:
       timeType: 0
       value: 8
   connectedAbilities: []
+  buff: {fileID: 11400000, guid: da4292b39922b794c8e26f6e15e7a10b, type: 2}

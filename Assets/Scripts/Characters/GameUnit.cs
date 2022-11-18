@@ -7,13 +7,14 @@ public abstract class GameUnit : MonoBehaviour
     public enum State { Wandering, Combat, Casting, Stun, Dead }
 
     public Damager Damager { get => damager; }
+    public HealthHandler HealthHandler { get => healthHandler; }
 
     [Header("Abstract Properties")]
     [SerializeField] protected CharacterClassSO characterClassSO;
     [SerializeField] protected State state;
 
     [Header("Abstract Attacking Properties")]
-    [SerializeField] protected Transform target;
+    [SerializeField] protected GameUnit target;
     [SerializeField] protected Radar2D radar;
     [SerializeField] protected Damager damager;
 
@@ -73,7 +74,7 @@ public abstract class GameUnit : MonoBehaviour
         animator.SetInteger("State", (int)state);
     }
 
-    public Transform GetTarget()
+    public GameUnit GetTarget()
     {
         return target;
     }

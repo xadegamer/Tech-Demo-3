@@ -49,7 +49,7 @@ public class PlayerUnit : GameUnit
 
         _movementHandler.ToggleFaceMovementDir(!target);
 
-        if (target) Utility.LookAtPosition(transform, target);
+        if (target) Utility.LookAtPosition(transform, target.transform);
 
         HandleMeleeAbilities();
     }
@@ -75,10 +75,10 @@ public class PlayerUnit : GameUnit
 
     public override void TrySetTarget(Transform target)
     {
-        if (target != base.target && target.TryGetComponent(out EnemyUnit enemyManager))
+        if (target != base.target && target.TryGetComponent(out EnemyUnit enemyUnit))
         {
-            this.target = target;
-            enemyManager.Targetted();
+            this.target = enemyUnit;
+            enemyUnit.Targetted();
         }
     }
 

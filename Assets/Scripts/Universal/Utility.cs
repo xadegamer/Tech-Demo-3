@@ -287,6 +287,19 @@ public static class Utility
         OnBuffEnd?.Invoke();
     }
 
+    public static string FloatToTime(float timeToDisplay)
+    {
+        string time = "";
+        if (timeToDisplay != 0)
+        {
+            float minutes = Mathf.FloorToInt(timeToDisplay / 60);
+            float seconds = timeToDisplay % 60;
+            time = (minutes == 0) ? $"{seconds.ToString("F1")}s" : $"{minutes:00}m : {seconds:00}s";
+        }
+        else time = "0 s";
+        return time;
+    }
+
     public static void DrawBoxcast2D(Vector2 position, Vector2 size, float direction, float distance, Color color)
     {
         Vector2 directionVector = new Vector2(direction, 0);

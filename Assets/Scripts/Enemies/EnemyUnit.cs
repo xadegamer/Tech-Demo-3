@@ -41,25 +41,25 @@ public class EnemyUnit : GameUnit
 
     public override void HandleMovement()
     {
-        if (target != null)
-        {
-            agent.SetDestination(target.position); //Set NavMesh Position
+        //if (target != null)
+        //{
+        //    agent.SetDestination(target.transform.position); //Set NavMesh Position
 
-            if (Vector2.Distance(transform.position, target.position) > agent.stoppingDistance) //Check Distance between enemy and Player
-            {
-                if (target != null)
-                {
-                    animator.SetBool("Walk", true);
-                    agent.speed = moveSpeed;
-                }
-            }
-            else
-            {
-                agent.speed = 0;
-                HandleCombat();
-            }
-        }
-       // else Patrol();
+        //    if (Vector2.Distance(transform.position, target.transform.position) > agent.stoppingDistance) //Check Distance between enemy and Player
+        //    {
+        //        if (target != null)
+        //        {
+        //            animator.SetBool("Walk", true);
+        //            agent.speed = moveSpeed;
+        //        }
+        //    }
+        //    else
+        //    {
+        //        agent.speed = 0;
+        //        HandleCombat();
+        //    }
+        //}
+        //else Patrol();
     }
 
     protected override void OnHealthChanged()
@@ -77,7 +77,7 @@ public class EnemyUnit : GameUnit
     {
         if (target != base.target && target.TryGetComponent(out PlayerUnit playerUnit))
         {
-            this.target = target;
+            this.target = playerUnit;
             playerUnit.Targetted();
         }
     }

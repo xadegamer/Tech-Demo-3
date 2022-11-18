@@ -37,3 +37,4 @@ MonoBehaviour:
   connectedAbilities:
   - {fileID: 11400000, guid: 157a336ac6745764bb7e1a9e515afdf0, type: 2}
   - {fileID: 11400000, guid: e3ef6b1d285f4424f80c5e995de4cf00, type: 2}
+  buff: {fileID: 11400000, guid: da4292b39922b794c8e26f6e15e7a10b, type: 2}

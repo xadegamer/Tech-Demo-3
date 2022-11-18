@@ -14,3 +14,10 @@ public enum PaladinAbilities
 
         
 }
+
+public enum PaladinBuff
+{
+    JudgementOfRighteousness,
+    JudgementofWisdom,
+    JudgementofWeakness
+}
