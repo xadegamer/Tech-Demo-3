@@ -71,9 +71,9 @@ public class AbilityUIManager : MonoBehaviour
         currentAbilitySetUI.ShowAbilitySet();
     }
 
-    public void SetAbilities(AbilitySOSet[] abilitySOSets)
+    public void SetAbilities(AbilitySetSO[] abilitySetSO)
     {
-        for (int i = 0; i < abilitySetUI.Length; i++) abilitySetUI[i].SpawnAndSetAbility(abilitySOSets[i]);
+        for (int i = 0; i < abilitySetUI.Length; i++) abilitySetUI[i].SpawnAndSetAbility(abilitySetSO[i]);
     }
 
     public void ActivateCastBar(string abilityName)

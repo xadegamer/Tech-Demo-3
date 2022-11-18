@@ -79,9 +79,14 @@ public class PlayerUnit : GameUnit
     {
         if (target != base.target && target.TryGetComponent(out EnemyUnit enemyManager))
         {
-            base.target = target;
+            this.target = target;
             enemyManager.Targetted();
         }
+    }
+
+    public override void Targetted()
+    {
+
     }
 
     public override void HandleCombat()

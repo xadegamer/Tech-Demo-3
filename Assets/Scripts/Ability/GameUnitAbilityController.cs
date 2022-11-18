@@ -2,10 +2,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public abstract class GameUnitAbilityController : MonoBehaviour
 {
-    [SerializeField] protected AbilitySOSet[] abilitySOSets;
+    [SerializeField] protected AbilitySetSO[] abilitySetSOArray;
     
     [SerializeField] protected List<GameUnit> targets;
 
@@ -24,13 +25,10 @@ public abstract class GameUnitAbilityController : MonoBehaviour
 
     protected void AssignAbilityActions()
     {
-        foreach (AbilitySOSet abilitySOSet in abilitySOSets)
-        {
-            AssignSetAbilityActions(abilitySOSet);
-        }
+        abilitySetSOArray.ToList().ForEach(x => AssignSetAbilityActions(x));
     }
 
-    protected abstract void AssignSetAbilityActions(AbilitySOSet abilitySOSet);
+    protected abstract void AssignSetAbilityActions(AbilitySetSO abilitySetSO);
 
     protected IEnumerator Wait(float duration, Action action)
     {

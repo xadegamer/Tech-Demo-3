@@ -76,7 +76,11 @@ public class EnemyUnit : GameUnit
 
     public override void TrySetTarget(Transform target)
     {
-
+        if (target != base.target && target.TryGetComponent(out PlayerUnit playerUnit))
+        {
+            this.target = target;
+            playerUnit.Targetted();
+        }
     }
 
     public override void HandleCombat()
@@ -84,7 +88,7 @@ public class EnemyUnit : GameUnit
         AttackTimer(_statHandler);
     }
 
-    public void Targetted()
+    public override void Targetted()
     {
         UIManager.Instance.GetTargetUI().SetUp(characterClassSO.characterIcon);
         healthHandler.OnReceiveDamage.AddListener(OnHealthChanged);

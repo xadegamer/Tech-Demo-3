@@ -74,12 +74,6 @@ public class AbilitySO : ScriptableObject
 }
 
 [Serializable]
-public class AbilitySOSet
-{
-    public AbilitySO[] abilities;
-}
-
-[Serializable]
 public class AbilityData
 {
     public AbilityValue[] values;

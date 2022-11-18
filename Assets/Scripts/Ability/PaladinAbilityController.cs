@@ -9,12 +9,12 @@ public class PaladinAbilityController : GameUnitAbilityController
 
     protected void Start()
     {
-        AbilityUIManager.Instance.SetAbilities(abilitySOSets);
+        AbilityUIManager.Instance.SetAbilities(abilitySetSOArray);
     }
 
-    protected override void AssignSetAbilityActions(AbilitySOSet abilitySOSet)
+    protected override void AssignSetAbilityActions(AbilitySetSO abilitySetSO)
     {
-        foreach (AbilitySO abilitySO in abilitySOSet.abilities)
+        foreach (AbilitySO abilitySO in abilitySetSO.abilities)
         {
             switch (abilitySO.GetAbilityType<PaladinAbilities>())
             {

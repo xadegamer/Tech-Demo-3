@@ -47,6 +47,8 @@ public abstract class GameUnit : MonoBehaviour
 
     public abstract void TrySetTarget(Transform target);
 
+    public abstract void Targetted();
+
     public abstract void HandleCombat();
 
     public  void AttackTimer(StatBase statBase)

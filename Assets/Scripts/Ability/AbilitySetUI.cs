@@ -23,17 +23,17 @@ public class AbilitySetUI : MonoBehaviour
         GetComponent<CanvasGroup>().interactable = false;
     } 
     
-    public void SpawnAndSetAbility(AbilitySOSet abilitySOSet)
+    public void SpawnAndSetAbility(AbilitySetSO abilitySetSO)
     {
-        for (int i = 0; i < abilitySOSet.abilities.Length; i++)
+        for (int i = 0; i < abilitySetSO.abilities.Length; i++)
         {
             AbilityHolderUI abilityHolderUI = Instantiate(abilityPrefab, transform);
             
             abilityHolderUIList.Add(abilityHolderUI);
 
-            abilityHolderUI.SetCurrentAbility(abilitySOSet.abilities[i]);
+            abilityHolderUI.SetCurrentAbility(abilitySetSO.abilities[i]);
             
-            if (abilitySOSet.abilities[i].connectedAbilities.Length > 0) abilityHolderUI.SetConnectedAbilities(abilitySOSet.abilities[i].connectedAbilities);
+            if (abilitySetSO.abilities[i].connectedAbilities.Length > 0) abilityHolderUI.SetConnectedAbilities(abilitySetSO.abilities[i].connectedAbilities);
         } 
     }
 

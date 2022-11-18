@@ -155,7 +155,7 @@ public class HealthHandler : MonoBehaviour
     }
 }
 
-[System.Serializable]
+[Serializable]
 public class HealthEvent
 {
     [Tooltip("Must be between 100 and 10, Decending...")]

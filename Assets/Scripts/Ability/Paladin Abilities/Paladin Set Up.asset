@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 600dc7cba77274e4b9eb4f713fe3259c, type: 3}
+  m_Name: Paladin Set Up
+  m_EditorClassIdentifier: 
+  abilities:
+  - {fileID: 11400000, guid: 157a336ac6745764bb7e1a9e515afdf0, type: 2}
+  - {fileID: 11400000, guid: e3ef6b1d285f4424f80c5e995de4cf00, type: 2}
