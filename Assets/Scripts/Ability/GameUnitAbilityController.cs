@@ -16,12 +16,12 @@ public abstract class GameUnitAbilityController : MonoBehaviour
 
     protected DamageInfo damageInfo;
 
-    protected BuffManager buffManager;
+    protected GameUnitBuffController buffManager;
 
     private void Awake()
     {
         gameUnit = GetComponent<GameUnit>();
-        buffManager = GetComponent<BuffManager>();
+        buffManager = GetComponent<GameUnitBuffController>();
         
         AssignAbilityActions();
         damageInfo = new DamageInfo();
