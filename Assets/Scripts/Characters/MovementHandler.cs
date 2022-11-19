@@ -37,7 +37,8 @@ public class MovementHandler
 
     public void HandleAnimation()
     {
-        animator.SetFloat("MoveX", Mathf.Abs(movementInput.x));
+        animator.SetBool("IsMoving", Mathf.Abs(movementInput.x) != 0);
+        //animator.SetFloat("MoveX", Mathf.Abs(movementInput.x));
         animator.SetFloat("MoveY", movementInput.y);
     }
     

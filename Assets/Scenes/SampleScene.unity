@@ -1591,6 +1591,9 @@ MonoBehaviour:
   physicalDamageReduction: 0
   hasCooldown: 0
   coolDownDuration: 0
+  OnHealthChange:
+    m_PersistentCalls:
+      m_Calls: []
   OnReceiveDamage:
     m_PersistentCalls:
       m_Calls: []
@@ -1738,7 +1741,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: ffdf9365157950747b1b95fefbbb8b74, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
+  m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 0.64, y: 0.64}
@@ -1810,7 +1813,7 @@ Animator:
   m_GameObject: {fileID: 282318988}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: ab46197fa6334c14eb847f9ce9b07a05, type: 2}
+  m_Controller: {fileID: 22100000, guid: 04744ff17aef70f40878b0b7f8a3ca48, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -1961,6 +1964,9 @@ MonoBehaviour:
   physicalDamageReduction: 0
   hasCooldown: 0
   coolDownDuration: 0
+  OnHealthChange:
+    m_PersistentCalls:
+      m_Calls: []
   OnReceiveDamage:
     m_PersistentCalls:
       m_Calls: []
@@ -2196,7 +2202,7 @@ Animator:
   m_GameObject: {fileID: 389506541}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 9c457a11eabf3e549af97e7e62ae9e54, type: 2}
+  m_Controller: {fileID: 9100000, guid: 765157993ffeb954ebf24be7e6559149, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

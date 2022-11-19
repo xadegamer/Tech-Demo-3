@@ -60,6 +60,8 @@ public class EnemyUnit : GameUnit
         //    }
         //}
         //else Patrol();
+
+        Patrol();
     }
 
     protected override void OnHealthChanged()
