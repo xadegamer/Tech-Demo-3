@@ -18,6 +18,7 @@ public class HealthHandler : MonoBehaviour
     [SerializeField] float coolDownDuration;
 
     [Header("Events")]
+    public UnityEvent OnHealthChange;
     public UnityEvent OnReceiveDamage;
     public UnityEvent OnReceiveNormalDamage;
     public UnityEvent OnReceiveCriticalDamage;
@@ -49,6 +50,7 @@ public class HealthHandler : MonoBehaviour
     public void SetHealth(float amount)
     {
         currentHealth = maxHealth = amount;
+        OnHealthChange?.Invoke();
         if (hasCooldown) coolDownTime = new WaitForSeconds(coolDownDuration);
     }
 
@@ -107,6 +109,8 @@ public class HealthHandler : MonoBehaviour
                 else OnHit.Invoke();
             }
 
+            OnHealthChange?.Invoke();
+
             if (damageInfo.critical) OnReceiveCriticalDamage.Invoke(); OnReceiveNormalDamage.Invoke();
             PopUpTextManager.Instance.PopUpText(transform, finalDamage.ToString(), damageInfo.critical ? Color.red : Color.yellow);
         }
@@ -119,6 +123,7 @@ public class HealthHandler : MonoBehaviour
         currentHealth += amount;
         if (currentHealth > maxHealth) currentHealth = maxHealth;
         OnHeal.Invoke();
+        OnHealthChange?.Invoke();
 
         PopUpTextManager.Instance.PopUpText(transform, amount.ToString(),  Color.green);
     }

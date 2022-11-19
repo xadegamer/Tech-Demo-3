@@ -10,7 +10,7 @@ public abstract class GameUnitBuffController : MonoBehaviour
 
     protected virtual void Start()
     {
-        BuffHolderUI.OnBuffHolderUIRemoved += BuffHolderUI_OnBuffHolderUIRemoved;
+        Buff.OnAnyBuffRemoved += Buff_OnAnyBuffRemoved;
     }
 
     public void SendBuff(BuffSO buffSO, GameUnit target)
@@ -35,8 +35,16 @@ public abstract class GameUnitBuffController : MonoBehaviour
         return true;
     }
 
-    protected void BuffHolderUI_OnBuffHolderUIRemoved(object sender, EventArgs e)
+    protected void Buff_OnAnyBuffRemoved(object sender, EventArgs e)
     {
         if (activeBuffs.Contains((Buff)sender)) activeBuffs.Remove((Buff)sender);
+    }
+
+    public virtual void RemoveBuffs()
+    {
+        for (int i = 0; i < activeBuffs.Count; i++)
+        {
+            activeBuffs[i].RemoveBuff();
+        }
     }
 }

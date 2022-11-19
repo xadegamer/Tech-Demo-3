@@ -32,7 +32,7 @@ public abstract class GameUnit : MonoBehaviour
     protected virtual void Start()
     {
         healthHandler.SetHealth(characterClassSO.health);
-        healthHandler.OnReceiveDamage.AddListener(OnHealthChanged);
+        healthHandler.OnHealthChange.AddListener(OnHealthChanged);
         damager.SetDamage(characterClassSO.minbaseDamage, characterClassSO.maxbaseDamage);
     }
 

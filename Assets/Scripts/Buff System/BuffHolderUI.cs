@@ -8,9 +8,6 @@ using UnityEngine.UI;
 
 public class BuffHolderUI : MonoBehaviour
 {
-    public static event EventHandler OnBuffHolderUIAdded;
-    public static event EventHandler OnBuffHolderUIRemoved;
-
     [Header("Buff UI")]
     [SerializeField] private Image abilityImage;
     [SerializeField] private Image coolDownSlider;
@@ -24,21 +21,34 @@ public class BuffHolderUI : MonoBehaviour
     public void ActivateBuff(Buff buff)
     {
         this.buff = buff;
-        buff.OnBuffReset += ResetBuff;
+        
+        buff.OnBuffReset += Buff_ResetBuff;
+        buff.OnBuffRemoved += Buff_OnBuffRemoved;
+
         buff.OnBuffStart?.Invoke();
         buffCoroutine =  StartCoroutine(ActivateBuffRoutine(buff.buffSO.buffData.GetAbilityValueByID("Duration").GetValue()));
+    }
+
+    private void Buff_ResetBuff(object sender, EventArgs e)
+    {
+        StopCoroutine(buffCoroutine);
+        buffCoroutine = StartCoroutine(ActivateBuffRoutine(buff.buffSO.buffData.GetAbilityValueByID("Duration").GetValue()));
+    }
+
+    private void Buff_OnBuffRemoved(object sender, EventArgs e)
+    {
+        Destroy(gameObject);
     }
 
     public void DeactivateBuff()
     {
         StopCoroutine(buffCoroutine);
-        RemoveBuff();
+        buff.RemoveBuff();
     }
-
-    private void ResetBuff(object sender, EventArgs e)
+  
+    private void RemoveBuff(object sender, EventArgs e)
     {
-        StopCoroutine(buffCoroutine);
-        buffCoroutine = StartCoroutine(ActivateBuffRoutine(buff.buffSO.buffData.GetAbilityValueByID("Duration").GetValue()));
+        DeactivateBuff();
     }
 
     public IEnumerator ActivateBuffRoutine(float duration)
@@ -52,13 +62,6 @@ public class BuffHolderUI : MonoBehaviour
             buff.InBuffProgress?.Invoke();
             yield return null;
         }
-        RemoveBuff();
-    }
-
-    public void RemoveBuff()
-    {
-        buff.OnBuffEnd?.Invoke();
-        OnBuffHolderUIRemoved?.Invoke(buff, EventArgs.Empty);
-        Destroy(gameObject);
+        buff.RemoveBuff();
     }
 }

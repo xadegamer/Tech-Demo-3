@@ -13,7 +13,9 @@ public class PlayerUnit : GameUnit
     [Header("Player Handlers")]
     [SerializeField] private MovementHandler _movementHandler;
     [SerializeField] private PlayerStatHandler _playerStatHandler;
-    
+    [SerializeField] private GameUnitBuffController gameUnitBuffController;
+
+
     private RaycastHit2D hitInfo;
     private Rigidbody2D rb2D;
 
@@ -22,6 +24,7 @@ public class PlayerUnit : GameUnit
         base.Awake();
         Instance = this;
         rb2D = GetComponent<Rigidbody2D>();
+        gameUnitBuffController = GetComponent<GameUnitBuffController>();
     }
 
     protected override void Start()
@@ -122,5 +125,13 @@ public class PlayerUnit : GameUnit
     public override StatBase GetStat()
     {
         return _playerStatHandler;
+    }
+
+    public void Respawn(Vector2 startPos)
+    {
+        gameUnitBuffController.RemoveBuffs();
+        transform.position = startPos;
+        healthHandler.SetHealth(characterClassSO.health);
+        _playerStatHandler.SetUp(characterClassSO);
     }
 }

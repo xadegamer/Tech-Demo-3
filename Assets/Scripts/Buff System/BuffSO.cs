@@ -49,6 +49,9 @@ public class Buff
     public Action OnBuffEnd;
 
     public event EventHandler OnBuffReset;
+    public event EventHandler OnBuffRemoved;
+
+    public static event EventHandler OnAnyBuffRemoved;
 
     public Buff(BuffSO buffSO, GameUnit target, Action onBuffStart, Action inProgress, Action onBuffEnd)
     {
@@ -63,5 +66,11 @@ public class Buff
     public void ResetBuff()
     {
         OnBuffReset?.Invoke(this, EventArgs.Empty);
+    }
+
+    public void RemoveBuff()
+    {
+        OnBuffRemoved?.Invoke(this, EventArgs.Empty);
+        OnAnyBuffRemoved?.Invoke(this, EventArgs.Empty);
     }
 }
