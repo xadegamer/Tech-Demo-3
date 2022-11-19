@@ -50,7 +50,6 @@ public class Buff
 
     public event EventHandler OnBuffReset;
     public event EventHandler OnBuffRemoved;
-
     public static event EventHandler OnAnyBuffRemoved;
 
     public Buff(BuffSO buffSO, GameUnit target, Action onBuffStart, Action inProgress, Action onBuffEnd)
@@ -70,6 +69,7 @@ public class Buff
 
     public void RemoveBuff()
     {
+        OnBuffEnd?.Invoke();
         OnBuffRemoved?.Invoke(this, EventArgs.Empty);
         OnAnyBuffRemoved?.Invoke(this, EventArgs.Empty);
     }
