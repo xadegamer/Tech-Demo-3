@@ -110,8 +110,29 @@ public class EnemyUnit : GameUnit
         }
 
         Utility.FaceVectorDirection(agent.velocity.normalized, transform);
-        animator.SetFloat("MoveX", Mathf.Abs(agent.velocity.normalized.x));
+        animator.SetBool("IsMoving", Mathf.Abs(agent.velocity.normalized.x) != 0 || Mathf.Abs(agent.velocity.normalized.y) != 0);
         animator.SetFloat("MoveY", agent.velocity.normalized.y);
+    }
+
+    public void Agro()
+    {
+        if (agent.velocity.magnitude <= 0) agent.SetDestination(target.transform.position); //Set NavMesh Position
+
+        if (Vector2.Distance(transform.position, target.transform.position) > agent.stoppingDistance) //Check Distance between enemy and Player
+        {
+            if (target != null)
+            {
+                Utility.FaceVectorDirection(agent.velocity.normalized, target.transform);
+                animator.SetBool("IsMoving", Mathf.Abs(agent.velocity.normalized.x) != 0 || Mathf.Abs(agent.velocity.normalized.y) != 0);
+                animator.SetFloat("MoveY", agent.velocity.normalized.y);
+                agent.speed = moveSpeed;
+            }
+        }
+        else
+        {
+            agent.speed = 0;
+            HandleCombat();
+        }
     }
 
     public override StatBase GetStat()

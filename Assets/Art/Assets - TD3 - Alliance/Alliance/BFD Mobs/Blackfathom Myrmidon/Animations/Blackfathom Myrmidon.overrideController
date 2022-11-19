@@ -7,7 +7,7 @@ AnimatorOverrideController:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Blackfathom Myrmidon
-  m_Controller: {fileID: 9100000, guid: 9c457a11eabf3e549af97e7e62ae9e54, type: 2}
+  m_Controller: {fileID: 9100000, guid: 765157993ffeb954ebf24be7e6559149, type: 2}
   m_Clips:
   - m_OriginalClip: {fileID: 7400000, guid: 860fec7e73493834abf03f71a96b3842, type: 2}
     m_OverrideClip: {fileID: 7400000, guid: ce1c7edb0e88eaf44abf9d214137742e, type: 2}
