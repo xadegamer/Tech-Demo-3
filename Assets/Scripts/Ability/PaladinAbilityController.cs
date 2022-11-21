@@ -11,11 +11,15 @@ public class PaladinAbilityController : GameUnitAbilityController
 
     [SerializeField] AbilitySO currentSeal;
 
+    Coroutine sealCoroutine;
+
+    private bool sealActive;
+
     protected void Start()
     {
         AbilityUIManager.Instance.SetAbilities(abilitySetSOArray);
 
-        
+        currentAura.UseAbility();
     }
 
     protected override void AssignSetAbilityActions(AbilitySetSO abilitySetSO)
@@ -34,10 +38,9 @@ public class PaladinAbilityController : GameUnitAbilityController
                 case PaladinAbilities.MagicalAura: abilitySO.SetAbilityAction(MagicalAura); break;
                 case PaladinAbilities.RetributionAura: abilitySO.SetAbilityAction(RetributionAura); break;
 
-                case PaladinAbilities.SealOfRighteousness: abilitySO.SetAbilityAction(SealOfRighteousness); break;
-                case PaladinAbilities.SealOfLight: abilitySO.SetAbilityAction(SealOfLight); break;
-                case PaladinAbilities.SealOfJustice: abilitySO.SetAbilityAction(SealOfJustice); break;
-
+                case PaladinAbilities.SealOfRighteousness: abilitySO.SetAbilityAction(StartSealOfRighteousness, EndSealOfRighteousness); break;
+                case PaladinAbilities.SealOfLight: abilitySO.SetAbilityAction(StartSealOfLight, EndSealOfLight); break;
+                case PaladinAbilities.SealOfJustice: abilitySO.SetAbilityAction(StartSealOfJustice, EndSealOfJustice); break;
 
                 case PaladinAbilities.JudgementOfRighteousness: abilitySO.SetAbilityAction(JudgementOfRighteousness); break;
                 case PaladinAbilities.JudgementofWisdom: abilitySO.SetAbilityAction(JudgementOfWisdom); break;
@@ -52,17 +55,18 @@ public class PaladinAbilityController : GameUnitAbilityController
         }
     }
 
-    public void CrusaderStrike(AbilitySO  abilitySO)
+    #region Set 1
+    public void CrusaderStrike(AbilitySO abilitySO)
     {
         float damage = Utility.CalculateValueWithPercentage(gameUnit.GetStat().GetCharacterClassSO().minbaseDamage, abilitySO.abilityData.GetAbilityValueByID("BasePhysicalDamage").GetValue(), true);
 
         damageInfo.SetUp(DamageInfo.DamageType.Melee, damage, false, false);
-        
+
         PlayerUnit.Instance.GetTarget().GetComponent<HealthHandler>().TakeDamage(damageInfo);
 
         Debug.Log("Did Crusader Strike : " + damage);
     }
-    
+
     public void HammerofJustice(AbilitySO abilitySO)
     {
         float stunDuration = abilitySO.abilityData.GetAbilityValueByID("StunDuration").GetValue();
@@ -94,7 +98,11 @@ public class PaladinAbilityController : GameUnitAbilityController
         buffManager.SendBuff(currentJudgement.buff, PlayerUnit.Instance.GetTarget());
         Debug.Log("Do " + currentJudgement.abilityName);
     }
+    #endregion
 
+    #region Set 4
+
+    #region Aura
     public void DevotionalAura(AbilitySO abilitySO)
     {
         Debug.Log("Did Devotion Aura ");
@@ -109,22 +117,67 @@ public class PaladinAbilityController : GameUnitAbilityController
     {
         Debug.Log("Do RetributionAura");
     }
+    #endregion
 
-    public void SealOfRighteousness(AbilitySO abilitySO)
+    #region Seal
+
+    public void StartSealOfRighteousness(AbilitySO abilitySO)
     {
         Debug.Log("Do SealOfRighteousness");
+
+        if(currentSeal != null && sealActive) currentSeal.EndAbility();
+        currentSeal = abilitySO;
+        sealActive = true;
+
+        if (sealCoroutine != null) StopCoroutine(sealCoroutine);
+        float duration = abilitySO.abilityData.GetAbilityValueByID("Duration").GetValue();
+        sealCoroutine = StartCoroutine(Utility.TimedAbility(abilitySO ,() => Debug.Log("Start SealOfRighteousness"), duration, EndSealOfRighteousness));
+
+        Debug.Log(duration);
     }
 
-    public void SealOfLight(AbilitySO abilitySO)
+    public void EndSealOfRighteousness(AbilitySO abilitySO)
+    {
+        sealActive = false;
+        Debug.Log("end SealOfRighteousness");
+    }
+
+    public void StartSealOfLight(AbilitySO abilitySO)
     {
         Debug.Log("Do SealOfLight");
+        if (currentSeal != null && sealActive) currentSeal.EndAbility();
+        currentSeal = abilitySO;
+        sealActive = true;
+
+        if (sealCoroutine != null) StopCoroutine(sealCoroutine);
+        float duration = abilitySO.abilityData.GetAbilityValueByID("Duration").GetValue();
+        sealCoroutine = StartCoroutine(Utility.TimedAbility(abilitySO ,() => Debug.Log("Start StartSealOfLight"), duration, EndSealOfLight));
     }
 
-    public void SealOfJustice(AbilitySO abilitySO)
+    public void EndSealOfLight(AbilitySO abilitySO)
+    {
+        Debug.Log("end StartSealOfLight");
+    }
+
+    public void StartSealOfJustice(AbilitySO abilitySO)
     {
         Debug.Log("Do SealOfJustice");
+        if (currentSeal != null && sealActive) currentSeal.EndAbility();
+        currentSeal = abilitySO;
+        sealActive = true;
+
+        if (sealCoroutine != null) StopCoroutine(sealCoroutine);
+        float duration = abilitySO.abilityData.GetAbilityValueByID("Duration").GetValue();
+        sealCoroutine = StartCoroutine(Utility.TimedAbility(abilitySO ,() => Debug.Log("Start StartSealOfJustice"), duration, EndSealOfJustice));
     }
 
+    public void EndSealOfJustice(AbilitySO abilitySO)
+    {
+        Debug.Log("end StartSealOfJustice");
+    }
+    #endregion
+
+    #region Judgement
     public void JudgementOfRighteousness(AbilitySO abilitySO)
     {
         currentJudgement = abilitySO;
@@ -142,7 +195,9 @@ public class PaladinAbilityController : GameUnitAbilityController
         currentJudgement = abilitySO;
         Debug.Log("Selected Judgement of Weakness");
     }
+    #endregion
 
+    #region Blessing
     public void BlessingOfMight(AbilitySO abilitySO)
     {
         Debug.Log("Do BlessingOfMight");
@@ -157,4 +212,6 @@ public class PaladinAbilityController : GameUnitAbilityController
     {
         Debug.Log("Do BlessingOfKings");
     }
+    #endregion
+    #endregion
 }

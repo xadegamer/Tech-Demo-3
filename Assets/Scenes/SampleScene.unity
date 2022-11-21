@@ -1498,7 +1498,7 @@ MonoBehaviour:
   targets: []
   allies: []
   currentJudgement: {fileID: 11400000, guid: aff4826e3a35a4f448d8eb13c08fed87, type: 2}
-  currentAura: {fileID: 0}
+  currentAura: {fileID: 11400000, guid: 4d98c2b003783a146a93029b02e9ebb8, type: 2}
   currentSeal: {fileID: 0}
 --- !u!50 &273101650
 Rigidbody2D:

@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: 2.2_Seal Of Light
   m_EditorClassIdentifier: 
   abilityName: Seal Of Light
-  abilityDescription: 'Fills the caster with divine light for 1 Om, granting each
+  abilityDescription: 'Fills the caster with divine light for 1Om, granting each
     melee attack a 20% chance to heal the Paladin for 20% of caused damage. '
   abilityIcon: {fileID: 21300000, guid: 6d3e940b3c2f05d4286b58825c057a03, type: 3}
-  abilityCost: 0
+  abilityCost: 8
   type: 2
   range: 0
   abilityData:

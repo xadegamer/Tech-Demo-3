@@ -35,10 +35,12 @@ public class AbilitySO : ScriptableObject
 
     [ShowIf("type", Type.SetUp | Type.SetUpAndInstantCast )]
     public AbilitySO[] connectedAbilities;
-
+    
     public BuffSO buff;
 
     private Action<AbilitySO> OnUse = null;
+
+    public Action<AbilitySO> OnAbilityEnd = null;
 
     private AbilityHolderUI abilityHolderUI;
 
@@ -47,9 +49,10 @@ public class AbilitySO : ScriptableObject
         return (T)Enum.Parse(typeof(T), Utility.RemoveSpaceFromString(abilityName));
     }
 
-    public void SetAbilityAction(Action<AbilitySO> action)
+    public void SetAbilityAction(Action<AbilitySO> useAction, Action<AbilitySO> endAction = null)
     {
-        OnUse = action;
+        OnUse = useAction;
+        OnAbilityEnd = endAction;
     }
 
     public void SetAbilityHolderUI(AbilityHolderUI abilityHolderUI)
@@ -62,6 +65,11 @@ public class AbilitySO : ScriptableObject
     public void UseAbility()
     {
         OnUse?.Invoke(this);
+    }
+
+    public void EndAbility()
+    {
+        OnAbilityEnd?.Invoke(this);
     }
 
     public Action<AbilitySO> GetAbilityAction()

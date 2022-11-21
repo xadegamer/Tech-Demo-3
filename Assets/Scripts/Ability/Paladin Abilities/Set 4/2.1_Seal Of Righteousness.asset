@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: 2.1_Seal Of Righteousness
   m_EditorClassIdentifier: 
   abilityName: Seal Of Righteousness
-  abilityDescription: 'Fills the caster with holy spirit for 1 0min, granting each
+  abilityDescription: 'Fills the caster with holy spirit for 10min, granting each
     single-target melee attack additional holy damage equal to 15% of base weapon
     damage. '
   abilityIcon: {fileID: 21300000, guid: be95862704419624f8ebeedeb7c718f1, type: 3}
-  abilityCost: 0
+  abilityCost: 8
   type: 3
   range: 0
   abilityData:

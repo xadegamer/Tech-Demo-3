@@ -306,6 +306,18 @@ public static class Utility
         OnBuffEnd?.Invoke();
     }
 
+    public static IEnumerator TimedAbility(AbilitySO abilitySO,Action OnAbilityStart, float duration, Action<AbilitySO> OnBuffEnd)
+    {
+        OnAbilityStart?.Invoke();
+        float startDuration = duration;
+        while (duration > 0)
+        {
+            duration -= Time.deltaTime;
+            yield return null;
+        }
+        OnBuffEnd?.Invoke(abilitySO);
+    }
+
     public static string FloatToTime(float timeToDisplay)
     {
         string time = "";

@@ -95,11 +95,12 @@ public class AbilityHolderUI : MonoBehaviour, IPointerDownHandler, IPointerUpHan
                 case AbilitySO.Type.SetUpAndInstantCast:
                     if (!abilityUIParent)
                     {
-                        ToggleConnectedAbilitiesUI(!additionAbilitiesHolder.gameObject.activeInHierarchy);
+                        if (additionAbilitiesHolder.gameObject.activeInHierarchy) PlayerUnit.Instance.TryUseAbility(currentAbilitySO);
+                        ToggleConnectedAbilitiesUI(!additionAbilitiesHolder.gameObject.activeInHierarchy); 
                     }
                     else
                     {
-                        currentAbilitySO.UseAbility();
+                        PlayerUnit.Instance.TryUseAbility(currentAbilitySO);
                         abilityUIParent.SwapAbility(currentAbilitySO);
                         abilityUIParent.ToggleConnectedAbilitiesUI(false);
                     }

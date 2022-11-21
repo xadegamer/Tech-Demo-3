@@ -1,23 +1,33 @@
 
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class GenericTest: MonoBehaviour
 {
-    //private int Timer = Time.deltaTime*;
-    //private void Update()
+
+    //private void Start()
     //{
-    //    Timer--;
-    //    if(Timer == 0)
+    //    StartCoroutine(Test1());
+    //    StartCoroutine(Test2());
+    //}
+
+    //public IEnumerator Test1()
+    //{
+    //    while(true)
     //    {
-    //        Attack();
-    //        Timer = 5;
+    //        Debug.Log("Test1");
+    //        yield return new WaitForSeconds(1);
     //    }
     //}
 
-    //public void Attack()
+    //public IEnumerator Test2()
     //{
-    //    Debug.Log("Attacking");
+    //    while (true)
+    //    {
+    //        Debug.Log("Test2");
+    //        yield return new WaitForSeconds(2);
+    //    }
     //}
 }
 
