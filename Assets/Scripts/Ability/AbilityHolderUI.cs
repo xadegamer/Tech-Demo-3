@@ -70,7 +70,7 @@ public class AbilityHolderUI : MonoBehaviour, IPointerDownHandler, IPointerUpHan
             switch (currentAbilitySO.type)
             {
                 case AbilitySO.Type.InstantCast:
-                    if (PlayerUnit.Instance.TryUseAbility(currentAbilitySO))
+                    if (AbilityUIManager.Instance.GetOwner().TryUseAbility(currentAbilitySO))
                     {
                         ActivateNormalCooldown();
                         AbilityUIManager.Instance.GlobalCooldown();
@@ -95,7 +95,7 @@ public class AbilityHolderUI : MonoBehaviour, IPointerDownHandler, IPointerUpHan
                 case AbilitySO.Type.SetUpAndInstantCast:
                     if (!abilityUIParent)
                     {
-                        if (additionAbilitiesHolder.gameObject.activeInHierarchy) PlayerUnit.Instance.TryUseAbility(currentAbilitySO);
+                        if (additionAbilitiesHolder.gameObject.activeInHierarchy) AbilityUIManager.Instance.GetOwner().TryUseAbility(currentAbilitySO);
                         ToggleConnectedAbilitiesUI(!additionAbilitiesHolder.gameObject.activeInHierarchy); 
                     }
                     else

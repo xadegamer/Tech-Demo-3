@@ -36,7 +36,7 @@ public class PlayerUnit : GameUnit
         _movementHandler.SetUp(transform, rb2D, animator);
 
         UIManager.Instance.GetPlayerrUI().SetHealthBar(healthHandler.GetNormalisedHealth());
-        UIManager.Instance.GetPlayerrUI().SetUp(characterClassSO.characterIcon);
+        UIManager.Instance.GetPlayerrUI().SetUp(characterClassSO);
 
         _playerStatHandler.GetManaValue().OnValueChanged += StatHandler_OnManaChanged;
         _playerStatHandler.SetUp(characterClassSO);
@@ -83,13 +83,15 @@ public class PlayerUnit : GameUnit
         if (clickedObject.TryGetComponent(out GameUnit gameUnit))
         {
             if (target == clickedObject) return;
+
+            if (target is EnemyUnit lastEnemyUnit) lastEnemyUnit.Targetted(false);
             Targetter.SetTarget(gameUnit);
 
             if (gameUnit is EnemyUnit enemyUnit)
             {
                 state = State.Targetting;
                 target = enemyUnit;
-                enemyUnit.Targetted();
+                enemyUnit.Targetted(true);
             }
 
             if (gameUnit is PlayerUnit self)
@@ -99,7 +101,7 @@ public class PlayerUnit : GameUnit
         } 
     }
 
-    public override void Targetted()
+    public override void Targetted(bool status)
     {
 
     }

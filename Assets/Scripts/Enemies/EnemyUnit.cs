@@ -63,7 +63,7 @@ public class EnemyUnit : GameUnit
         {
             state = State.Targetting;
             this.target = playerUnit;
-            playerUnit.Targetted();
+            playerUnit.Targetted(true);
         }
     }
 
@@ -72,16 +72,19 @@ public class EnemyUnit : GameUnit
         AttackTimer(_statHandler);
     }
 
-    public override void Targetted()
+    public override void Targetted(bool status)
     {
-        UIManager.Instance.GetTargetUI().SetUp(characterClassSO.characterIcon);
-        healthHandler.OnReceiveDamage.AddListener(OnHealthChanged);
-        UIManager.Instance.GetTargetUI().SetHealthBar(healthHandler.GetNormalisedHealth());
-    }
-
-    public void UnTargetted()
-    {
-        healthHandler.OnReceiveDamage.RemoveListener(OnHealthChanged);
+        if (status)
+        {
+            UIManager.Instance.GetTargetUI().SetUp(characterClassSO);
+            healthHandler.OnReceiveDamage.AddListener(OnHealthChanged);
+            UIManager.Instance.GetTargetUI().SetHealthBar(healthHandler.GetNormalisedHealth());
+        }
+        else
+        {
+            UIManager.Instance.GetTargetUI().SetUp(null);
+            healthHandler.OnReceiveDamage.RemoveListener(OnHealthChanged);
+        }
     }
 
     public void Patrol()

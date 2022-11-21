@@ -19,6 +19,8 @@ public class AbilityUIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI castBarText;
 
     private AbilitySetUI currentAbilitySetUI;
+    private GameUnit owner;
+    
     void Awake()
     {
         Instance = this;
@@ -71,8 +73,9 @@ public class AbilityUIManager : MonoBehaviour
         currentAbilitySetUI.ShowAbilitySet();
     }
 
-    public void SetAbilities(AbilitySetSO[] abilitySetSO)
+    public void SetAbilities(GameUnit owner, AbilitySetSO[] abilitySetSO)
     {
+        this.owner = owner;
         for (int i = 0; i < abilitySetUI.Length; i++) abilitySetUI[i].SpawnAndSetAbility(abilitySetSO[i]);
     }
 
@@ -96,4 +99,6 @@ public class AbilityUIManager : MonoBehaviour
     {
         abilitySetUI.ToList().ForEach(item => item.GetAbilityHolderUIList().Where(x => x.GetCurrentAbilitySO().range == AbilitySO.Range.Melee).ToList().ForEach(x => x.ToggleUseAbility(toggle)));
     }
+
+    public GameUnit GetOwner() => owner;
 }

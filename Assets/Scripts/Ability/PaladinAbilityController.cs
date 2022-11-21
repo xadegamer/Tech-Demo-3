@@ -17,7 +17,7 @@ public class PaladinAbilityController : GameUnitAbilityController
 
     protected void Start()
     {
-        AbilityUIManager.Instance.SetAbilities(abilitySetSOArray);
+        AbilityUIManager.Instance.SetAbilities(gameUnit, abilitySetSOArray);
 
         currentAura.UseAbility();
     }
@@ -123,8 +123,6 @@ public class PaladinAbilityController : GameUnitAbilityController
 
     public void StartSealOfRighteousness(AbilitySO abilitySO)
     {
-        Debug.Log("Do SealOfRighteousness");
-
         if(currentSeal != null && sealActive) currentSeal.EndAbility();
         currentSeal = abilitySO;
         sealActive = true;
@@ -144,7 +142,6 @@ public class PaladinAbilityController : GameUnitAbilityController
 
     public void StartSealOfLight(AbilitySO abilitySO)
     {
-        Debug.Log("Do SealOfLight");
         if (currentSeal != null && sealActive) currentSeal.EndAbility();
         currentSeal = abilitySO;
         sealActive = true;
@@ -161,7 +158,6 @@ public class PaladinAbilityController : GameUnitAbilityController
 
     public void StartSealOfJustice(AbilitySO abilitySO)
     {
-        Debug.Log("Do SealOfJustice");
         if (currentSeal != null && sealActive) currentSeal.EndAbility();
         currentSeal = abilitySO;
         sealActive = true;

@@ -4284,7 +4284,7 @@ SpriteRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 923619780}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -4341,8 +4341,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5615dd6a8ceee614182f0e40db94f6cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerColour: {r: 0.42991066, g: 1, b: 0, a: 0.3529412}
-  enemyColour: {r: 1, g: 0, b: 0, a: 0.3529412}
+  playerColour: {r: 0.42991066, g: 1, b: 0, a: 0.2}
+  enemyColour: {r: 1, g: 0, b: 0, a: 0.2}
 --- !u!1 &942032060
 GameObject:
   m_ObjectHideFlags: 0

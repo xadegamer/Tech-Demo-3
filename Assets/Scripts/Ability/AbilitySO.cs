@@ -72,15 +72,9 @@ public class AbilitySO : ScriptableObject
         OnAbilityEnd?.Invoke(this);
     }
 
-    public Action<AbilitySO> GetAbilityAction()
-    {
-        return OnUse;
-    }
+    public Action<AbilitySO> GetAbilityAction() => OnUse;
 
-    public AbilityHolderUI GetAbilityHolderUI()
-    {
-        return abilityHolderUI;
-    }
+    public AbilityHolderUI GetAbilityHolderUI() => abilityHolderUI;
 }
 
 [Serializable]

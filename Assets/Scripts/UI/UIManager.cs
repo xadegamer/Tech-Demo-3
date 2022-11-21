@@ -44,10 +44,13 @@ public class CharacterUI
     [SerializeField] private BuffHolderUI buffHolderUI;
     [SerializeField] private Transform buffHolder;
 
-    public void SetUp(Sprite sprite)
+    public void SetUp(CharacterClassSO characterClass)
     {
-        icon.sprite = sprite;
-        holder.SetActive(true);
+        if(characterClass)
+        {
+            holder.SetActive(true);
+            icon.sprite = characterClass.characterIcon;
+        } else holder.SetActive(false);
     }
     
     public void SetHealthBar(float health) 
