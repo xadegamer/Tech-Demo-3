@@ -7,9 +7,15 @@ public class PaladinAbilityController : GameUnitAbilityController
 {
     [SerializeField] AbilitySO currentJudgement;
 
+    [SerializeField] AbilitySO currentAura;
+
+    [SerializeField] AbilitySO currentSeal;
+
     protected void Start()
     {
         AbilityUIManager.Instance.SetAbilities(abilitySetSOArray);
+
+        
     }
 
     protected override void AssignSetAbilityActions(AbilitySetSO abilitySetSO)
@@ -22,9 +28,25 @@ public class PaladinAbilityController : GameUnitAbilityController
                 case PaladinAbilities.HammerofJustice: abilitySO.SetAbilityAction(HammerofJustice); break;
                 case PaladinAbilities.DivineStorm: abilitySO.SetAbilityAction(DivineStorm); break;
                 case PaladinAbilities.Judgement: abilitySO.SetAbilityAction(Judgement); break;
+
+
+                case PaladinAbilities.DevotionalAura: abilitySO.SetAbilityAction(DevotionalAura); break;
+                case PaladinAbilities.MagicalAura: abilitySO.SetAbilityAction(MagicalAura); break;
+                case PaladinAbilities.RetributionAura: abilitySO.SetAbilityAction(RetributionAura); break;
+
+                case PaladinAbilities.SealOfRighteousness: abilitySO.SetAbilityAction(SealOfRighteousness); break;
+                case PaladinAbilities.SealOfLight: abilitySO.SetAbilityAction(SealOfLight); break;
+                case PaladinAbilities.SealOfJustice: abilitySO.SetAbilityAction(SealOfJustice); break;
+
+
                 case PaladinAbilities.JudgementOfRighteousness: abilitySO.SetAbilityAction(JudgementOfRighteousness); break;
                 case PaladinAbilities.JudgementofWisdom: abilitySO.SetAbilityAction(JudgementOfWisdom); break;
                 case PaladinAbilities.JudgementofWeakness: abilitySO.SetAbilityAction(JudgementOfWeakness); break;
+
+                case PaladinAbilities.BlessingOfMight: abilitySO.SetAbilityAction(BlessingOfMight); break;
+                case PaladinAbilities.BlessingOfWisdom: abilitySO.SetAbilityAction(BlessingOfWisdom); break;
+                case PaladinAbilities.BlessingOfKings: abilitySO.SetAbilityAction(BlessingOfKings); break;
+
                 default: break;
             }
         }
@@ -40,7 +62,7 @@ public class PaladinAbilityController : GameUnitAbilityController
 
         Debug.Log("Did Crusader Strike : " + damage);
     }
-
+    
     public void HammerofJustice(AbilitySO abilitySO)
     {
         float stunDuration = abilitySO.abilityData.GetAbilityValueByID("StunDuration").GetValue();
@@ -73,6 +95,36 @@ public class PaladinAbilityController : GameUnitAbilityController
         Debug.Log("Do " + currentJudgement.abilityName);
     }
 
+    public void DevotionalAura(AbilitySO abilitySO)
+    {
+        Debug.Log("Did Devotion Aura ");
+    }
+
+    public void MagicalAura(AbilitySO abilitySO)
+    {
+        Debug.Log("Do MagicalAurat");
+    }
+
+    public void RetributionAura(AbilitySO abilitySO)
+    {
+        Debug.Log("Do RetributionAura");
+    }
+
+    public void SealOfRighteousness(AbilitySO abilitySO)
+    {
+        Debug.Log("Do SealOfRighteousness");
+    }
+
+    public void SealOfLight(AbilitySO abilitySO)
+    {
+        Debug.Log("Do SealOfLight");
+    }
+
+    public void SealOfJustice(AbilitySO abilitySO)
+    {
+        Debug.Log("Do SealOfJustice");
+    }
+
     public void JudgementOfRighteousness(AbilitySO abilitySO)
     {
         currentJudgement = abilitySO;
@@ -84,15 +136,25 @@ public class PaladinAbilityController : GameUnitAbilityController
         currentJudgement = abilitySO;
         Debug.Log("Selected Judgement of Wisdom");
     }
-    
+
     public void JudgementOfWeakness(AbilitySO abilitySO)
     {
         currentJudgement = abilitySO;
         Debug.Log("Selected Judgement of Weakness");
     }
 
-    public void HolyLight(AbilitySO abilitySO)
+    public void BlessingOfMight(AbilitySO abilitySO)
     {
-        Debug.Log("Do Holy Light");
+        Debug.Log("Do BlessingOfMight");
+    }
+
+    public void BlessingOfWisdom(AbilitySO abilitySO)
+    {
+        Debug.Log("Do BlessingOfWisdom");
+    }
+
+    public void BlessingOfKings(AbilitySO abilitySO)
+    {
+        Debug.Log("Do BlessingOfKings");
     }
 }

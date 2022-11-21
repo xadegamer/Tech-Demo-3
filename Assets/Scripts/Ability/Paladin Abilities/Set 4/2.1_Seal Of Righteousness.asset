@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aedde484368609b4c9360ed52ccf1928, type: 3}
+  m_Name: 2.1_Seal Of Righteousness
+  m_EditorClassIdentifier: 
+  abilityName: Seal Of Righteousness
+  abilityDescription: 'Fills the caster with holy spirit for 1 0min, granting each
+    single-target melee attack additional holy damage equal to 15% of base weapon
+    damage. '
+  abilityIcon: {fileID: 21300000, guid: be95862704419624f8ebeedeb7c718f1, type: 3}
+  abilityCost: 0
+  type: 3
+  range: 0
+  abilityData:
+    values:
+    - ID: Duration
+      valueType: 2
+      timeType: 1
+      value: 10
+    - ID: BaseDamageValue
+      valueType: 1
+      timeType: 0
+      value: 15
+  connectedAbilities:
+  - {fileID: 11400000, guid: 849a462fc8b71f04395d4375feebefd1, type: 2}
+  - {fileID: 11400000, guid: 8e50dc1ca83dc854f80fa95563b07e98, type: 2}
+  buff: {fileID: 0}

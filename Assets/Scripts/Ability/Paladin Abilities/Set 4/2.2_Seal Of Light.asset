@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aedde484368609b4c9360ed52ccf1928, type: 3}
+  m_Name: 2.2_Seal Of Light
+  m_EditorClassIdentifier: 
+  abilityName: Seal Of Light
+  abilityDescription: 'Fills the caster with divine light for 1 Om, granting each
+    melee attack a 20% chance to heal the Paladin for 20% of caused damage. '
+  abilityIcon: {fileID: 21300000, guid: 6d3e940b3c2f05d4286b58825c057a03, type: 3}
+  abilityCost: 0
+  type: 2
+  range: 0
+  abilityData:
+    values:
+    - ID: Duration
+      valueType: 2
+      timeType: 1
+      value: 10
+    - ID: Chance
+      valueType: 1
+      timeType: 0
+      value: 20
+    - ID: CausedDamageValue
+      valueType: 1
+      timeType: 0
+      value: 20
+  connectedAbilities: []
+  buff: {fileID: 0}

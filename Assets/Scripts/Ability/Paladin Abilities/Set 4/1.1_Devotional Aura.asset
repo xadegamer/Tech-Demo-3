@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aedde484368609b4c9360ed52ccf1928, type: 3}
+  m_Name: 1.1_Devotional Aura
+  m_EditorClassIdentifier: 
+  abilityName: Devotional Aura
+  abilityDescription: 'The Paladin and all allies who benefit from this aura acquire
+    an additional 10% damage reduction from all damage sources. '
+  abilityIcon: {fileID: 21300000, guid: 82a5ca44e2eb20547b32564711825472, type: 3}
+  abilityCost: 0
+  type: 3
+  range: 0
+  abilityData:
+    values:
+    - ID: AllDamageReduction
+      valueType: 1
+      timeType: 0
+      value: 10
+  connectedAbilities:
+  - {fileID: 11400000, guid: fbb844808cb763248a32493ed8022ac5, type: 2}
+  - {fileID: 11400000, guid: 04d1b53dc1c474545a3e12600bbbf5f8, type: 2}
+  buff: {fileID: 0}

@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: aedde484368609b4c9360ed52ccf1928, type: 3}
-  m_Name: 4.1_JudgementOfRighteousness
+  m_Name: 3.2_Judgement of Wisdom
   m_EditorClassIdentifier: 
-  abilityName: Judgement Of Righteousness
+  abilityName: Judgement of Wisdom
   abilityDescription: 'When an enemy is hit by this type of Judgement it will activate
     a 20sec debuff that provides a 30% chance to all melee attackers that will restore
-    their health by 2% every time they hit that enemy. '
-  abilityIcon: {fileID: 21300000, guid: 8c8016285e3d611458fcb81deb0a96c0, type: 3}
+    their mana by 2% every time they hit that enemy. '
+  abilityIcon: {fileID: 21300000, guid: 05f4cf732537207418e961d26696ea43, type: 3}
   abilityCost: 0
   type: 2
   range: 0
@@ -34,7 +34,5 @@ MonoBehaviour:
       valueType: 0
       timeType: 0
       value: 0
-  connectedAbilities:
-  - {fileID: 11400000, guid: 157a336ac6745764bb7e1a9e515afdf0, type: 2}
-  - {fileID: 11400000, guid: e3ef6b1d285f4424f80c5e995de4cf00, type: 2}
+  connectedAbilities: []
   buff: {fileID: 11400000, guid: da4292b39922b794c8e26f6e15e7a10b, type: 2}

@@ -4,15 +4,28 @@ using UnityEngine;
 
 public enum PaladinAbilities
 {
+    // Set 1
     CrusaderStrike,
     HammerofJustice,
     DivineStorm,
     Judgement,
+
+    // Set 3 
+    DevotionalAura,
+    MagicalAura,
+    RetributionAura,
+
+    SealOfRighteousness,
+    SealOfLight,
+    SealOfJustice,
+
     JudgementOfRighteousness,
     JudgementofWisdom,
-    JudgementofWeakness
+    JudgementofWeakness,
 
-        
+    BlessingOfMight,
+    BlessingOfWisdom,
+    BlessingOfKings,
 }
 
 public enum PaladinBuff

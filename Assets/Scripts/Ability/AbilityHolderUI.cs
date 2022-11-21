@@ -63,11 +63,7 @@ public class AbilityHolderUI : MonoBehaviour, IPointerDownHandler, IPointerUpHan
 
     public void Use()
     {
-        if (buttonHeld)
-        {
-            buttonHeld = false;
-            return;
-        } 
+        if (buttonHeld)  {buttonHeld = false; return;} 
         
         if (abilityState == AbilityState.Ready)
         {        
@@ -95,7 +91,18 @@ public class AbilityHolderUI : MonoBehaviour, IPointerDownHandler, IPointerUpHan
                         abilityUIParent.SwapAbility(currentAbilitySO);
                         abilityUIParent.ToggleConnectedAbilitiesUI(false);
                     }
-                    
+                    break;
+                case AbilitySO.Type.SetUpAndInstantCast:
+                    if (!abilityUIParent)
+                    {
+                        ToggleConnectedAbilitiesUI(!additionAbilitiesHolder.gameObject.activeInHierarchy);
+                    }
+                    else
+                    {
+                        currentAbilitySO.UseAbility();
+                        abilityUIParent.SwapAbility(currentAbilitySO);
+                        abilityUIParent.ToggleConnectedAbilitiesUI(false);
+                    }
                     break;
                 default:  break;
             }
@@ -174,7 +181,7 @@ public class AbilityHolderUI : MonoBehaviour, IPointerDownHandler, IPointerUpHan
 
     public void Disable()
     {
-        if (currentAbilitySO.type == AbilitySO.Type.SetUp) ToggleConnectedAbilitiesUI(false);
+        if (currentAbilitySO.type == AbilitySO.Type.SetUp || currentAbilitySO.type == AbilitySO.Type.SetUpAndInstantCast) ToggleConnectedAbilitiesUI(false);
     }
 
     public void ToggleUseAbility(bool toggle)

@@ -112,7 +112,7 @@ public class HealthHandler : MonoBehaviour
             OnHealthChange?.Invoke();
 
             if (damageInfo.critical) OnReceiveCriticalDamage.Invoke(); OnReceiveNormalDamage.Invoke();
-            PopUpTextManager.Instance.PopUpText(transform, finalDamage.ToString(), damageInfo.critical ? Color.red : Color.yellow);
+            PopUpTextManager.Instance.PopUpText(transform, finalDamage.ToString("F0"), damageInfo.critical ? Color.red : Color.yellow);
         }
 
         return finalDamage;
@@ -125,7 +125,7 @@ public class HealthHandler : MonoBehaviour
         OnHeal.Invoke();
         OnHealthChange?.Invoke();
 
-        PopUpTextManager.Instance.PopUpText(transform, amount.ToString(),  Color.green);
+        PopUpTextManager.Instance.PopUpText(transform, amount.ToString("F0"),  Color.green);
     }
     
     IEnumerator DamageDelay()

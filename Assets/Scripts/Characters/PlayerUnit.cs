@@ -15,6 +15,8 @@ public class PlayerUnit : GameUnit
     [SerializeField] private PlayerStatHandler _playerStatHandler;
     [SerializeField] private GameUnitBuffController gameUnitBuffController;
 
+    [Header("Target")]
+    [SerializeField] private Transform targetter;
 
     private RaycastHit2D hitInfo;
     private Rigidbody2D rb2D;
@@ -76,14 +78,25 @@ public class PlayerUnit : GameUnit
         return false;
     }
 
-    public override void TrySetTarget(Transform target)
+    public override void TrySetTarget(Transform clickedObject)
     {
-        if (target != base.target && target.TryGetComponent(out EnemyUnit enemyUnit))
+        if (clickedObject.TryGetComponent(out GameUnit gameUnit))
         {
-            state = State.Targetting;
-            this.target = enemyUnit;
-            enemyUnit.Targetted();
-        }
+            if (target == clickedObject) return;
+            Targetter.SetTarget(gameUnit);
+
+            if (gameUnit is EnemyUnit enemyUnit)
+            {
+                state = State.Targetting;
+                target = enemyUnit;
+                enemyUnit.Targetted();
+            }
+
+            if (gameUnit is PlayerUnit self)
+            {
+
+            }
+        } 
     }
 
     public override void Targetted()

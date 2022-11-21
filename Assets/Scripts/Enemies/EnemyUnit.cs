@@ -41,7 +41,7 @@ public class EnemyUnit : GameUnit
 
     public override void HandleMovement()
     {
-        Agro();
+        //Agro();
 
         //Patrol();
     }
@@ -117,6 +117,11 @@ public class EnemyUnit : GameUnit
             agent.velocity = Vector2.zero;
             HandleCombat();
         }
+    }
+
+    public void ScanForTargets()
+    {
+        _targets.Clear();
     }
 
     public override StatBase GetStat()

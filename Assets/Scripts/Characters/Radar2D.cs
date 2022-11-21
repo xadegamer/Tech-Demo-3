@@ -3,95 +3,73 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Radar2D : MonoBehaviour
-{
+{  
     [Header("Properties")]
     [SerializeField] private float scanSize;
-    [SerializeField] private int maxScanAtOnce;
+    [SerializeField] private int maxScanCount;
     [SerializeField] private LayerMask scanLayer;
-    [SerializeField] private Color scanColor = Color.red;
 
     [Header("Sight Properties")]
     [SerializeField] private LayerMask obstacleLayer;
     [SerializeField] private float angle = 30;
-
-    [Header("Checks")]
-    [SerializeField] private bool storeTargets = false;
-    [SerializeField] private bool searchForTarget = false;
-    [SerializeField] private bool checkIfTargetInSite = false;
-
-    [Space]
+    
+    [Header("Visual")]
+    [SerializeField] private Color scanColor = Color.red;
 
     [Header("Debug")]
     [SerializeField] private bool targetInRange = false;
     [SerializeField] private bool targetInSite = false;
-
-    [SerializeField] private List<GameObject> objectsInRange = new List<GameObject>();
-
     [SerializeField] private Collider2D[] colliders;
-
     [SerializeField] private int count;
+    [SerializeField] private bool obstacleInSight;
+    [SerializeField] private bool clearPastTargets;
 
+    void Start() => colliders = new Collider2D[maxScanCount];
 
-    void Start()
-    {
-        colliders = new Collider2D[maxScanAtOnce];
-    }
-
-    void Update()
-    {
-        if (!searchForTarget) return;
-        Scan();
-    }
-
-    public GameObject ClosesetTargetInRange() => transform.FindClosestObject(objectsInRange);
-    public GameObject TargetObjectInRange() => colliders[0].gameObject;
-
-    public void ClearTargetList() => objectsInRange.Clear();
-    public void SetUp(int size) { scanSize = size; }
-    public float GetScanSize() => scanSize; 
-    public void ToggleSearch(bool newState) { searchForTarget = newState; }
-    public bool TargetInRange() { return targetInRange; }
-    public bool TargetInSight() { return targetInSite; }
+    private void Update() => Scan();
 
     public void Scan()
     {
         count = Physics2D.OverlapCircleNonAlloc(transform.position, scanSize, colliders, scanLayer);
-
         targetInRange = count > 0;
 
-        targetInSite = (checkIfTargetInSite && targetInRange) ? IsInSight(colliders[0]) : false;
-
-        if (storeTargets) StoreTargets();
+        if (targetInRange && clearPastTargets)clearPastTargets = false;
+        if (!targetInRange && !clearPastTargets) ClearTargets();
+        
+        targetInSite = targetInRange ? IsInSight(colliders[0]) : false;
     }
 
-    bool IsInSight(Collider2D targetCol)
+    public bool SearchForTarget()
+    {
+        Scan();
+        return targetInRange;
+    }
+
+    public bool IsInSight(Collider2D targetCol)
     {
         Vector3 directionToTarget = Vector3.Normalize(targetCol.bounds.center - transform.position);
         float angleToTarget = Vector3.Angle(transform.right, directionToTarget);
 
         if(angleToTarget < angle)
         {
-            if(!Physics.Linecast(transform.position, targetCol.bounds.center, out RaycastHit hit, obstacleLayer))
-            {
-                Debug.DrawLine(transform.position, targetCol.bounds.center, Color.red);
-                return true;
-            }
-            else
-            {
-                Debug.DrawLine(transform.position, hit.point, Color.green);
-            }
+            obstacleInSight = Physics.Linecast(transform.position, targetCol.bounds.center, out RaycastHit hit, obstacleLayer);
+            Debug.DrawLine(transform.position, obstacleInSight ? hit.point : targetCol.bounds.center, Color.red);
+            return !obstacleInSight;
         }
         return false;
     }
 
-    void StoreTargets()
+    public void ClearTargets()
     {
-        for (int i = 0; i < count; i++)
-        {
-            GameObject obj = colliders[i].gameObject;
-            objectsInRange.Add(obj);
-        }
+        clearPastTargets = true;
+        for (int i = 0; i < colliders.Length; i++) colliders[i] = null;
     }
+
+    public GameObject TargetObjectInRange() => colliders[0].gameObject;
+    public void SetScanSize(int size) => scanSize = size;
+    public float GetScanSize() => scanSize;
+    public bool TargetInRange() => targetInRange;
+    public bool TargetInSight() => targetInSite;
 
     private void OnDrawGizmos()
     {

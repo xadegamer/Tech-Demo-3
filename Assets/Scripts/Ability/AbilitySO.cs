@@ -8,9 +8,9 @@ using System.Linq;
 [CreateAssetMenu(fileName = "New Ability", menuName = "Special Abilities / Create Ability", order = 1)]
 public class AbilitySO : ScriptableObject
 {
-    public enum Range { None, Melee, Moderate, Long }
+    public enum Range { None,Self, Melee, Moderate, Long }
 
-    public enum Type { InstantCast, DelayedCast, SetUp}
+    public enum Type { InstantCast, DelayedCast, SetUp , SetUpAndInstantCast }
 
     [FoldoutGroup("Info")]
     public string abilityName;
@@ -33,7 +33,7 @@ public class AbilitySO : ScriptableObject
     [SuffixLabel("%")]
     public ValueDataContainer abilityData;
 
-    [ShowIf("type", Type.SetUp)]
+    [ShowIf("type", Type.SetUp | Type.SetUpAndInstantCast )]
     public AbilitySO[] connectedAbilities;
 
     public BuffSO buff;
@@ -113,12 +113,9 @@ public class ValueData
     {
         switch (valueType)
         {
-            case Type.Direct:
-                return value;
-            case Type.Percentage:
-                return value;
-            case Type.Time:
-                return timeType ==  TimeType.Seconds ? value : value * 60;
+            case Type.Direct:  return value;
+            case Type.Percentage:  return value;
+            case Type.Time: return timeType ==  TimeType.Seconds ? value : value * 60;
             default: return 0;
         }
     }

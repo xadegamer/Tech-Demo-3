@@ -13,5 +13,11 @@ MonoBehaviour:
   m_Name: Paladin Set Up
   m_EditorClassIdentifier: 
   abilities:
+  - {fileID: 11400000, guid: fbb844808cb763248a32493ed8022ac5, type: 2}
+  - {fileID: 11400000, guid: 04d1b53dc1c474545a3e12600bbbf5f8, type: 2}
+  - {fileID: 11400000, guid: 849a462fc8b71f04395d4375feebefd1, type: 2}
+  - {fileID: 11400000, guid: 8e50dc1ca83dc854f80fa95563b07e98, type: 2}
   - {fileID: 11400000, guid: 157a336ac6745764bb7e1a9e515afdf0, type: 2}
   - {fileID: 11400000, guid: e3ef6b1d285f4424f80c5e995de4cf00, type: 2}
+  - {fileID: 11400000, guid: d33c40600ec68114a9f4122fc6e350fc, type: 2}
+  - {fileID: 11400000, guid: 4ec77f0e9ec5ff242bda27b5e74c1643, type: 2}

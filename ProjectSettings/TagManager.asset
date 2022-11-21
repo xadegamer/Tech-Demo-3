@@ -44,6 +44,9 @@ TagManager:
   - name: Environment
     uniqueID: 3783246057
     locked: 0
+  - name: Targetter
+    uniqueID: 3906955405
+    locked: 0
   - name: Player
     uniqueID: 3235939739
     locked: 0
