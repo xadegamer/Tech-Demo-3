@@ -220,4 +220,6 @@ public class AbilityHolderUI : MonoBehaviour, IPointerDownHandler, IPointerUpHan
     public Color GetBackgroundColor() => Color.white;
 
     public Vector2 GetTocuchPositon() => pos;
+
+    public Action GetAction() => null ;
 }

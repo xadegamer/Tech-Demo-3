@@ -41,27 +41,9 @@ public class EnemyUnit : GameUnit
 
     public override void HandleMovement()
     {
-        //if (target != null)
-        //{
-        //    agent.SetDestination(target.transform.position); //Set NavMesh Position
+        Agro();
 
-        //    if (Vector2.Distance(transform.position, target.transform.position) > agent.stoppingDistance) //Check Distance between enemy and Player
-        //    {
-        //        if (target != null)
-        //        {
-        //            animator.SetBool("Walk", true);
-        //            agent.speed = moveSpeed;
-        //        }
-        //    }
-        //    else
-        //    {
-        //        agent.speed = 0;
-        //        HandleCombat();
-        //    }
-        //}
-        //else Patrol();
-
-        Patrol();
+        //Patrol();
     }
 
     protected override void OnHealthChanged()
@@ -79,6 +61,7 @@ public class EnemyUnit : GameUnit
     {
         if (target != base.target && target.TryGetComponent(out PlayerUnit playerUnit))
         {
+            state = State.Targetting;
             this.target = playerUnit;
             playerUnit.Targetted();
         }
@@ -116,21 +99,22 @@ public class EnemyUnit : GameUnit
 
     public void Agro()
     {
-        if (agent.velocity.magnitude <= 0) agent.SetDestination(target.transform.position); //Set NavMesh Position
-
-        if (Vector2.Distance(transform.position, target.transform.position) > agent.stoppingDistance) //Check Distance between enemy and Player
+        if (!radar.TargetInRange()) //Check Distance between enemy and Player
         {
             if (target != null)
             {
-                Utility.FaceVectorDirection(agent.velocity.normalized, target.transform);
+                agent.SetDestination(target.transform.position);
+                Utility.LookAtPosition(transform, target.transform.position);
                 animator.SetBool("IsMoving", Mathf.Abs(agent.velocity.normalized.x) != 0 || Mathf.Abs(agent.velocity.normalized.y) != 0);
                 animator.SetFloat("MoveY", agent.velocity.normalized.y);
-                agent.speed = moveSpeed;
+
+                state = State.Targetting;
             }
         }
         else
         {
-            agent.speed = 0;
+            state = State.Combat;
+            agent.velocity = Vector2.zero;
             HandleCombat();
         }
     }

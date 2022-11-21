@@ -5,6 +5,7 @@ using UnityEngine.EventSystems;
 using TMPro;
 using UnityEngine.UI;
 using static UnityEditor.PlayerSettings;
+using System;
 
 public class ToolTipManager : MonoBehaviour
 {
@@ -20,6 +21,9 @@ public class ToolTipManager : MonoBehaviour
     [SerializeField] private LayoutElement layoutElement;
     [SerializeField] private int characterWarpLimit;
     [SerializeField] private float waitTime;
+    [SerializeField] private GameObject actionButton;
+
+    Action action;
 
     private void Awake()
     {
@@ -28,11 +32,11 @@ public class ToolTipManager : MonoBehaviour
 
     public void ShowToolTip(IToolTip objectTouched)
     {
-        SetText(objectTouched.GetContent(), objectTouched.GetHeader(), objectTouched.GetTocuchPositon());
+        SetText(objectTouched.GetContent(), objectTouched.GetHeader(), objectTouched.GetTocuchPositon(), objectTouched.GetAction());
         SetBackgroundImage(objectTouched.GetBackground(), objectTouched.GetBackgroundColor());
     }
 
-    public void SetText(string content, string header = "", Vector2 pos = default)
+    public void SetText(string content, string header = "", Vector2 pos = default, Action action = null)
     {
         contentField.gameObject.SetActive(!string.IsNullOrEmpty(content));
         headerField.gameObject.SetActive(!string.IsNullOrEmpty(header));
@@ -51,6 +55,19 @@ public class ToolTipManager : MonoBehaviour
         toolTipUI.pivot = new Vector2(pivotX, pivotY);
         toolTipUI.transform.position = pos;
         toolTipUI.gameObject.SetActive(true);
+
+        if (action == null)  actionButton.SetActive(false);
+        else
+        {
+            this.action = action;
+            actionButton.SetActive(true);
+        }
+    }
+
+    public void DoActon()
+    {
+        action?.Invoke();
+        action = null;
     }
 
     IEnumerator SetTextCoroutine(string content, string header = "", Vector2 pos = default)
@@ -74,4 +91,5 @@ public interface IToolTip
     public Sprite GetBackground();
     public Color GetBackgroundColor();
     public Vector2 GetTocuchPositon();
+    public Action GetAction();
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class GameUnit : MonoBehaviour
 {
-    public enum State { Wandering, Combat, Casting, Stun, Dead }
+    public enum State { Wandering, Targetting, Combat, Casting, Stun, Dead }
 
     public Damager Damager { get => damager; }
     public HealthHandler HealthHandler { get => healthHandler; }

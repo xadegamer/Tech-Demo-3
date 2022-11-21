@@ -40,9 +40,9 @@ public static class Utility
         transform.localScale = new Vector2(vector3.x > 0 ? 1 : -1, 1);
     }
 
-    public static void LookAtPosition(Transform owner, Transform target )
+    public static void LookAtPosition(Transform owner, Vector3 target )
     {
-        Vector2 direction = -(owner.position - target.position).normalized;
+        Vector2 direction = -(owner.position - target).normalized;
         int newX = Mathf.RoundToInt(direction.x);
         if (newX == 0) newX = 1;
         owner.localScale = new Vector3(newX, 1, 1);
@@ -63,6 +63,25 @@ public static class Utility
             }
         }
 
+        return closestObject;
+    }
+
+    public static GameObject FindClosestObject(this Transform ownerPos, Collider2D[] colliders)
+    {
+        float distanceToClosestObject = Mathf.Infinity;
+        GameObject closestObject = null;
+
+        for (int i = 0; i < colliders.Length; i++)
+        {
+            if (colliders[i] == null) continue;
+            
+            float distanceToEnemy = (colliders[i].transform.position - ownerPos.position).sqrMagnitude;
+            if (distanceToEnemy < distanceToClosestObject)
+            {
+                distanceToClosestObject = distanceToEnemy;
+                closestObject = colliders[i].gameObject;
+            }
+        }
         return closestObject;
     }
 

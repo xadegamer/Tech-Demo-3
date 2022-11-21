@@ -12,7 +12,7 @@ public class Radar2D : MonoBehaviour
 
     [Header("Sight Properties")]
     [SerializeField] private LayerMask obstacleLayer;
-    public float angle = 30;
+    [SerializeField] private float angle = 30;
 
     [Header("Checks")]
     [SerializeField] private bool storeTargets = false;
@@ -27,9 +27,9 @@ public class Radar2D : MonoBehaviour
 
     [SerializeField] private List<GameObject> objectsInRange = new List<GameObject>();
 
-    [SerializeField] Collider2D[] colliders;
+    [SerializeField] private Collider2D[] colliders;
 
-    private int count;
+    [SerializeField] private int count;
 
 
     void Start()

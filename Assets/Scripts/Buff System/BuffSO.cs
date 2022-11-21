@@ -21,6 +21,9 @@ public class BuffSO : ScriptableObjectBase
     public BuffType buffType;
 
     [FoldoutGroup("Properties")]
+    public bool isDebuff;
+
+    [FoldoutGroup("Properties")]
     public ValueDataContainer buffData;  
     public override int GetID() => ID;
 
@@ -37,7 +40,6 @@ public enum BuffType
 }
 
 public enum BuffValueModifyType {Add, Subtract,Multiply,Divide,Set, Precentage};
-
 
 [Serializable]
 public class Buff
@@ -60,7 +62,6 @@ public class Buff
         InBuffProgress = inProgress;
         OnBuffEnd = onBuffEnd;
     }
-
 
     public void ResetBuff()
     {

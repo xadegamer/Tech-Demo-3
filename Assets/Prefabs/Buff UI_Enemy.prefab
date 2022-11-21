@@ -399,7 +399,7 @@ GameObject:
   - component: {fileID: 7521331249467221401}
   - component: {fileID: 7521331249467221400}
   m_Layer: 5
-  m_Name: Buff UI_New
+  m_Name: Buff UI_Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

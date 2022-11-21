@@ -52,7 +52,7 @@ public class PlayerUnit : GameUnit
 
         _movementHandler.ToggleFaceMovementDir(!target);
 
-        if (target) Utility.LookAtPosition(transform, target.transform);
+        if (target) Utility.LookAtPosition(transform, target.transform.position);
 
         HandleMeleeAbilities();
     }
@@ -80,6 +80,7 @@ public class PlayerUnit : GameUnit
     {
         if (target != base.target && target.TryGetComponent(out EnemyUnit enemyUnit))
         {
+            state = State.Targetting;
             this.target = enemyUnit;
             enemyUnit.Targetted();
         }

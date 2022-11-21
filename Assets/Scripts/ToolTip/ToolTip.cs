@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -35,5 +36,10 @@ public class ToolTip : MonoBehaviour, IToolTip
     public Vector2 GetTocuchPositon()
     {
         return Input.mousePosition;
+    }
+
+    public Action GetAction()
+    {
+        return null;
     }
 }

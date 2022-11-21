@@ -4,19 +4,22 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class BuffHolderUI : MonoBehaviour
+public class BuffHolderUI : MonoBehaviour,IToolTip
 {
     [Header("Buff UI")]
     [SerializeField] private Image abilityImage;
     [SerializeField] private Image coolDownSlider;
     [SerializeField] private TextMeshProUGUI coolDownText;
-
-    [Header("Buff Option")]
+    
+    [Header("Debug")]
     [SerializeField] private Buff buff;
     
     Coroutine buffCoroutine;
+    Vector2 pos;
+
 
     public void ActivateBuff(Buff buff)
     {
@@ -64,4 +67,22 @@ public class BuffHolderUI : MonoBehaviour
         }
         buff.RemoveBuff();
     }
+
+    public void OnClick()
+    {
+        pos = Input.mousePosition;
+        ToolTipManager.Instance.ShowToolTip(this);
+    }
+    
+    public string GetHeader() => buff.buffSO.buffName;
+
+    public string GetContent() => buff.buffSO.buffDescription;
+
+    public Sprite GetBackground() => null;
+
+    public Color GetBackgroundColor() => Color.white;
+
+    public Vector2 GetTocuchPositon() => pos;
+
+    public Action GetAction() => buff.buffSO.isDebuff ? null : DeactivateBuff;
 }
