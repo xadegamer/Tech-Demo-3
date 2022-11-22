@@ -62,7 +62,7 @@ public class PaladinAbilityController : GameUnitAbilityController
 
         damageInfo.SetUp(DamageInfo.DamageType.Melee, damage, false, false);
 
-        PlayerUnit.Instance.GetTarget().GetComponent<HealthHandler>().TakeDamage(damageInfo);
+        gameUnit.GetTarget().GetComponent<HealthHandler>().TakeDamage(damageInfo);
 
         Debug.Log("Did Crusader Strike : " + damage);
     }
@@ -92,7 +92,7 @@ public class PaladinAbilityController : GameUnitAbilityController
         float damage = Utility.CalculatePercentageOfValue(gameUnit.GetStat().GetCharacterClassSO().minbaseDamage, abilitySO.abilityData.GetAbilityValueByID("BaseWeaponDamage").GetValue());
 
         damageInfo.SetUp(DamageInfo.DamageType.Melee, damage, false, false);
-        PlayerUnit.Instance.GetTarget().GetComponent<HealthHandler>().TakeDamage(damageInfo);
+        gameUnit.GetTarget().GetComponent<HealthHandler>().TakeDamage(damageInfo);
         Debug.Log("Did Judgement : " + damage);
 
         buffManager.SendBuff(currentJudgement.buff, PlayerUnit.Instance.GetTarget());

@@ -29,22 +29,31 @@ public class BlackfathomAbilityController : GameUnitAbilityController
 
     public void BlackfathomHamstring(AbilitySO abilitySO)
     {
+        float damage = Utility.CalculateValueWithPercentage(gameUnit.GetStat().GetCharacterClassSO().minbaseDamage, abilitySO.abilityData.GetAbilityValueByID("DamageInc").GetValue(), true);
+        damageInfo.SetUp(DamageInfo.DamageType.Melee, damage, false, false);
+        gameUnit.GetTarget().GetComponent<HealthHandler>().TakeDamage(damageInfo);
+
+        // 50% Movement and Attack Speed Reduction Debuff
         buffManager.SendBuff(abilitySO.buff, gameUnit.GetTarget());
         Debug.Log("BlackfathomHamstring");
     }
 
     public void Bash(AbilitySO abilitySO)
     {
+        //Bash Debuff
+        buffManager.SendBuff(abilitySO.buff, gameUnit.GetTarget());
         Debug.Log("Bash");
     }
 
     public void VengefulStance (AbilitySO abilitySO)
     {
-        Debug.Log("VengefulStance");
+        float duration = 0;
+        StartCoroutine(Utility.TimedAbility(abilitySO, () => Debug.Log("Start VengefulStance"), duration, null));
     }
 
     public void MyrmidonSlash(AbilitySO abilitySO)
     {
+        // Do double damage
         Debug.Log("MyrmidonSlash");
     }
 }

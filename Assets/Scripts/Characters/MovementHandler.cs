@@ -40,12 +40,17 @@ public class MovementHandler
         animator.SetBool("IsMoving", Mathf.Abs(movementInput.x) != 0 || Mathf.Abs(movementInput.y) != 0);
         animator.SetFloat("MoveY", movementInput.y);
     }
-    
+
+    public void ToggleFaceMovementDir(bool state) => faceMovementDir = state;
+
     public void StopMovement() => movementInput = Vector2.zero;
 
     public void SetSpeed(float speed) => currentSpeed = speed;
 
-    public void ToggleFaceMovementDir(bool state) => faceMovementDir = state;
+    public void ModifySpeed(float percentage, bool increase)
+    {
+        currentSpeed = Utility.CalculateValueWithPercentage(defaultSpeed, percentage, increase);
+    }
 
     public void ResetSpeed() => currentSpeed = defaultSpeed;
 

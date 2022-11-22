@@ -86,32 +86,20 @@ public class AreaDamager : Damager
 	{
 		this.attackRange = attackRange;
 	}
-
-	public static void DebugDrawBox(Vector2 center, Vector2 size, Color color)
-	{
-		float halfWidth = size.x / 2f;
-		float halfHeight = size.y / 2f;
-		Debug.DrawLine(new Vector3(center.x + halfWidth, center.y - halfHeight, 0), new Vector3(center.x + halfWidth, center.y + halfHeight, 0), color);
-		Debug.DrawLine(new Vector3(center.x - halfWidth, center.y - halfHeight, 0), new Vector3(center.x - halfWidth, center.y + halfHeight, 0), color);
-		Debug.DrawLine(new Vector3(center.x - halfWidth, center.y + halfHeight, 0), new Vector3(center.x + halfWidth, center.y + halfHeight, 0), color);
-		Debug.DrawLine(new Vector3(center.x - halfWidth, center.y - halfHeight, 0), new Vector3(center.x + halfWidth, center.y - halfHeight, 0), color);
-	}
-
-#if UNITY_EDITOR
-	public virtual void OnDrawGizmos()
-	{
-		if (hitShape == HitShape.Circle)
-		{
-			Gizmos.color = color;
-			Gizmos.DrawWireSphere(transform.position, attackRange);
-		}
-		else if (hitShape == HitShape.Box)
-		{
-			Gizmos.color = color;
-			Gizmos.matrix = transform.localToWorldMatrix;
-			Vector3 pos = Offset;
-			Gizmos.DrawWireCube(pos, size);
-		}
-	}
-#endif
+    
+    public virtual void OnDrawGizmos()
+    {
+        if (hitShape == HitShape.Circle)
+        {
+            Gizmos.color = color;
+            Gizmos.DrawWireSphere(transform.position, attackRange);
+        }
+        else if (hitShape == HitShape.Box)
+        {
+            Gizmos.color = color;
+            Gizmos.matrix = transform.localToWorldMatrix;
+            Vector3 pos = Offset;
+            Gizmos.DrawWireCube(pos, size);
+        }
+    }
 }

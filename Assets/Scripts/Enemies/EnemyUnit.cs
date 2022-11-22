@@ -41,7 +41,7 @@ public class EnemyUnit : GameUnit
 
     public override void HandleMovement()
     {
-        //Agro();
+        Agro();
 
         //Patrol();
     }

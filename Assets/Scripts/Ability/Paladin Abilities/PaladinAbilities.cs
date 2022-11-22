@@ -10,7 +10,7 @@ public enum PaladinAbilities
     DivineStorm,
     Judgement,
 
-    // Set 3 
+    // Set 4 
     DevotionalAura,
     MagicalAura,
     RetributionAura,

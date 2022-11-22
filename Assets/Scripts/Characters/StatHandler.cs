@@ -59,6 +59,15 @@ public class StatBase
         return characterClassSO;
     }
 
+    public void ModifyAttackSpeed(float percentage, bool increase)
+    {
+        currentattackSpeed = Utility.CalculateValueWithPercentage(characterClassSO.attackSpeed, percentage, increase);
+    }
+
+    public void ResetAttackSpeed()
+    {
+        currentattackSpeed = characterClassSO.attackSpeed;
+    }
 }
 
 [Serializable]

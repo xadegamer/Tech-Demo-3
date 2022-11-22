@@ -18,9 +18,10 @@ public abstract class GameUnit : MonoBehaviour
     [SerializeField] protected Radar2D radar;
     [SerializeField] protected Damager damager;
 
-
     protected Animator animator;
     protected HealthHandler healthHandler;
+
+    protected float attackSpeed;
     protected float attackTimer;
 
     protected virtual void Awake()

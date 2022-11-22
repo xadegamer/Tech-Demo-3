@@ -64,6 +64,8 @@ public class DamageInfo
     public float damageAmount;
     public bool critical;
     public bool stun;
+    public GameUnit attacker;
+    public GameUnit target;
 
     public DamageInfo(){}
 
