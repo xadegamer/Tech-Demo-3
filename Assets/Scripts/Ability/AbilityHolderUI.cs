@@ -116,7 +116,7 @@ public class AbilityHolderUI : MonoBehaviour, IPointerDownHandler, IPointerUpHan
 
     public void ActivateNormalCooldown()
     {
-        StartCoroutine(CoolDown(currentAbilitySO.abilityData.GetAbilityValueByID("Cooldown").GetValue()));
+        StartCoroutine(CoolDown(currentAbilitySO.abilityAttributie.GetAbilityValueByID("Cooldown").GetValue<float>()));
     }
 
     public void ActivateGlobalCooldown()

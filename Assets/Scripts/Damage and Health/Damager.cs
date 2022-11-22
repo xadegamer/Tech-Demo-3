@@ -6,13 +6,13 @@ using UnityEngine.Events;
 public abstract class Damager : MonoBehaviour
 {
     [SerializeField] DamageInfo damageInfo;
-    
+
     [Header("KnockBack")]
     [SerializeField] protected bool hasKnockBack;
     [SerializeField] protected Vector2 knockBackDirection;
     [SerializeField] protected float knockBackForce;
 
-
+    
     [Tooltip("Insert taget object layer")]
     [SerializeField] protected LayerMask targetLayer;
 
@@ -28,22 +28,46 @@ public abstract class Damager : MonoBehaviour
 
     [SerializeField] protected bool hasHit;
 
+    private bool doubleDamage = false;
 
-    public void SetDamage(float minDamage, float maxDamage)
+    public void SetUp(GameUnit owner, float minDamage, float maxDamage)
     {
+        damageInfo.owner = owner;
         this.minDamage = minDamage;
         this.maxDamage = maxDamage;
     }
 
     public void DealDamage(Collider2D collision)
     {
-        damageInfo.damageAmount = Utility.CalculateValueWithPercentage(Random.Range(minDamage, maxDamage + 1), damageReductionPer, false);     
+        damageInfo.damageAmount = Utility.CalculateValueWithPercentage(Random.Range(minDamage, maxDamage + 1), damageReductionPer, false);
+
+        if (doubleDamage)
+        {
+            damageInfo.damageAmount *= 2;
+            doubleDamage = false;
+        } 
+
         if (collision.TryGetComponent(out HealthHandler healthSystem)) healthSystem.TakeDamage(damageInfo);
+    }
+
+    public void CanDoubleDamage()
+    {
+        doubleDamage = true;
     }
 
     public void SetDamageReducion(float damageReductionPer)
     {
         this.damageReductionPer = damageReductionPer;
+    }
+
+    public void AddDamageReduction(float damageReductionPer)
+    {
+        this.damageReductionPer += damageReductionPer;
+    }
+
+    public void RemoveDamageReduction(float damageReductionPer)
+    {
+        this.damageReductionPer -= damageReductionPer;
     }
 
     protected float RandomCriticalDamage( float chance, float criticalDamage)
@@ -64,8 +88,7 @@ public class DamageInfo
     public float damageAmount;
     public bool critical;
     public bool stun;
-    public GameUnit attacker;
-    public GameUnit target;
+    public GameUnit owner;
 
     public DamageInfo(){}
 

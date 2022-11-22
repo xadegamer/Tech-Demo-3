@@ -19,17 +19,19 @@ public class HealthHandler : MonoBehaviour
 
     [Header("Events")]
     public UnityEvent OnHealthChange;
-    public UnityEvent OnReceiveDamage;
+    public UnityEvent<DamageInfo> OnHit;
     public UnityEvent OnReceiveNormalDamage;
-    public UnityEvent OnReceiveCriticalDamage;
+    public UnityEvent<DamageInfo> OnReceiveCriticalDamage;
     public UnityEvent OnHitWhileInvulnerable;
-    public UnityEvent OnHit;
     public UnityEvent OnStun;
     public UnityEvent OnHeal;
-    public UnityEvent OnDied;
+    public UnityEvent OnDeath;
 
     [Header("HealthEvents")]
     [SerializeField] HealthEvent[] healthEvents;
+
+
+
 
     [Header("Debug")]
     [SerializeField] bool isInvulnerable = false;
@@ -91,30 +93,29 @@ public class HealthHandler : MonoBehaviour
                 damageAfterResisDeduction = Utility.CalculateValueWithPercentage(damageAfterResisDeduction, physicalDamageReduction, false);
             }
 
+            damageInfo.damageAmount = damageAfterResisDeduction;
             finalDamage = damageAfterResisDeduction;
 
             currentHealth -= finalDamage;
 
-            OnReceiveDamage?.Invoke();
-
             if (currentHealth <= 0)
             {
                 currentHealth = 0;
-                OnDied.Invoke();
+                OnDeath.Invoke();
             }
             else
             {
                 TriggerHealthEvents();
-                if (damageInfo.stun) OnStun.Invoke();
-                else OnHit.Invoke();
+                if (damageInfo.stun) OnStun.Invoke();;
             }
 
             OnHealthChange?.Invoke();
 
-            if (damageInfo.critical) OnReceiveCriticalDamage.Invoke(); OnReceiveNormalDamage.Invoke();
+            if (damageInfo.critical) OnReceiveCriticalDamage.Invoke(damageInfo); OnReceiveNormalDamage.Invoke();
             PopUpTextManager.Instance.PopUpText(transform, finalDamage.ToString("F0"), damageInfo.critical ? Color.red : Color.yellow);
-        }
 
+            OnHit?.Invoke(damageInfo);
+        }
         return finalDamage;
     }
 

@@ -44,15 +44,15 @@ public class CharacterUI
     [SerializeField] private BuffHolderUI buffHolderUI;
     [SerializeField] private Transform buffHolder;
 
-    public void SetUp(CharacterClassSO characterClass)
+    public void SetUp(GameUnit gameUnit)
     {
-        if(characterClass)
+        if(gameUnit)
         {
             holder.SetActive(true);
-            icon.sprite = characterClass.characterIcon;
+            icon.sprite = gameUnit.GetCharacterClassSO().characterIcon;
         } else holder.SetActive(false);
     }
-    
+
     public void SetHealthBar(float health) 
     {
         UIManager.Instance.StartCoroutine(Utility.LerpBarValue(healthBar, health, .5f));

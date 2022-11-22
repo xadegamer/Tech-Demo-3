@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class BlackfathomBuffController : GameUnitBuffController
 {
+
     protected override Buff CreateBuff(BuffSO buffSO, GameUnit target)
     {
-        switch (buffSO.GetBuffType<PaladinBuff>())
+        switch (buffSO.GetBuffType<BlackfathomBuff>())
         {
-            case PaladinBuff.JudgementOfRighteousness: return JudgementOfWeaknessBuff(buffSO, target);
-            case PaladinBuff.JudgementofWisdom: return JudgementOfWeaknessBuff(buffSO, target);
-            case PaladinBuff.JudgementofWeakness: return JudgementOfWeaknessBuff(buffSO, target);
+            case BlackfathomBuff.BlackfathomHamstringDebuff: return BlackfathomHamstringDebuff(buffSO, target);
+            case BlackfathomBuff.BashDebuff: return BashDebuff(buffSO, target);
             default: return null;
         }
     }
@@ -25,32 +25,41 @@ public class BlackfathomBuffController : GameUnitBuffController
         return false;
     }
 
-    public Buff JudgementOfWeaknessBuff(BuffSO buffSO, GameUnit target)
+    public Buff BlackfathomHamstringDebuff(BuffSO buffSO, GameUnit target)
     {
-        Debug.Log("Found JudgementOfWeaknessBuff");
+        Debug.Log("Found BlackfathomHamstringDebuff");
 
-        float damageReduction = buffSO.buffData.GetAbilityValueByID("MeleeAttackDamage").GetValue();
-
-        DamageInfo damageInfo = new DamageInfo();
-
-        float timer = 2;
+        float reduction = buffSO.buffbuffAttributes.GetAbilityValueByID("Movement and Attack Speed Reduction").GetValue<float>();
 
         return new Buff(buffSO, target, () =>
         { //Start
-            target.Damager.SetDamageReducion(damageReduction);
+            ((PlayerUnit)target).MovementHandler.ModifySpeed(reduction, false);
+            ((PlayerUnit)target).GetStat().ModifyAttackSpeed(reduction, true);
         }
         , () =>
         {// In Progress
-            if (timer > 0) timer -= Time.deltaTime;
-            else
-            {
-                damageInfo.damageAmount = 5;
-                target.HealthHandler.TakeDamage(damageInfo);
-                timer = 2;
-            }
+            
         }, () =>
         { // End
-            target.Damager.SetDamageReducion(0f);
+            ((PlayerUnit)target).MovementHandler.ResetSpeed();
+            ((PlayerUnit)target).GetStat().ResetAttackSpeed();
+        });
+    }
+
+    public Buff BashDebuff(BuffSO buffSO, GameUnit target)
+    {
+        Debug.Log("Found JudgementOfWeaknessBuff");
+
+        return new Buff(buffSO, target, () =>
+        { //Start
+            target.StartStun();
+        }
+        , () =>
+        {// In Progress
+            
+        }, () =>
+        { // End
+            target.EndStun();
         });
     }
 

@@ -18,15 +18,17 @@ MonoBehaviour:
   abilityCost: 10
   type: 0
   range: 2
-  abilityData:
-    values:
-    - ID: Cooldown
-      valueType: 2
+  abilityAttributie:
+    attributes:
+    - key: Cooldown
+      valueType: 3
       timeType: 0
       value: 4.5
-    - ID: BasePhysicalDamage
-      valueType: 1
+      _value: 4.5
+    - key: BasePhysicalDamage
+      valueType: 0
       timeType: 0
       value: 140
+      _value: 140
   connectedAbilities: []
   buff: {fileID: 0}

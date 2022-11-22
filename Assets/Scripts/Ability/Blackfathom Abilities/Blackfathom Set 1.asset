@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Blackfathom Set 1
   m_EditorClassIdentifier: 
   abilities:
+  - {fileID: 11400000, guid: 60cefb75af5f30e48a1b473554b2bca2, type: 2}
   - {fileID: 11400000, guid: 49133f0e8494e5c42a39a85cfb336a37, type: 2}
   - {fileID: 11400000, guid: ad9c1ce2b5bed7e4eb5eeacb9aad1c9d, type: 2}
   - {fileID: 11400000, guid: 2ca2387696a7030419c3cab170b63059, type: 2}
-  - {fileID: 11400000, guid: 60cefb75af5f30e48a1b473554b2bca2, type: 2}

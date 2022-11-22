@@ -9,3 +9,10 @@ public enum BlackfathomAbilities
     VengefulStance,
     MyrmidonSlash
 }
+
+
+public enum BlackfathomBuff
+{
+    BlackfathomHamstringDebuff,
+    BashDebuff,
+}

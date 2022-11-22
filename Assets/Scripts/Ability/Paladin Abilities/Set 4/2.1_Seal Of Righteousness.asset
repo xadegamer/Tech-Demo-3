@@ -20,16 +20,13 @@ MonoBehaviour:
   abilityCost: 8
   type: 3
   range: 0
-  abilityData:
-    values:
-    - ID: Duration
-      valueType: 2
+  abilityAttributie:
+    attributes:
+    - key: Duration
+      valueType: 3
       timeType: 1
       value: 10
-    - ID: BaseDamageValue
-      valueType: 1
-      timeType: 0
-      value: 15
+      _value: 10
   connectedAbilities:
   - {fileID: 11400000, guid: 849a462fc8b71f04395d4375feebefd1, type: 2}
   - {fileID: 11400000, guid: 8e50dc1ca83dc854f80fa95563b07e98, type: 2}

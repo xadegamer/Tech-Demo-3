@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,8 +16,10 @@ public abstract class GameUnit : MonoBehaviour
 
     [Header("Abstract Attacking Properties")]
     [SerializeField] protected GameUnit target;
-    [SerializeField] protected Radar2D radar;
+    [SerializeField] protected Radar2D attackRadar;
     [SerializeField] protected Damager damager;
+
+    protected GameUnitAbilityController unitAbilityController;
 
     protected Animator animator;
     protected HealthHandler healthHandler;
@@ -24,21 +27,28 @@ public abstract class GameUnit : MonoBehaviour
     protected float attackSpeed;
     protected float attackTimer;
 
+    protected State lastState;
+    protected bool canMove = true;
+
     protected virtual void Awake()
     {
         healthHandler = GetComponent<HealthHandler>();
         animator = GetComponentInChildren<Animator>();
+        unitAbilityController = GetComponent<GameUnitAbilityController>();
     }
 
     protected virtual void Start()
     {
         healthHandler.SetHealth(characterClassSO.health);
-        healthHandler.OnHealthChange.AddListener(OnHealthChanged);
-        damager.SetDamage(characterClassSO.minbaseDamage, characterClassSO.maxbaseDamage);
+        
+        healthHandler.OnDeath.AddListener(OnDeath);
+        
+        damager.SetUp(this, characterClassSO.minbaseDamage, characterClassSO.maxbaseDamage);
     }
 
     protected virtual void Update()
     {
+        if (state == State.Stun) return;
         HandleMovement();
         HandleCombat();
     }
@@ -47,23 +57,27 @@ public abstract class GameUnit : MonoBehaviour
     
     protected abstract void OnHealthChanged();
 
+    protected abstract void OnDeath();
+
     public abstract bool TryUseAbility(AbilitySO abilitySO);
 
-    public abstract void TrySetTarget(Transform target);
+    public abstract bool TrySetTarget(Transform target);
 
     public abstract void Targetted(bool status);
 
     public abstract void HandleCombat();
 
+    public abstract void Attack();
+
     public  void AttackTimer(StatBase statBase)
     {
-        if (state != State.Combat || !radar.TargetInRange()) return;
+        if (state != State.Combat || !attackRadar.TargetInRange()) return;
 
         if (attackTimer < statBase.currentattackSpeed) attackTimer += Time.deltaTime;
         else
         {
+            Attack();
             attackTimer = 0;
-            animator.SetTrigger("Melee");
         }
     }
 
@@ -71,6 +85,7 @@ public abstract class GameUnit : MonoBehaviour
 
     public void ChangeState(State newState)
     {
+        lastState = state;
         state = newState;
         animator.SetInteger("State", (int)state);
     }
@@ -79,16 +94,39 @@ public abstract class GameUnit : MonoBehaviour
     {
         return target;
     }
-
-    public IEnumerator StunRoutine(float duration)
+    
+    public virtual void StartStun()
     {
         ChangeState(State.Stun);
-        yield return new WaitForSeconds(duration);
-        ChangeState(State.Combat);
+    }
+
+    public virtual void EndStun()
+    {
+        ChangeState(lastState);
+    }
+
+    public bool IsDead()
+    {
+        return state == State.Dead;
+    }
+
+    public virtual void CanMove(bool status)
+    {
+        canMove = status;
     }
 
     protected virtual void SetResistance()
     {
         
+    }
+
+    public GameUnitAbilityController GetUnitAbilityController()
+    {
+        return unitAbilityController;
+    }
+
+    public CharacterClassSO GetCharacterClassSO()
+    {
+        return characterClassSO;
     }
 }

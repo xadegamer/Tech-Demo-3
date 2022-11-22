@@ -32,28 +32,28 @@ public class PaladinBuffController : GameUnitBuffController
     {
         Debug.Log("Found JudgementOfWeaknessBuff");
         
-        float damageReduction = buffSO.buffData.GetAbilityValueByID("MeleeAttackDamage").GetValue();
+        float damageReduction = buffSO.buffbuffAttributes.GetAbilityValueByID("MeleeAttackDamageReduc").GetValue<float>();
         
-        DamageInfo damageInfo = new DamageInfo();
-
-        float timer = 2;
+        //float timer = 2;
 
         return new Buff(buffSO, target, () =>
         { //Start
-            target.Damager.SetDamageReducion(damageReduction);
+            target.Damager.AddDamageReduction(damageReduction);
         }
         , () =>
         {// In Progress
-            if(timer > 0) timer -= Time.deltaTime;
-            else
-            {
-                damageInfo.damageAmount = 5;
-                target.HealthHandler.TakeDamage(damageInfo);
-                timer = 2;
-            }
+            
+            //if(timer > 0) timer -= Time.deltaTime;
+            //else
+            //{
+            //    damageInfo.damageAmount = 5;
+            //    target.HealthHandler.TakeDamage(damageInfo);
+            //    timer = 2;
+            //}
+            
         }, () =>
         { // End
-            target.Damager.SetDamageReducion(0f);
+            target.Damager.RemoveDamageReduction(damageReduction);
         });
     }
 

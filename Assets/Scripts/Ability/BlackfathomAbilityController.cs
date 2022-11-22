@@ -1,9 +1,16 @@
+using Sirenix.Serialization;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class BlackfathomAbilityController : GameUnitAbilityController
 {
+    [SerializeField] private GameObject enGarde;
+
+    Coroutine vengefulStanceRoutine;
+
     protected override void AssignSetAbilityActions(AbilitySetSO abilitySetSO)
     {
         foreach (AbilitySO abilitySO in abilitySetSO.abilities)
@@ -19,17 +26,9 @@ public class BlackfathomAbilityController : GameUnitAbilityController
         }
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            abilitySetSOArray[0].abilities[0].UseAbility();
-        }
-    }
-
     public void BlackfathomHamstring(AbilitySO abilitySO)
     {
-        float damage = Utility.CalculateValueWithPercentage(gameUnit.GetStat().GetCharacterClassSO().minbaseDamage, abilitySO.abilityData.GetAbilityValueByID("DamageInc").GetValue(), true);
+        float damage = Utility.CalculateValueWithPercentage(gameUnit.GetStat().GetCharacterClassSO().minbaseDamage, abilitySO.abilityAttributie.GetAbilityValueByID("DamageInc").GetValue<float>(), true);
         damageInfo.SetUp(DamageInfo.DamageType.Melee, damage, false, false);
         gameUnit.GetTarget().GetComponent<HealthHandler>().TakeDamage(damageInfo);
 
@@ -47,13 +46,53 @@ public class BlackfathomAbilityController : GameUnitAbilityController
 
     public void VengefulStance (AbilitySO abilitySO)
     {
-        float duration = 0;
-        StartCoroutine(Utility.TimedAbility(abilitySO, () => Debug.Log("Start VengefulStance"), duration, null));
-    }
+        float duration = abilitySO.abilityAttributie.GetAbilityValueByID("Duration").GetValue<float>();
 
+        if (vengefulStanceRoutine != null)
+        {
+            Debug.Log("Reset VengefulStance");
+            StopCoroutine(vengefulStanceRoutine);
+            gameUnit.HealthHandler.OnHit.RemoveAllListeners();
+            gameUnit.Damager.RemoveDamageReduction(abilitySO.abilityAttributie.GetAbilityValueByID("DamageReduction").GetValue<float>());
+        }
+        
+        vengefulStanceRoutine = StartCoroutine(Utility.TimedAbility
+            
+        (abilitySO, () =>
+        {
+            Debug.Log("Start VengefulStance");
+
+            PopUpTextManager.Instance.PopUpText(transform, abilitySO.abilityAttributie.GetAbilityValueByID("Visual").GetValue<string>(), Color.red);
+            
+            gameUnit.CanMove(false);
+            gameUnit.Damager.AddDamageReduction(abilitySO.abilityAttributie.GetAbilityValueByID("DamageReduction").GetValue<float>());
+
+            damageInfo.owner = gameUnit;
+            damageInfo.damageType = DamageInfo.DamageType.Melee;
+
+            gameUnit.HealthHandler.OnHit.AddListener(damageInfo =>
+            {
+                damageInfo.damageAmount = Utility.CalculatePercentageOfValue(damageInfo.damageAmount, abilitySO.abilityAttributie.GetAbilityValueByID("Damage Return").GetValue<float>());
+                Debug.Log(damageInfo.owner);
+                damageInfo.owner.HealthHandler.TakeDamage(damageInfo);
+            });;
+        }
+
+        , duration, (abilitySO) =>
+        {
+            Debug.Log("End VengefulStance");
+
+            gameUnit.CanMove(true);
+            gameUnit.Damager.RemoveDamageReduction(abilitySO.abilityAttributie.GetAbilityValueByID("DamageReduction").GetValue<float>());
+            gameUnit.HealthHandler.OnHit.RemoveAllListeners();
+            vengefulStanceRoutine = null;
+        }));
+    }
+    
     public void MyrmidonSlash(AbilitySO abilitySO)
     {
-        // Do double damage
         Debug.Log("MyrmidonSlash");
+        PopUpTextManager.Instance.PopUpText(transform, abilitySO.abilityAttributie.GetAbilityValueByID("Visual").GetValue<string>(), Color.red);
+        gameUnit.Damager.CanDoubleDamage();
     }
 }

@@ -18,15 +18,17 @@ MonoBehaviour:
   abilityCost: 3.5
   type: 0
   range: 2
-  abilityData:
-    values:
-    - ID: Cooldown
-      valueType: 2
+  abilityAttributie:
+    attributes:
+    - key: Cooldown
+      valueType: 3
       timeType: 1
       value: 1
-    - ID: StunDuration
-      valueType: 2
+      _value: 1
+    - key: StunDuration
+      valueType: 3
       timeType: 0
       value: 6
+      _value: 6
   connectedAbilities: []
   buff: {fileID: 0}

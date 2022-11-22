@@ -65,7 +65,7 @@ public class Radar2D : MonoBehaviour
         for (int i = 0; i < colliders.Length; i++) colliders[i] = null;
     }
 
-    public GameObject TargetObjectInRange() => colliders[0].gameObject;
+    public Transform TargetObjectInRange() => colliders[0].gameObject.transform;
     public void SetScanSize(int size) => scanSize = size;
     public float GetScanSize() => scanSize;
     public bool TargetInRange() => targetInRange;

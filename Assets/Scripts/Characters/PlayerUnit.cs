@@ -13,11 +13,8 @@ public class PlayerUnit : GameUnit
     [Header("Player Handlers")]
     [SerializeField] private MovementHandler _movementHandler;
     [SerializeField] private PlayerStatHandler _playerStatHandler;
-    [SerializeField] private GameUnitBuffController gameUnitBuffController;
 
-    [Header("Target")]
-    [SerializeField] private Transform targetter;
-
+    private GameUnitBuffController gameUnitBuffController;
     private RaycastHit2D hitInfo;
     private Rigidbody2D rb2D;
 
@@ -32,11 +29,13 @@ public class PlayerUnit : GameUnit
     protected override void Start()
     {
         base.Start();
-        
+
+        healthHandler.OnHealthChange.AddListener(OnHealthChanged);
+
         _movementHandler.SetUp(transform, rb2D, animator);
 
         UIManager.Instance.GetPlayerrUI().SetHealthBar(healthHandler.GetNormalisedHealth());
-        UIManager.Instance.GetPlayerrUI().SetUp(characterClassSO);
+        UIManager.Instance.GetPlayerrUI().SetUp(this);
 
         _playerStatHandler.GetManaValue().OnValueChanged += StatHandler_OnManaChanged;
         _playerStatHandler.SetUp(characterClassSO);
@@ -64,6 +63,11 @@ public class PlayerUnit : GameUnit
         UIManager.Instance.GetPlayerrUI().SetHealthBar(healthHandler.GetNormalisedHealth());
     }
 
+    protected override void OnDeath()
+    {
+        ChangeState(State.Dead);
+    }
+
     public override bool TryUseAbility(AbilitySO abilitySO)
     {
         float cost = abilitySO.GetAbilityCost(_playerStatHandler.GetCharacterClassSO().mana);
@@ -78,11 +82,11 @@ public class PlayerUnit : GameUnit
         return false;
     }
 
-    public override void TrySetTarget(Transform clickedObject)
+    public override bool TrySetTarget(Transform clickedObject)
     {
         if (clickedObject.TryGetComponent(out GameUnit gameUnit))
         {
-            if (target == clickedObject) return;
+            if (target == clickedObject) return false;
 
             if (target is EnemyUnit lastEnemyUnit) lastEnemyUnit.Targetted(false);
             Targetter.SetTarget(gameUnit);
@@ -92,13 +96,16 @@ public class PlayerUnit : GameUnit
                 state = State.Targetting;
                 target = enemyUnit;
                 enemyUnit.Targetted(true);
+                return true;
             }
 
             if (gameUnit is PlayerUnit self)
             {
-
+                return true;
             }
-        } 
+        }
+
+        return false;
     }
 
     public override void Targetted(bool status)
@@ -135,7 +142,13 @@ public class PlayerUnit : GameUnit
 
     public void HandleMeleeAbilities()
     {
-        AbilityUIManager.Instance.ToggleMeleeAbilities(target != null && radar.TargetInRange());
+        AbilityUIManager.Instance.ToggleMeleeAbilities(target != null && attackRadar.TargetInRange());
+    }
+
+    public override void StartStun()
+    {
+        base.StartStun();
+        _movementHandler.StopMovement();
     }
 
     public override StatBase GetStat()
@@ -149,5 +162,15 @@ public class PlayerUnit : GameUnit
         transform.position = startPos;
         healthHandler.SetHealth(characterClassSO.health);
         _playerStatHandler.SetUp(characterClassSO);
+    }
+
+    public override void CanMove(bool status)
+    {
+        base.CanMove(status);
+    }
+
+    public override void Attack()
+    {
+        animator.SetTrigger("Melee");
     }
 }

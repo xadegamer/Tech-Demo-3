@@ -18,7 +18,23 @@ MonoBehaviour:
   abilityCost: 0
   type: 0
   range: 0
-  abilityData:
-    values: []
+  abilityAttributie:
+    attributes:
+    - valueType: 3
+      timeType: 0
+      key: Duration
+      _value: 10
+    - valueType: 0
+      timeType: 0
+      key: Damage Return
+      _value: 50
+    - valueType: 0
+      timeType: 0
+      key: DamageReduction
+      _value: 30
+    - valueType: 2
+      timeType: 0
+      key: Visual
+      _value: En Garde!
   connectedAbilities: []
   buff: {fileID: 11400000, guid: da4292b39922b794c8e26f6e15e7a10b, type: 2}

@@ -8,6 +8,16 @@ public abstract class GameUnitBuffController : MonoBehaviour
 {
     [SerializeField] protected List<Buff> activeBuffs = new List<Buff>();
 
+    protected GameUnit gameUnit;
+    protected DamageInfo damageInfo;
+
+    private void Awake()
+    {
+        gameUnit = GetComponent<GameUnit>();
+        damageInfo = new DamageInfo();
+        damageInfo.owner = gameUnit;
+    }
+
     protected virtual void Start()
     {
         Buff.OnAnyBuffRemoved += Buff_OnAnyBuffRemoved;

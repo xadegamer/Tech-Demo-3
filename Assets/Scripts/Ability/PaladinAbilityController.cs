@@ -58,7 +58,7 @@ public class PaladinAbilityController : GameUnitAbilityController
     #region Set 1
     public void CrusaderStrike(AbilitySO abilitySO)
     {
-        float damage = Utility.CalculateValueWithPercentage(gameUnit.GetStat().GetCharacterClassSO().minbaseDamage, abilitySO.abilityData.GetAbilityValueByID("BasePhysicalDamage").GetValue(), true);
+        float damage = Utility.CalculateValueWithPercentage(gameUnit.GetStat().GetCharacterClassSO().minbaseDamage, abilitySO.abilityAttributie.GetAbilityValueByID("BasePhysicalDamage").GetValue<float>(), true);
 
         damageInfo.SetUp(DamageInfo.DamageType.Melee, damage, false, false);
 
@@ -69,17 +69,17 @@ public class PaladinAbilityController : GameUnitAbilityController
 
     public void HammerofJustice(AbilitySO abilitySO)
     {
-        float stunDuration = abilitySO.abilityData.GetAbilityValueByID("StunDuration").GetValue();
+        float stunDuration = abilitySO.abilityAttributie.GetAbilityValueByID("StunDuration").GetValue<float>();
         Debug.Log("Did Hammer of Justice : " + stunDuration);
     }
 
     public void DivineStorm(AbilitySO abilitySO)
     {
-        float damage = Utility.CalculateValueWithPercentage(gameUnit.GetStat().GetCharacterClassSO().minbaseDamage, abilitySO.abilityData.GetAbilityValueByID("BasePhysicalDamage").GetValue(), true);
+        float damage = Utility.CalculateValueWithPercentage(gameUnit.GetStat().GetCharacterClassSO().minbaseDamage, abilitySO.abilityAttributie.GetAbilityValueByID("BasePhysicalDamage").GetValue<float>(), true);
 
         damageInfo.SetUp(DamageInfo.DamageType.Melee, damage, false, false);
 
-        float healAmount = Utility.CalculatePercentageOfValue(PlayerUnit.Instance.GetTarget().GetComponent<HealthHandler>().TakeDamage(damageInfo), abilitySO.abilityData.GetAbilityValueByID("Heal").GetValue());
+        float healAmount = Utility.CalculatePercentageOfValue(PlayerUnit.Instance.GetTarget().GetComponent<HealthHandler>().TakeDamage(damageInfo), abilitySO.abilityAttributie.GetAbilityValueByID("Heal").GetValue<float>());
         Debug.Log("Did Divine Storm : " + damage);
         Debug.Log("Heal : " + healAmount);
 
@@ -89,7 +89,7 @@ public class PaladinAbilityController : GameUnitAbilityController
 
     public void Judgement(AbilitySO abilitySO)
     {
-        float damage = Utility.CalculatePercentageOfValue(gameUnit.GetStat().GetCharacterClassSO().minbaseDamage, abilitySO.abilityData.GetAbilityValueByID("BaseWeaponDamage").GetValue());
+        float damage = Utility.CalculatePercentageOfValue(gameUnit.GetStat().GetCharacterClassSO().minbaseDamage, abilitySO.abilityAttributie.GetAbilityValueByID("BaseWeaponDamage").GetValue<float>());
 
         damageInfo.SetUp(DamageInfo.DamageType.Melee, damage, false, false);
         gameUnit.GetTarget().GetComponent<HealthHandler>().TakeDamage(damageInfo);
@@ -128,7 +128,7 @@ public class PaladinAbilityController : GameUnitAbilityController
         sealActive = true;
 
         if (sealCoroutine != null) StopCoroutine(sealCoroutine);
-        float duration = abilitySO.abilityData.GetAbilityValueByID("Duration").GetValue();
+        float duration = abilitySO.abilityAttributie.GetAbilityValueByID("Duration").GetValue<float>();
         sealCoroutine = StartCoroutine(Utility.TimedAbility(abilitySO ,() => Debug.Log("Start SealOfRighteousness"), duration, EndSealOfRighteousness));
 
         Debug.Log(duration);
@@ -147,7 +147,7 @@ public class PaladinAbilityController : GameUnitAbilityController
         sealActive = true;
 
         if (sealCoroutine != null) StopCoroutine(sealCoroutine);
-        float duration = abilitySO.abilityData.GetAbilityValueByID("Duration").GetValue();
+        float duration = abilitySO.abilityAttributie.GetAbilityValueByID("Duration").GetValue<float>();
         sealCoroutine = StartCoroutine(Utility.TimedAbility(abilitySO ,() => Debug.Log("Start StartSealOfLight"), duration, EndSealOfLight));
     }
 
@@ -163,7 +163,7 @@ public class PaladinAbilityController : GameUnitAbilityController
         sealActive = true;
 
         if (sealCoroutine != null) StopCoroutine(sealCoroutine);
-        float duration = abilitySO.abilityData.GetAbilityValueByID("Duration").GetValue();
+        float duration = abilitySO.abilityAttributie.GetAbilityValueByID("Duration").GetValue<float>();
         sealCoroutine = StartCoroutine(Utility.TimedAbility(abilitySO ,() => Debug.Log("Start StartSealOfJustice"), duration, EndSealOfJustice));
     }
 

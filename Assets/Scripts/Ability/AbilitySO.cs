@@ -31,7 +31,7 @@ public class AbilitySO : ScriptableObject
     public Range  range;
     [FoldoutGroup("Stats")]
     [SuffixLabel("%")]
-    public ValueDataContainer abilityData;
+    public AttributeContainer abilityAttributie;
 
     [ShowIf("type", Type.SetUp | Type.SetUpAndInstantCast )]
     public AbilitySO[] connectedAbilities;
@@ -78,47 +78,48 @@ public class AbilitySO : ScriptableObject
 }
 
 [Serializable]
-public class ValueDataContainer
+public class AttributeContainer
 {
-    public ValueData[] values;
+    public Attribute[] attributes;
 
-    public ValueData GetAbilityValueByID(string ID)
+    public Attribute GetAbilityValueByID(string Key)
     {
-        ValueData abilityValue = values.FirstOrDefault(x => x.ID == ID);
+        Attribute abilityValue = attributes.FirstOrDefault(x => x.key == Key);
 
         if (abilityValue != null) return abilityValue;
         else
         {
-            Debug.LogError("Ability Value with ID: " + ID + " not found");
+            Debug.LogError("Ability Value with ID: " + Key + " not found");
             return null;
         }
     }
 }
 
 [Serializable]
-public class ValueData
+public class Attribute
 {
-    public enum Type { Direct, Percentage, Time}
+    public enum Type { Float, Int, String, Float_Time}
 
     public enum TimeType { Seconds, Minutes }
 
-    public string ID;
-    
     public Type valueType;
 
-    [ShowIf("valueType", Type.Time)]
+    [ShowIf("valueType", Type.Float_Time)]
     public TimeType timeType;
+    
+    public string key;
 
-    [SerializeField] private float value;
+    [SerializeField] private string _value;
 
-    public float GetValue()
+    public T GetValue<T>()
     {
         switch (valueType)
         {
-            case Type.Direct:  return value;
-            case Type.Percentage:  return value;
-            case Type.Time: return timeType ==  TimeType.Seconds ? value : value * 60;
-            default: return 0;
+            case Type.Int: return (T)(object)int.Parse(_value);
+            case Type.Float: return (T)(object)float.Parse(_value);
+            case Type.String: return (T)(object)_value;
+            case Type.Float_Time: return (T)(object)((timeType == TimeType.Seconds) ? float.Parse(_value) : float.Parse(_value) * 60);
+            default: return default;
         }
     }
 }

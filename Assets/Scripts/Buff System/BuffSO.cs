@@ -24,7 +24,7 @@ public class BuffSO : ScriptableObjectBase
     public bool isDebuff;
 
     [FoldoutGroup("Properties")]
-    public ValueDataContainer buffData;  
+    public AttributeContainer buffbuffAttributes;  
     public override int GetID() => ID;
 
     public T GetBuffType<T>() where T : Enum

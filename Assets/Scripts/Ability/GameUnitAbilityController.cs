@@ -25,6 +25,7 @@ public abstract class GameUnitAbilityController : MonoBehaviour
         
         AssignAbilityActions();
         damageInfo = new DamageInfo();
+        damageInfo.owner = gameUnit;
     }
 
     protected void AssignAbilityActions()
@@ -51,5 +52,10 @@ public abstract class GameUnitAbilityController : MonoBehaviour
             yield return null;
         }
         OnEnd?.Invoke();
+    }
+
+    public AbilitySetSO GetAbilitySetSO(int index)
+    {
+        return abilitySetSOArray[index];
     }
 }

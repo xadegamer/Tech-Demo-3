@@ -43,7 +43,12 @@ public class MovementHandler
 
     public void ToggleFaceMovementDir(bool state) => faceMovementDir = state;
 
-    public void StopMovement() => movementInput = Vector2.zero;
+    public void StopMovement()
+    {
+        movementInput = Vector2.zero;
+        rb2D.velocity = Vector2.zero;
+        animator.SetBool("IsMoving", false);
+    } 
 
     public void SetSpeed(float speed) => currentSpeed = speed;
 

@@ -15,6 +15,14 @@ public class EnemyUnit : GameUnit
     [SerializeField] private float patrolRange;
     [SerializeField] private StatBase _statHandler;
     [SerializeField] NavMeshAgent agent;
+    [SerializeField] private Radar2D scanRadar;
+
+    [Header("Ability Info")]
+    [SerializeField] private int attackIndex;
+    [SerializeField] private float abilityChance = 40;
+    [SerializeField] private int lastAbilityIndex;
+
+    private float currentAbilityChace;
 
     ObservableList<GameObject> _targets = new();
     private Vector2 startPos;
@@ -31,6 +39,7 @@ public class EnemyUnit : GameUnit
     {
         base.Start();
         _statHandler.SetUp(characterClassSO);
+        currentAbilityChace = abilityChance;
     }
 
 
@@ -41,14 +50,24 @@ public class EnemyUnit : GameUnit
 
     public override void HandleMovement()
     {
-        Agro();
-
-        //Patrol();
+        if (state == State.Wandering)
+        {
+            Patrol();
+        }
+        else if (state == State.Targetting || state == State.Combat)
+        {
+            Agro();
+        }
     }
 
     protected override void OnHealthChanged()
     {
         UIManager.Instance.GetTargetUI().SetHealthBar(healthHandler.GetNormalisedHealth());
+    }
+
+    protected override void OnDeath()
+    {
+
     }
 
     public override bool TryUseAbility(AbilitySO abilitySO)
@@ -57,14 +76,19 @@ public class EnemyUnit : GameUnit
         return true;
     }
 
-    public override void TrySetTarget(Transform target)
+    public override bool TrySetTarget(Transform target)
     {
-        if (target != base.target && target.TryGetComponent(out PlayerUnit playerUnit))
+        if (target != base.target && target.TryGetComponent(out PlayerUnit playerUnit) && !playerUnit.IsDead())
         {
             state = State.Targetting;
             this.target = playerUnit;
             playerUnit.Targetted(true);
+
+            UIManager.Instance.GetTargetOfTargetUI().SetUp(playerUnit);
+
+            return true;
         }
+        return false;
     }
 
     public override void HandleCombat()
@@ -76,14 +100,14 @@ public class EnemyUnit : GameUnit
     {
         if (status)
         {
-            UIManager.Instance.GetTargetUI().SetUp(characterClassSO);
-            healthHandler.OnReceiveDamage.AddListener(OnHealthChanged);
+            UIManager.Instance.GetTargetUI().SetUp(this);
+            healthHandler.OnHealthChange.AddListener(OnHealthChanged);
             UIManager.Instance.GetTargetUI().SetHealthBar(healthHandler.GetNormalisedHealth());
         }
         else
         {
             UIManager.Instance.GetTargetUI().SetUp(null);
-            healthHandler.OnReceiveDamage.RemoveListener(OnHealthChanged);
+            healthHandler.OnHealthChange.RemoveListener(OnHealthChanged);
         }
     }
 
@@ -92,39 +116,99 @@ public class EnemyUnit : GameUnit
         if (agent.velocity.magnitude <= 0)
         {
             Utility.RandomPosition(startPos, patrolRange, out Vector2 newPos);
-            agent.SetDestination(newPos);
+            agent.SetDestination(canMove ? newPos : transform.position);
         }
 
         Utility.FaceVectorDirection(agent.velocity.normalized, transform);
         animator.SetBool("IsMoving", Mathf.Abs(agent.velocity.normalized.x) != 0 || Mathf.Abs(agent.velocity.normalized.y) != 0);
         animator.SetFloat("MoveY", agent.velocity.normalized.y);
+
+        if (scanRadar.TargetInRange())
+        {
+           if( TrySetTarget(scanRadar.TargetObjectInRange())) state = State.Targetting;
+        }
     }
 
     public void Agro()
     {
-        if (!radar.TargetInRange()) //Check Distance between enemy and Player
+        if (!target.IsDead())
         {
-            if (target != null)
+            if (!attackRadar.TargetInRange()) //Check Distance between enemy and Player
             {
-                agent.SetDestination(target.transform.position);
-                Utility.LookAtPosition(transform, target.transform.position);
-                animator.SetBool("IsMoving", Mathf.Abs(agent.velocity.normalized.x) != 0 || Mathf.Abs(agent.velocity.normalized.y) != 0);
-                animator.SetFloat("MoveY", agent.velocity.normalized.y);
-
-                state = State.Targetting;
+                if (target != null)
+                {
+                    agent.SetDestination(canMove ? target.transform.position : transform.position);
+                    Utility.LookAtPosition(transform, target.transform.position);
+                    animator.SetBool("IsMoving", Mathf.Abs(agent.velocity.normalized.x) != 0 || Mathf.Abs(agent.velocity.normalized.y) != 0);
+                    animator.SetFloat("MoveY", agent.velocity.normalized.y);
+                }
+            }
+            else
+            {
+                state = State.Combat;
+                agent.velocity = Vector2.zero;
+                HandleCombat();
             }
         }
         else
         {
-            state = State.Combat;
-            agent.velocity = Vector2.zero;
-            HandleCombat();
+            state = State.Wandering;
         }
     }
 
     public void ScanForTargets()
     {
         _targets.Clear();
+    }
+
+    public override void StartStun()
+    {
+        base.StartStun();
+    }
+
+    public override void EndStun()
+    {
+        base.EndStun();
+    }
+
+    public override void CanMove(bool status)
+    {
+        base.CanMove(status);
+    }
+
+    public override void Attack()
+    {
+        attackIndex++;
+
+        if (attackIndex % 2 == 0) //Random Ability
+        {
+            if ((currentAbilityChace / 100f) >= UnityEngine.Random.value) 
+            {
+                AbilitySetSO abilitySet = unitAbilityController.GetAbilitySetSO(0);
+
+                int abilityIndex = UnityEngine.Random.Range(0, abilitySet.abilities.Length);
+
+                while (lastAbilityIndex == abilityIndex) abilityIndex = UnityEngine.Random.Range(0, abilitySet.abilities.Length);
+
+                lastAbilityIndex = abilityIndex;
+
+                abilitySet.abilities[lastAbilityIndex].UseAbility();
+
+                currentAbilityChace = abilityChance;
+            }
+            else
+            {
+                currentAbilityChace += 20;
+            }
+        }
+        
+        animator.SetTrigger("Melee");
+    }
+
+    protected float RandomCriticalDamage(float chance, float criticalDamage)
+    {
+        if ((chance / 100f) >= UnityEngine.Random.value) return criticalDamage;
+        else return 0;
     }
 
     public override StatBase GetStat()

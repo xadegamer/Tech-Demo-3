@@ -29,13 +29,13 @@ public class BuffHolderUI : MonoBehaviour,IToolTip
         buff.OnBuffRemoved += Buff_OnBuffRemoved;
 
         buff.OnBuffStart?.Invoke();
-        buffCoroutine =  StartCoroutine(ActivateBuffRoutine(buff.buffSO.buffData.GetAbilityValueByID("Duration").GetValue()));
+        buffCoroutine =  StartCoroutine(ActivateBuffRoutine(buff.buffSO.buffbuffAttributes.GetAbilityValueByID("Duration").GetValue<float>()));
     }
 
     private void Buff_ResetBuff(object sender, EventArgs e)
     {
         StopCoroutine(buffCoroutine);
-        buffCoroutine = StartCoroutine(ActivateBuffRoutine(buff.buffSO.buffData.GetAbilityValueByID("Duration").GetValue()));
+        buffCoroutine = StartCoroutine(ActivateBuffRoutine(buff.buffSO.buffbuffAttributes.GetAbilityValueByID("Duration").GetValue<float>()));
     }
 
     private void Buff_OnBuffRemoved(object sender, EventArgs e)
