@@ -25,6 +25,7 @@ public abstract class GameUnitBuffController : MonoBehaviour
 
     public void SendBuff(BuffSO buffSO, GameUnit target)
     {
+        if (target == null) return;
         Buff newBuff = CreateBuff(buffSO, target);
         target.GetComponent<GameUnitBuffController>().AddBuff(newBuff);
     }

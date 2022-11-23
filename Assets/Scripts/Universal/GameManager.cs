@@ -4,20 +4,18 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    public static GameManager Instance;
     [SerializeField] private PlayerUnit player;
     [SerializeField] private Vector2 playerStartPos;
 
-    private void Start()
+    private void Awake()
     {
-        playerStartPos =  player.transform.position;
+        Instance = this;
     }
 
-    private void Update()
+    private void Start()
     {
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            RespawnPlayer();
-        }
+        playerStartPos = player.transform.position;
     }
 
     public void RespawnPlayer()
@@ -27,7 +25,7 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator RespawnPlayerRoutine()
     {
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(2);
         player.Respawn(playerStartPos);
     }
 }

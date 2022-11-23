@@ -8,6 +8,13 @@ public class FloatingText : MonoBehaviour
 {
     [SerializeField] TextMeshPro textMesh;
 
+    [SerializeField] float moveSpeed = 2f;
+
+    private void Update()
+    {
+        transform.position += new Vector3(0, moveSpeed * Time.deltaTime, 0);
+    }
+
     public void SetText(string text, Color color)
     {
         textMesh.text = text;

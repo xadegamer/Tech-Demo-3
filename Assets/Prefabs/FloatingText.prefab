@@ -63,6 +63,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textMesh: {fileID: 3862411834346761075}
+  moveSpeed: 0.5
 --- !u!1 &3594008239989337738
 GameObject:
   m_ObjectHideFlags: 0
@@ -141,7 +142,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 735884681
-  m_SortingLayer: 2
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &3862411834346761075
@@ -245,5 +246,5 @@ SortingGroup:
   m_GameObject: {fileID: 3594008239989337738}
   m_Enabled: 1
   m_SortingLayerID: 735884681
-  m_SortingLayer: 2
+  m_SortingLayer: 4
   m_SortingOrder: 0

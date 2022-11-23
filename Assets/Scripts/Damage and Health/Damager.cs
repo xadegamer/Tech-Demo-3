@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,48 +7,64 @@ using UnityEngine.Events;
 public abstract class Damager : MonoBehaviour
 {
     [SerializeField] DamageInfo damageInfo;
-
-    [Header("KnockBack")]
-    [SerializeField] protected bool hasKnockBack;
-    [SerializeField] protected Vector2 knockBackDirection;
-    [SerializeField] protected float knockBackForce;
-
-    
+ 
     [Tooltip("Insert taget object layer")]
     [SerializeField] protected LayerMask targetLayer;
 
-    [Tooltip("Insert the damage amount")]
+    [Header("Damage")]
+    [SerializeField] protected float chanceToHit;
     [SerializeField] protected float minDamage;
     [SerializeField] protected float maxDamage;
+    
+    [SerializeField] protected float chanceToCrit;
+    [SerializeField] protected float criticalDamageMultiplier;
+
+    [Header("Damage Reduction")]
     [SerializeField] protected float damageReductionPer;
 
     [SerializeField] protected UnityEvent OnHit;
 
-    [Tooltip("Gameobject will destory after it deals damage")]
+    public event EventHandler<float> OnCriticalHit;
+    
     [SerializeField] protected bool destroyOnImpact;
 
     [SerializeField] protected bool hasHit;
 
     private bool doubleDamage = false;
 
-    public void SetUp(GameUnit owner, float minDamage, float maxDamage)
+    public void SetUp(GameUnit owner, float minDamage, float maxDamage, float chanceToHit, float chanceToCrit, float criticalDamageMultiplier)
     {
-        damageInfo.owner = owner;
+        this.damageInfo.owner = owner;
         this.minDamage = minDamage;
         this.maxDamage = maxDamage;
+        this.chanceToHit = chanceToHit;
+        this.chanceToCrit = chanceToCrit;
+        this.criticalDamageMultiplier = criticalDamageMultiplier;
     }
-
+    
     public void DealDamage(Collider2D collision)
     {
-        damageInfo.damageAmount = Utility.CalculateValueWithPercentage(Random.Range(minDamage, maxDamage + 1), damageReductionPer, false);
-
-        if (doubleDamage)
+        if (CalculateChance(chanceToHit))
         {
-            damageInfo.damageAmount *= 2;
-            doubleDamage = false;
-        } 
+            float damage = Utility.CalculateValueWithPercentage(UnityEngine.Random.Range(minDamage, maxDamage + 1), damageReductionPer, false);
+            float criticalDmgMultiplier = CalculateChance(chanceToCrit) ? criticalDamageMultiplier : 0;
 
-        if (collision.TryGetComponent(out HealthHandler healthSystem)) healthSystem.TakeDamage(damageInfo);
+            damageInfo.critical = criticalDmgMultiplier > 0;
+
+            damageInfo.damageAmount = damageInfo.critical  ? damage * criticalDamageMultiplier : damage;
+
+            if (doubleDamage){ damageInfo.damageAmount *= 2 ; doubleDamage = false;}
+            
+            if (collision.TryGetComponent(out HealthHandler healthSystem))
+            {
+                float damageDealth =  healthSystem.TakeDamage(damageInfo);
+                if (damageInfo.critical) OnCriticalHit?.Invoke(this, damageDealth);
+            }
+        }
+        else
+        {
+            PopUpTextManager.Instance.PopUpText(transform, "Miss", Color.red);
+        }
     }
 
     public void CanDoubleDamage()
@@ -70,10 +87,9 @@ public abstract class Damager : MonoBehaviour
         this.damageReductionPer -= damageReductionPer;
     }
 
-    protected float RandomCriticalDamage( float chance, float criticalDamage)
+    protected bool CalculateChance( float chance)
     {
-        if ((chance / 100f) >= Random.value) return criticalDamage;
-        else return 0;
+        return (chance / 100f) >= UnityEngine.Random.value;
     }
 
     public bool HasHit() { return hasHit; }

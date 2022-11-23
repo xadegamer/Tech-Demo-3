@@ -19,19 +19,11 @@ MonoBehaviour:
   abilityCost: 8
   type: 2
   range: 0
-  abilityData:
-    values:
-    - ID: Duration
-      valueType: 2
+  abilityAttributie:
+    attributes:
+    - valueType: 3
       timeType: 1
-      value: 10
-    - ID: Chance
-      valueType: 1
-      timeType: 0
-      value: 10
-    - ID: StunDuration
-      valueType: 2
-      timeType: 0
-      value: 2
+      key: Duration
+      _value: 10
   connectedAbilities: []
   buff: {fileID: 0}

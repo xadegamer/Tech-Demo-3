@@ -10,8 +10,11 @@ public class AbilityUIManager : MonoBehaviour
 {
     public static AbilityUIManager Instance { get; private set; }
 
+    [SerializeField] private GameObject abilityUI;
+
     [Header("Abilities")]
     [SerializeField] private AbilitySetUI[] abilitySetUI;
+    [SerializeField] private AbilitySetUI[] enemyAbilitySetUI;
 
     [Header(header: "CastBar")]
     [SerializeField]private GameObject castBar;
@@ -43,6 +46,11 @@ public class AbilityUIManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.UpArrow)) ShowAbililitySetUI(abilitySetUI[2]);
 
         if (Input.GetKeyDown(KeyCode.DownArrow)) ShowAbililitySetUI(abilitySetUI[3]);
+    }
+
+    public void ToggleActive(bool toggle)
+    {
+        abilityUI.SetActive(toggle);
     }
 
     private void SwapHandler_OnRightSwipe(object sender, EventArgs e)

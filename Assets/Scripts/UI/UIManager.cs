@@ -24,7 +24,7 @@ public class UIManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
-    }
+    } 
 
     public CharacterUI GetPlayerrUI() => playerUI;
     public CharacterUI GetTargetUI() => targetUI;
@@ -44,13 +44,41 @@ public class CharacterUI
     [SerializeField] private BuffHolderUI buffHolderUI;
     [SerializeField] private Transform buffHolder;
 
+    private GameUnit gameUnit;
+
+    public void SetUpPlayerUI(GameUnit gameUnit)
+    {
+        this.gameUnit = gameUnit;
+        icon.sprite = gameUnit.GetCharacterClassSO().characterIcon;
+        SetHealthBar(gameUnit.HealthHandler.GetNormalisedHealth());
+    }
+
     public void SetUp(GameUnit gameUnit)
     {
-        if(gameUnit)
+        if (this.gameUnit) this.gameUnit.OnHealthChangedEvent -= HealthHandler_OnHealthChanged;
+        if (gameUnit)
         {
+            this.gameUnit = gameUnit;
             holder.SetActive(true);
             icon.sprite = gameUnit.GetCharacterClassSO().characterIcon;
-        } else holder.SetActive(false);
+            gameUnit.OnHealthChangedEvent += HealthHandler_OnHealthChanged;
+            SetHealthBar(gameUnit.HealthHandler.GetNormalisedHealth());
+
+            manaBar.gameObject.SetActive(gameUnit is PlayerUnit);
+
+            if (gameUnit is PlayerUnit playerUnit) playerUnit.PlayerStatHandler.GetManaValue().OnValueChanged += StatHandler_OnManaChanged;
+        }
+        else holder.SetActive(false);
+    }
+
+    private void HealthHandler_OnHealthChanged(object sender, float health)
+    {
+        SetHealthBar(health);
+        if (health <= 0) SetUp(null);
+    }
+    private void StatHandler_OnManaChanged(object sender, float mana)
+    {
+        SetManaBar(mana);
     }
 
     public void SetHealthBar(float health) 
@@ -83,6 +111,4 @@ public class CharacterUI
     {
         holder.SetActive(false);
     }
-
-
 }

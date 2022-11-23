@@ -32,14 +32,11 @@ public class BlackfathomAbilityController : GameUnitAbilityController
         damageInfo.SetUp(DamageInfo.DamageType.Melee, damage, false, false);
         gameUnit.GetTarget().GetComponent<HealthHandler>().TakeDamage(damageInfo);
 
-        // 50% Movement and Attack Speed Reduction Debuff
         buffManager.SendBuff(abilitySO.buff, gameUnit.GetTarget());
-        Debug.Log("BlackfathomHamstring");
     }
 
     public void Bash(AbilitySO abilitySO)
     {
-        //Bash Debuff
         buffManager.SendBuff(abilitySO.buff, gameUnit.GetTarget());
         Debug.Log("Bash");
     }

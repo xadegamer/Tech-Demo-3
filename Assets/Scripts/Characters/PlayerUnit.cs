@@ -18,6 +18,8 @@ public class PlayerUnit : GameUnit
     private RaycastHit2D hitInfo;
     private Rigidbody2D rb2D;
 
+    private GameUnit killer;
+
     protected override void Awake()
     {
         base.Awake();
@@ -30,12 +32,9 @@ public class PlayerUnit : GameUnit
     {
         base.Start();
 
-        healthHandler.OnHealthChange.AddListener(OnHealthChanged);
-
         _movementHandler.SetUp(transform, rb2D, animator);
 
-        UIManager.Instance.GetPlayerrUI().SetHealthBar(healthHandler.GetNormalisedHealth());
-        UIManager.Instance.GetPlayerrUI().SetUp(this);
+        UIManager.Instance.GetPlayerrUI().SetUpPlayerUI(this);
 
         _playerStatHandler.GetManaValue().OnValueChanged += StatHandler_OnManaChanged;
         _playerStatHandler.SetUp(characterClassSO);
@@ -58,14 +57,21 @@ public class PlayerUnit : GameUnit
         HandleMeleeAbilities();
     }
 
-    protected override void OnHealthChanged()
+    protected override void OnHealthChanged(float normalisedValue)
     {
+        base.OnHealthChanged(normalisedValue);
         UIManager.Instance.GetPlayerrUI().SetHealthBar(healthHandler.GetNormalisedHealth());
     }
 
-    protected override void OnDeath()
+    protected override void OnDeath(DamageInfo arg0)
     {
-        ChangeState(State.Dead);
+        base.OnDeath(arg0);
+        _movementHandler.StopMovement();
+        GetComponent<Collider2D>().enabled = false;
+
+        killer = arg0.owner;
+        killer.GetComponent<GameUnit>().HealthHandler.ResetHealth();
+        GameManager.Instance.RespawnPlayer();
     }
 
     public override bool TryUseAbility(AbilitySO abilitySO)
@@ -101,6 +107,7 @@ public class PlayerUnit : GameUnit
 
             if (gameUnit is PlayerUnit self)
             {
+                target = null;
                 return true;
             }
         }
@@ -110,7 +117,7 @@ public class PlayerUnit : GameUnit
 
     public override void Targetted(bool status)
     {
-
+        base.Targetted(status);
     }
 
     public override void HandleCombat()
@@ -162,6 +169,15 @@ public class PlayerUnit : GameUnit
         transform.position = startPos;
         healthHandler.SetHealth(characterClassSO.health);
         _playerStatHandler.SetUp(characterClassSO);
+
+        animator.Play("Idle_Buttom");
+     
+        target = null;
+        killer.Targetted(false);
+        killer.SetTarget(null);
+
+        GetComponent<Collider2D>().enabled = true;
+        state = State.Wandering;
     }
 
     public override void CanMove(bool status)

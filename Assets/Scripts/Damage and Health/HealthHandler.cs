@@ -18,14 +18,14 @@ public class HealthHandler : MonoBehaviour
     [SerializeField] float coolDownDuration;
 
     [Header("Events")]
-    public UnityEvent OnHealthChange;
+    public UnityEvent<float> OnHealthChange;
     public UnityEvent<DamageInfo> OnHit;
     public UnityEvent OnReceiveNormalDamage;
     public UnityEvent<DamageInfo> OnReceiveCriticalDamage;
     public UnityEvent OnHitWhileInvulnerable;
     public UnityEvent OnStun;
     public UnityEvent OnHeal;
-    public UnityEvent OnDeath;
+    public UnityEvent<DamageInfo> OnDeath;
 
     [Header("HealthEvents")]
     [SerializeField] HealthEvent[] healthEvents;
@@ -52,10 +52,15 @@ public class HealthHandler : MonoBehaviour
     public void SetHealth(float amount)
     {
         currentHealth = maxHealth = amount;
-        OnHealthChange?.Invoke();
+        OnHealthChange?.Invoke(GetNormalisedHealth());
         if (hasCooldown) coolDownTime = new WaitForSeconds(coolDownDuration);
     }
 
+    public void ResetHealth()
+    {
+        currentHealth = maxHealth;
+        OnHealthChange?.Invoke(GetNormalisedHealth());
+    }
     public void SetDamageResistance(float allDamageResist, float meleeResist, float physicalDamageReduction)
     {
         allDamageResistance = allDamageResist;
@@ -101,15 +106,14 @@ public class HealthHandler : MonoBehaviour
             if (currentHealth <= 0)
             {
                 currentHealth = 0;
-                OnDeath.Invoke();
+                OnDeath.Invoke(damageInfo);
             }
             else
             {
                 TriggerHealthEvents();
                 if (damageInfo.stun) OnStun.Invoke();;
             }
-
-            OnHealthChange?.Invoke();
+            OnHealthChange?.Invoke(GetNormalisedHealth());
 
             if (damageInfo.critical) OnReceiveCriticalDamage.Invoke(damageInfo); OnReceiveNormalDamage.Invoke();
             PopUpTextManager.Instance.PopUpText(transform, finalDamage.ToString("F0"), damageInfo.critical ? Color.red : Color.yellow);
@@ -124,7 +128,7 @@ public class HealthHandler : MonoBehaviour
         currentHealth += amount;
         if (currentHealth > maxHealth) currentHealth = maxHealth;
         OnHeal.Invoke();
-        OnHealthChange?.Invoke();
+        OnHealthChange?.Invoke(GetNormalisedHealth());
 
         PopUpTextManager.Instance.PopUpText(transform, amount.ToString("F0"),  Color.green);
     }

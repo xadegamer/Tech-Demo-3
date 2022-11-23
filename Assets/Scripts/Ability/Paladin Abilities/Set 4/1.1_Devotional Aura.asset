@@ -19,12 +19,12 @@ MonoBehaviour:
   abilityCost: 0
   type: 3
   range: 0
-  abilityData:
-    values:
-    - ID: AllDamageReduction
-      valueType: 1
-      timeType: 0
-      value: 10
+  abilityAttributie:
+    attributes:
+    - valueType: 3
+      timeType: 1
+      key: Duration
+      _value: 10
   connectedAbilities:
   - {fileID: 11400000, guid: fbb844808cb763248a32493ed8022ac5, type: 2}
   - {fileID: 11400000, guid: 04d1b53dc1c474545a3e12600bbbf5f8, type: 2}

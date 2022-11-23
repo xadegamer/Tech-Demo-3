@@ -40,8 +40,8 @@ public class EnemyUnit : GameUnit
         base.Start();
         _statHandler.SetUp(characterClassSO);
         currentAbilityChace = abilityChance;
+        damager.OnCriticalHit += Damager_OnCriticalHit;
     }
-
 
     protected override void Update()
     {
@@ -60,14 +60,19 @@ public class EnemyUnit : GameUnit
         }
     }
 
-    protected override void OnHealthChanged()
+    protected override void OnHealthChanged(float normalisedValue)
     {
-        UIManager.Instance.GetTargetUI().SetHealthBar(healthHandler.GetNormalisedHealth());
+        base.OnHealthChanged(normalisedValue);
     }
 
-    protected override void OnDeath()
+    private void Damager_OnCriticalHit(object sender, float e)
     {
+        PopUpTextManager.Instance.PopUpText(transform, "Did Critical", Color.red);
+    }
 
+    protected override void OnDeath(DamageInfo arg0)
+    {
+        base.OnDeath(arg0);
     }
 
     public override bool TryUseAbility(AbilitySO abilitySO)
@@ -83,9 +88,7 @@ public class EnemyUnit : GameUnit
             state = State.Targetting;
             this.target = playerUnit;
             playerUnit.Targetted(true);
-
-            UIManager.Instance.GetTargetOfTargetUI().SetUp(playerUnit);
-
+            UIManager.Instance.GetTargetOfTargetUI().SetUp(isTargetted ? playerUnit : null);
             return true;
         }
         return false;
@@ -98,17 +101,9 @@ public class EnemyUnit : GameUnit
 
     public override void Targetted(bool status)
     {
-        if (status)
-        {
-            UIManager.Instance.GetTargetUI().SetUp(this);
-            healthHandler.OnHealthChange.AddListener(OnHealthChanged);
-            UIManager.Instance.GetTargetUI().SetHealthBar(healthHandler.GetNormalisedHealth());
-        }
-        else
-        {
-            UIManager.Instance.GetTargetUI().SetUp(null);
-            healthHandler.OnHealthChange.RemoveListener(OnHealthChanged);
-        }
+        base.Targetted(status);
+        UIManager.Instance.GetTargetUI().SetUp(status ? this : null);
+        UIManager.Instance.GetTargetOfTargetUI().SetUp(status ? target : null);
     }
 
     public void Patrol()
@@ -131,7 +126,7 @@ public class EnemyUnit : GameUnit
 
     public void Agro()
     {
-        if (!target.IsDead())
+        if (target && !target.IsDead())
         {
             if (!attackRadar.TargetInRange()) //Check Distance between enemy and Player
             {
