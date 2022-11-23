@@ -38,7 +38,8 @@ public class MovementHandler
     public void HandleAnimation()
     {
         animator.SetBool("IsMoving", Mathf.Abs(movementInput.x) != 0 || Mathf.Abs(movementInput.y) != 0);
-        animator.SetFloat("MoveY", movementInput.y);
+
+        if (faceMovementDir) animator.SetFloat("MoveY", movementInput.y);
     }
 
     public void ToggleFaceMovementDir(bool state) => faceMovementDir = state;

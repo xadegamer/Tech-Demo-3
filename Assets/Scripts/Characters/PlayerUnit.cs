@@ -54,6 +54,8 @@ public class PlayerUnit : GameUnit
 
         if (target) Utility.LookAtPosition(transform, target.transform.position);
 
+        if (target) animator.SetFloat("MoveY", (target.transform.position.y - transform.position.y));
+
         HandleMeleeAbilities();
     }
 
@@ -97,7 +99,7 @@ public class PlayerUnit : GameUnit
             if (target is EnemyUnit lastEnemyUnit) lastEnemyUnit.Targetted(false);
 
             AbilityUIManager.Instance.ToggleActive(gameUnit is EnemyUnit);
-            
+
             Targetter.SetTarget(gameUnit);
 
             if (gameUnit is EnemyUnit enemyUnit)

@@ -5202,7 +5202,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7e73d57a16b9354790f6ecd02a43121, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scanSize: 1
+  scanSize: 0.87
   maxScanCount: 1
   scanLayer:
     serializedVersion: 2
@@ -8569,13 +8569,14 @@ GameObject:
   - component: {fileID: 4081922375212444054}
   - component: {fileID: 8183509409305838273}
   - component: {fileID: 4860112471093904049}
+  - component: {fileID: 8183509409305838274}
   m_Layer: 5
   m_Name: Abilty Panel _ Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &3284758330977881701
 GameObject:
   m_ObjectHideFlags: 0
@@ -8850,7 +8851,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2f9586dbc2351844a4b009eb5eeda3b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  abilityUI: {fileID: 2849946482156200696}
+  abilityPanelHolder: {fileID: 8183509409305838274}
   attackButton: {fileID: 1798143480}
   abilitySetUI:
   - {fileID: 390642523}
@@ -9305,3 +9306,15 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2849946482156200696}
   m_CullTransparentMesh: 1
+--- !u!225 &8183509409305838274
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2849946482156200696}
+  m_Enabled: 1
+  m_Alpha: 0
+  m_Interactable: 0
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
