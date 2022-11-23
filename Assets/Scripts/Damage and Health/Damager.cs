@@ -24,7 +24,7 @@ public abstract class Damager : MonoBehaviour
 
     [SerializeField] protected UnityEvent OnHit;
 
-    public event EventHandler<float> OnCriticalHit;
+    public Action<float> OnCriticalHit;
     
     [SerializeField] protected bool destroyOnImpact;
 
@@ -58,7 +58,7 @@ public abstract class Damager : MonoBehaviour
             if (collision.TryGetComponent(out HealthHandler healthSystem))
             {
                 float damageDealth =  healthSystem.TakeDamage(damageInfo);
-                if (damageInfo.critical) OnCriticalHit?.Invoke(this, damageDealth);
+                if (damageInfo.critical) OnCriticalHit?.Invoke(damageDealth);
             }
         }
         else

@@ -330,7 +330,15 @@ public static class Utility
         else time = "0 s";
         return time;
     }
-    
+
+    public static void DestroyAllChildren(this Transform transform)
+    {
+        int childs = transform.childCount;
+        for (int i = childs - 1; i > 0; i--)
+        {
+            GameObject.Destroy(transform.GetChild(i).gameObject);
+        }
+    }
 
     public static void DrawBoxcast2D(Vector2 position, Vector2 size, float direction, float distance, Color color)
     {

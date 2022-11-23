@@ -11,7 +11,8 @@ public abstract class GameUnit : MonoBehaviour
 
     public Damager Damager { get => damager; }
     public HealthHandler HealthHandler { get => healthHandler; }
-    
+    public GameUnitAbilityController gameUnitAbilityController { get => unitAbilityController; }
+    public GameUnitBuffController gameUnitBuffController { get => unitBuffController; }
 
     [Header("Abstract Properties")]
     [SerializeField] protected CharacterClassSO characterClassSO;
@@ -23,6 +24,8 @@ public abstract class GameUnit : MonoBehaviour
     [SerializeField] protected Damager damager;
 
     protected GameUnitAbilityController unitAbilityController;
+
+    protected GameUnitBuffController unitBuffController;
 
     protected Animator animator;
     protected HealthHandler healthHandler;
@@ -40,11 +43,14 @@ public abstract class GameUnit : MonoBehaviour
         healthHandler = GetComponent<HealthHandler>();
         animator = GetComponentInChildren<Animator>();
         unitAbilityController = GetComponent<GameUnitAbilityController>();
+        unitBuffController = GetComponent<GameUnitBuffController>();
     }
 
     protected virtual void Start()
     {
         healthHandler.SetHealth(characterClassSO.health);
+
+        healthHandler.SetDamageResistance(characterClassSO.physicalDamageReduction);
 
         healthHandler.OnHealthChange.AddListener(OnHealthChanged);
 

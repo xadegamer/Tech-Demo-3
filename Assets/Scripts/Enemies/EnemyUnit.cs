@@ -22,10 +22,14 @@ public class EnemyUnit : GameUnit
     [SerializeField] private float abilityChance = 40;
     [SerializeField] private int lastAbilityIndex;
 
+    [Header("Buff")]
+    [SerializeField] private BuffSO nagaSpiritBuff;
+
     private float currentAbilityChace;
 
     ObservableList<GameObject> _targets = new();
     private Vector2 startPos;
+    private float lastCriticalDamageDealth;
 
     protected override void Awake()
     {
@@ -65,9 +69,11 @@ public class EnemyUnit : GameUnit
         base.OnHealthChanged(normalisedValue);
     }
 
-    private void Damager_OnCriticalHit(object sender, float e)
+    private void Damager_OnCriticalHit(float e)
     {
-        PopUpTextManager.Instance.PopUpText(transform, "Did Critical", Color.red);
+        lastCriticalDamageDealth = e;
+        GetComponent<GameUnitBuffController>().SendBuff(nagaSpiritBuff, this);
+       PopUpTextManager.Instance.PopUpText(transform, "Critical", Color.red);
     }
 
     protected override void OnDeath(DamageInfo arg0)
@@ -209,5 +215,10 @@ public class EnemyUnit : GameUnit
     public override StatBase GetStat()
     {
         return _statHandler;
+    }
+
+    public float LastCriticalDamageDealth()
+    {
+        return lastCriticalDamageDealth;
     }
 }

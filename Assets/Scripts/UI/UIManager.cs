@@ -50,7 +50,7 @@ public class CharacterUI
     [SerializeField] private Image manaBar;
 
     [Header("Buff")]
-    [SerializeField] private BuffHolderUI buffHolderUI;
+    [SerializeField] private BuffObjectUI buffObjectUI;
     [SerializeField] private Transform buffHolder;
 
     private GameUnit gameUnit;
@@ -60,18 +60,30 @@ public class CharacterUI
         this.gameUnit = gameUnit;
         icon.sprite = gameUnit.GetCharacterClassSO().characterIcon;
         SetHealthBar(gameUnit.HealthHandler.GetNormalisedHealth());
+        gameUnit.gameUnitBuffController.OnBuffAdded += AddBuffObject;
     }
 
     public void SetUp(GameUnit gameUnit)
     {
-        if (this.gameUnit) this.gameUnit.OnHealthChangedEvent -= HealthHandler_OnHealthChanged;
+        if (this.gameUnit)
+        {
+            this.gameUnit.OnHealthChangedEvent -= HealthHandler_OnHealthChanged;
+            if (buffHolder) this.gameUnit.gameUnitBuffController.OnBuffAdded -= AddBuffObject;
+        } 
         if (gameUnit)
         {
+            if (buffHolder) ClearBuffObjects();
+
             this.gameUnit = gameUnit;
+            
+            if(buffHolder) SpawnBuff();
+            
             holder.SetActive(true);
             icon.sprite = gameUnit.GetCharacterClassSO().characterIcon;
             gameUnit.OnHealthChangedEvent += HealthHandler_OnHealthChanged;
             SetHealthBar(gameUnit.HealthHandler.GetNormalisedHealth());
+
+            if (buffHolder) gameUnit.gameUnitBuffController.OnBuffAdded += AddBuffObject;
 
             manaBar.gameObject.SetActive(gameUnit is PlayerUnit);
 
@@ -92,28 +104,29 @@ public class CharacterUI
 
     public void SetHealthBar(float health) 
     {
-        UIManager.Instance.StartCoroutine(Utility.LerpBarValue(healthBar, health, .5f));
-      //  healthBar.fillAmount = health; 
+        UIManager.Instance.StartCoroutine(Utility.LerpBarValue(healthBar, health, .2f));
     }
     public void SetManaBar(float mana) 
     {
-        UIManager.Instance.StartCoroutine(Utility.LerpBarValue(manaBar, mana, .5f));
-       // manaBar.fillAmount = mana; 
+        UIManager.Instance.StartCoroutine(Utility.LerpBarValue(manaBar, mana, .2f));
     }
 
-    public void AddBuff(Buff buff)
+    public void AddBuffObject(BuffObject buffObject)
     {
-        GameObject.Instantiate(buffHolderUI, buffHolder).ActivateBuff(buff);
+        GameObject.Instantiate(buffObjectUI, buffHolder).SetUp(buffObject);
     }
 
-    public void RemoveBuff(BuffSO buff)
+    public void SpawnBuff()
     {
-
+        foreach (BuffObject buffObject in gameUnit.gameUnitBuffController.GetBuffObjects())
+        {
+            AddBuffObject(buffObject);
+        }
     }
 
-    public void ClearBuffs()
+    public void ClearBuffObjects()
     {
-
+        buffHolder.transform.DestroyAllChildren();
     }
 
     public void Hide()

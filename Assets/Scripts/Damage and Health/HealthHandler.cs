@@ -9,8 +9,6 @@ public class HealthHandler : MonoBehaviour
     [SerializeField] float maxHealth;
 
     [Header("Damage Resistance")]
-    [SerializeField] float allDamageResistance;
-    [SerializeField] float meleeDamageResistance;
     [SerializeField] float physicalDamageReduction;
 
     [Header("CoolDown")]
@@ -61,10 +59,8 @@ public class HealthHandler : MonoBehaviour
         currentHealth = maxHealth;
         OnHealthChange?.Invoke(GetNormalisedHealth());
     }
-    public void SetDamageResistance(float allDamageResist, float meleeResist, float physicalDamageReduction)
+    public void SetDamageResistance(float physicalDamageReduction)
     {
-        allDamageResistance = allDamageResist;
-        meleeDamageResistance = meleeResist;
         this.physicalDamageReduction = physicalDamageReduction;
     }
 
@@ -85,18 +81,18 @@ public class HealthHandler : MonoBehaviour
         {
             if (hasCooldown) StartCoroutine(nameof(DamageDelay));
 
-            float damageAfterResisDeduction = 0;
+            float damageAfterResisDeduction = Utility.CalculateValueWithPercentage(damageInfo.damageAmount, physicalDamageReduction, false);
 
-            damageAfterResisDeduction = Utility.CalculateValueWithPercentage(damageInfo.damageAmount, allDamageResistance, false);
+            //damageAfterResisDeduction = Utility.CalculateValueWithPercentage(damageInfo.damageAmount, allDamageResistance, false);
 
-            if (damageInfo.damageType == DamageInfo.DamageType.Melee)
-            {
-                damageAfterResisDeduction = Utility.CalculateValueWithPercentage(damageAfterResisDeduction, meleeDamageResistance, false);
-            }
-            else if (damageInfo.damageType == DamageInfo.DamageType.Spell)
-            {
-                damageAfterResisDeduction = Utility.CalculateValueWithPercentage(damageAfterResisDeduction, physicalDamageReduction, false);
-            }
+            //if (damageInfo.damageType == DamageInfo.DamageType.Melee)
+            //{
+            //    damageAfterResisDeduction = Utility.CalculateValueWithPercentage(damageAfterResisDeduction, meleeDamageResistance, false);
+            //}
+            //else if (damageInfo.damageType == DamageInfo.DamageType.Spell)
+            //{
+            //    damageAfterResisDeduction = Utility.CalculateValueWithPercentage(damageAfterResisDeduction, physicalDamageReduction, false);
+            //}
 
             damageInfo.damageAmount = damageAfterResisDeduction;
             finalDamage = damageAfterResisDeduction;

@@ -18,16 +18,6 @@ public class PaladinBuffController : GameUnitBuffController
         }
     }
 
-    public override bool AddBuff(Buff newBuff)
-    {
-        if (base.AddBuff(newBuff))
-        {
-            UIManager.Instance.GetPlayerrUI().AddBuff(newBuff);
-            return true;
-        }
-        return false;
-    }
-
     public Buff JudgementOfWeaknessBuff(BuffSO buffSO, GameUnit target)
     {
         Debug.Log("Found JudgementOfWeaknessBuff");
@@ -56,6 +46,4 @@ public class PaladinBuffController : GameUnitBuffController
             target.Damager.RemoveDamageReduction(damageReduction);
         });
     }
-
-
 }

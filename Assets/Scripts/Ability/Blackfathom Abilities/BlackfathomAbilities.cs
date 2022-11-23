@@ -15,4 +15,5 @@ public enum BlackfathomBuff
 {
     BlackfathomHamstringDebuff,
     BashDebuff,
+    NagaSpiritBuff
 }
