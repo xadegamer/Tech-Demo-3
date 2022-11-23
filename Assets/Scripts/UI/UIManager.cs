@@ -18,19 +18,28 @@ public class UIManager : MonoBehaviour
     [Header("TargetOfTarget")]
     [SerializeField] private CharacterUI targetOfTargetUI;
 
-    [Header("Buff")]
-    [SerializeField] private BuffHolderUI buffHolderUI;
+    [Header("Attacking")]
+    [SerializeField] private GameObject attackButton;
 
     private void Awake()
     {
         Instance = this;
-    } 
+    }
+
+    private void Start()
+    {
+        PlayerUnit.Instance.OnTargetFound += ToggleAttackButton;
+    }
 
     public CharacterUI GetPlayerrUI() => playerUI;
     public CharacterUI GetTargetUI() => targetUI;
     public CharacterUI GetTargetOfTargetUI() => targetOfTargetUI;
-}
 
+    public void ToggleAttackButton(bool toggle)
+    {
+        attackButton.SetActive(toggle);
+    }
+}
 
 [Serializable]
 public class CharacterUI

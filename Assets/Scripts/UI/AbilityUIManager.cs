@@ -35,6 +35,8 @@ public class AbilityUIManager : MonoBehaviour
         ScreenSwapHandler.Instance.OnUpSwipe += SwapHandler_OnUpSwipe;
         ScreenSwapHandler.Instance.OnLeftSwipe += SwapHandler_OnLeftSwipe;
         ScreenSwapHandler.Instance.OnRightSwipe += SwapHandler_OnRightSwipe;
+
+        PlayerUnit.Instance.OnTargetFound += ToggleActive;
     }
 
     private void Update()
@@ -52,7 +54,6 @@ public class AbilityUIManager : MonoBehaviour
     {
         abilityPanelHolder.alpha = toggle ? 1 : 0;
         abilityPanelHolder.interactable = toggle;
-        attackButton.SetActive(toggle);
     }
 
     private void SwapHandler_OnRightSwipe(object sender, EventArgs e)

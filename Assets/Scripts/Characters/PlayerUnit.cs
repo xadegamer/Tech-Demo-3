@@ -10,11 +10,15 @@ public class PlayerUnit : GameUnit
     public PlayerStatHandler PlayerStatHandler { get => _playerStatHandler; }
     public MovementHandler MovementHandler { get => _movementHandler; }
 
+    public Action<bool> OnTargetFound;
+
     [Header("Player Handlers")]
     [SerializeField] private MovementHandler _movementHandler;
     [SerializeField] private PlayerStatHandler _playerStatHandler;
+    [SerializeField] private LayerMask tapDetectlayer;
 
-    private GameUnitBuffController gameUnitBuffController;
+
+private GameUnitBuffController gameUnitBuffController;
     private RaycastHit2D hitInfo;
     private Rigidbody2D rb2D;
 
@@ -105,14 +109,14 @@ public class PlayerUnit : GameUnit
             if (gameUnit is EnemyUnit enemyUnit)
             {
                 state = State.Targetting;
-                target = enemyUnit;
+                SetTarget(enemyUnit);
                 enemyUnit.Targetted(true);
                 return true;
             }
 
             if (gameUnit is PlayerUnit self)
             {
-                target = null;
+                SetTarget(null);
                 return true;
             }
         }
@@ -137,7 +141,7 @@ public class PlayerUnit : GameUnit
     public void TryTargetTouchedEnemy()
     {
         if (Input.touches.Length > 0 && Input.touches[0].phase == TouchPhase.Moved) hitInfo = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.touches[0].position), Vector3.forward);
-        else if (Input.GetMouseButtonDown(0)) hitInfo = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector3.forward);
+        else if (Input.GetMouseButtonDown(0)) hitInfo = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector3.forward, tapDetectlayer);
         else return;
 
         if (hitInfo.collider != null)
@@ -168,6 +172,12 @@ public class PlayerUnit : GameUnit
         return _playerStatHandler;
     }
 
+    public override void SetTarget(GameUnit newTarget)
+    {
+        base.SetTarget(newTarget);
+        OnTargetFound?.Invoke(newTarget);
+    }
+
     public void Respawn(Vector2 startPos)
     {
         gameUnitBuffController.RemoveBuffs();
@@ -176,8 +186,9 @@ public class PlayerUnit : GameUnit
         _playerStatHandler.SetUp(characterClassSO);
 
         animator.Play("Idle_Buttom");
-     
-        target = null;
+
+
+        SetTarget(null);
         killer.Targetted(false);
         killer.SetTarget(null);
 

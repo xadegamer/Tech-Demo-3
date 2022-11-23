@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class GameManager : MonoBehaviour
 {
@@ -26,7 +25,6 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator RespawnPlayerRoutine()
     {
-        AbilityUIManager.Instance.ToggleActive(false);
         Targetter.SetTarget(null);
         yield return new WaitForSeconds(2);
         player.Respawn(playerStartPos);

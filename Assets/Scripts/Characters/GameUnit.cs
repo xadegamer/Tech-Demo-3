@@ -113,10 +113,9 @@ public abstract class GameUnit : MonoBehaviour
         return target;
     }
 
-    public void SetTarget(GameUnit newTarget)
+    public virtual void SetTarget(GameUnit newTarget)
     {
         target = newTarget;
-        Debug.Log("Target set to " + target);
     }
 
     public virtual void StartStun()
