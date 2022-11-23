@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using TMPro;
 using UnityEngine.UI;
-using static UnityEditor.PlayerSettings;
 using System;
 
 public class ToolTipManager : MonoBehaviour

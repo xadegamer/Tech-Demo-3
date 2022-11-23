@@ -10,11 +10,11 @@ public class AbilityUIManager : MonoBehaviour
 {
     public static AbilityUIManager Instance { get; private set; }
 
-    [SerializeField] private GameObject abilityUI;
+    [SerializeField] private CanvasGroup abilityPanelHolder;
+    [SerializeField] private GameObject attackButton;
 
     [Header("Abilities")]
     [SerializeField] private AbilitySetUI[] abilitySetUI;
-    [SerializeField] private AbilitySetUI[] enemyAbilitySetUI;
 
     [Header(header: "CastBar")]
     [SerializeField]private GameObject castBar;
@@ -50,7 +50,9 @@ public class AbilityUIManager : MonoBehaviour
 
     public void ToggleActive(bool toggle)
     {
-        abilityUI.SetActive(toggle);
+        abilityPanelHolder.alpha = toggle ? 1 : 0;
+        abilityPanelHolder.interactable = toggle;
+        attackButton.SetActive(toggle);
     }
 
     private void SwapHandler_OnRightSwipe(object sender, EventArgs e)

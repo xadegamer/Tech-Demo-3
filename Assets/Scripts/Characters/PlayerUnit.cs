@@ -95,6 +95,9 @@ public class PlayerUnit : GameUnit
             if (target == clickedObject) return false;
 
             if (target is EnemyUnit lastEnemyUnit) lastEnemyUnit.Targetted(false);
+
+            AbilityUIManager.Instance.ToggleActive(gameUnit is EnemyUnit);
+            
             Targetter.SetTarget(gameUnit);
 
             if (gameUnit is EnemyUnit enemyUnit)

@@ -20,9 +20,16 @@ public class Targetter : MonoBehaviour
 
     public static void SetTarget(GameUnit target)
     {
-        Instance.spriteRenderer.enabled = true;
-        Instance.spriteRenderer.color = (target is PlayerUnit) ? Instance.playerColour : Instance.enemyColour;
-        Instance.transform.SetParent(target.transform);
-        Instance. transform.localPosition = Vector2.zero;
+        if(target)
+        {
+            Instance.spriteRenderer.enabled = true;
+            Instance.spriteRenderer.color = (target is PlayerUnit) ? Instance.playerColour : Instance.enemyColour;
+            Instance.transform.SetParent(target.transform);
+            Instance.transform.localPosition = Vector2.zero;
+        }
+        else
+        {
+            Instance.spriteRenderer.enabled = false;
+        }
     }
 }

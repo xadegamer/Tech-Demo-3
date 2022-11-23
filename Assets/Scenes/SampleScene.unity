@@ -7374,7 +7374,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1798143481
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8575,7 +8575,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &3284758330977881701
 GameObject:
   m_ObjectHideFlags: 0
@@ -8851,12 +8851,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   abilityUI: {fileID: 2849946482156200696}
+  attackButton: {fileID: 1798143480}
   abilitySetUI:
   - {fileID: 390642523}
   - {fileID: 743401837}
   - {fileID: 247073730}
   - {fileID: 989345256}
-  enemyAbilitySetUI: []
   castBar: {fileID: 1519759611}
   castBarFill: {fileID: 916209532}
   castBarText: {fileID: 200377243}
