@@ -30,7 +30,7 @@ public class BlackfathomAbilityController : GameUnitAbilityController
         float damage = Utility.CalculateValueWithPercentage(gameUnit.GetStat().GetCharacterClassSO().minbaseDamage, ability.abilitySO.abilityAttributie.GetAbilityValueByID("DamageInc").GetValue<float>(), true);
 
         DamageInfo damageInfo = new DamageInfo(gameUnit);
-        damageInfo.SetUp(DamageInfo.DamageType.Physical, damage, false, false);
+        damageInfo.SetUp(DamageInfo.DamageType.Physical, damage, false);
         gameUnit.GetTarget().GetComponent<HealthHandler>().TakeDamage(damageInfo);
 
         buffManager.SendBuff(ability.abilitySO.buff, gameUnit.GetTarget());
@@ -50,13 +50,21 @@ public class BlackfathomAbilityController : GameUnitAbilityController
         {
             Debug.Log("Reset VengefulStance");
             StopCoroutine(vengefulStanceRoutine);
-            gameUnit.HealthHandler.OnHit.RemoveAllListeners();
+            gameUnit.HealthHandler.OnHit.RemoveListener(OnHit);
             gameUnit.Damager.ModifyDamageReduction(ability.abilitySO.abilityAttributie.GetAbilityValueByID("DamageReduction").GetValue<float>(), false);
         }
         
-        vengefulStanceRoutine = StartCoroutine(Utility.TimedAbility
-            
-        (ability, () =>
+        void OnHit(DamageInfo damageInfo)
+        {
+            DamageInfo newDamageInfo = new DamageInfo(gameUnit);
+            newDamageInfo.damageType = DamageInfo.DamageType.Physical;
+            newDamageInfo.damageAmount = Utility.CalculatePercentageOfValue(damageInfo.damageAmount, ability.abilitySO.abilityAttributie.GetAbilityValueByID("Damage Return").GetValue<float>());
+            newDamageInfo.reflect = true;
+            if (damageInfo.owner) damageInfo.owner.HealthHandler.TakeDamage(newDamageInfo);
+        }
+
+        vengefulStanceRoutine = StartCoroutine(Utility.TimedAbility         
+        (() =>
         {
             Debug.Log("Start VengefulStance");
 
@@ -65,24 +73,17 @@ public class BlackfathomAbilityController : GameUnitAbilityController
             gameUnit.CanMove(false);
             gameUnit.Damager.ModifyDamageReduction(ability.abilitySO.abilityAttributie.GetAbilityValueByID("DamageReduction").GetValue<float>());
 
-            DamageInfo damageInfo = new DamageInfo(gameUnit);
-            damageInfo.owner = gameUnit;
-            damageInfo.damageType = DamageInfo.DamageType.Physical;
+            gameUnit.HealthHandler.OnHit.AddListener(OnHit);
 
-            gameUnit.HealthHandler.OnHit.AddListener(damageInfo =>
-            {
-                damageInfo.damageAmount = Utility.CalculatePercentageOfValue(damageInfo.damageAmount, ability.abilitySO.abilityAttributie.GetAbilityValueByID("Damage Return").GetValue<float>());
-                if(damageInfo.owner)damageInfo.owner.HealthHandler.TakeDamage(damageInfo);
-            });;
+            Debug.Log("Count: " +gameUnit.HealthHandler.OnHit.GetPersistentEventCount());
         }
-        
-        , duration, (ability) =>
+        , duration, () =>
         {
             Debug.Log("End VengefulStance");
 
             gameUnit.CanMove(true);
             gameUnit.Damager.ModifyDamageReduction(ability.abilitySO.abilityAttributie.GetAbilityValueByID("DamageReduction").GetValue<float>(), false);
-            gameUnit.HealthHandler.OnHit.RemoveAllListeners();
+            gameUnit.HealthHandler.OnHit.RemoveListener(OnHit);
             vengefulStanceRoutine = null;
         }));
     }

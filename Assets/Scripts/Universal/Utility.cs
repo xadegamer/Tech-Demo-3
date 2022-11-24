@@ -311,7 +311,7 @@ public static class Utility
         OnBuffEnd?.Invoke();
     }
 
-    public static IEnumerator TimedAbility(Ability abilitySO,Action OnAbilityStart, float duration, Action<Ability> OnBuffEnd)
+    public static IEnumerator TimedAbility(Action OnAbilityStart, float duration, Action OnAbilityEnd)
     {
         OnAbilityStart?.Invoke();
         float startDuration = duration;
@@ -320,7 +320,7 @@ public static class Utility
             duration -= Time.deltaTime;
             yield return null;
         }
-        OnBuffEnd?.Invoke(abilitySO);
+        OnAbilityEnd?.Invoke();
     }
 
     public static IEnumerator IntervalAbility(Action OnAbilityStart, float interval, Action OnInterval)

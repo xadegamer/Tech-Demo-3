@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: 0
   buffName: Judgement Of Wisdom
-  buffDescription: 
+  buffDescription: '30% chance to all melee attackers that will restore their mana
+    by 2% every time they hit that enemy. '
   buffIcon: {fileID: 21300000, guid: 05f4cf732537207418e961d26696ea43, type: 3}
   buffType: 1
   isDebuff: 0

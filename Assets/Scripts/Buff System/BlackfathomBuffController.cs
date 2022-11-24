@@ -27,10 +27,7 @@ public class BlackfathomBuffController : GameUnitBuffController
             ((PlayerUnit)target).MovementHandler.ModifySpeed(reduction, false);
             target.GetStat().ModifyAttackSpeed(Utility.CalculatePercentageOfValue(target.GetCharacterClassSO().attackSpeed, reduction), true);
         }
-        , () =>
-        {// In Progress
-            
-        }, () =>
+        , null, () =>
         { // End
             ((PlayerUnit)target).MovementHandler.ResetSpeed();
             target.GetStat().ModifyAttackSpeed(Utility.CalculatePercentageOfValue(target.GetCharacterClassSO().attackSpeed, reduction), false);
@@ -45,15 +42,12 @@ public class BlackfathomBuffController : GameUnitBuffController
         { //Start
             target.StartStun();
         }
-        , () =>
-        {// In Progress
-            
-        }, () =>
+        , null, () =>
         { // End
             target.EndStun();
         });
     }
-
+    
     public Buff NagaSpiritBuff(BuffSO buffSO, GameUnit target)
     {
         Debug.Log("Found NagaSpiritBuff");
@@ -63,10 +57,7 @@ public class BlackfathomBuffController : GameUnitBuffController
         float healAmount = Utility.CalculatePercentageOfValue((target as EnemyUnit).LastCriticalDamageDealth(), healPercentage);
         float timer = 0;
 
-        return new Buff(buffSO, target, () =>
-        { //Start
-            
-        }
+        return new Buff(buffSO, target, null
         , () =>
         {// In Progress
 
@@ -77,9 +68,6 @@ public class BlackfathomBuffController : GameUnitBuffController
                 timer = 1;
             }
 
-        }, () =>
-        { // End
-
-        });
+        },null);
     }
 }

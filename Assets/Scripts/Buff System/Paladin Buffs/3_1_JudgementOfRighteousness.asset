@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: 0
   buffName: Judgement Of Righteousness
-  buffDescription: 
+  buffDescription: '30% chance to all melee attackers that will restore their health
+    by 2% every time they hit that enemy. '
   buffIcon: {fileID: 21300000, guid: 8c8016285e3d611458fcb81deb0a96c0, type: 3}
   buffType: 1
   isDebuff: 0

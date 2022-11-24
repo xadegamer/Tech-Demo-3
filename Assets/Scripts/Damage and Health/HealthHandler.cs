@@ -23,7 +23,6 @@ public class HealthHandler : MonoBehaviour
     public UnityEvent OnReceiveNormalDamage;
     public UnityEvent<DamageInfo> OnReceiveCriticalDamage;
     public UnityEvent OnHitWhileInvulnerable;
-    public UnityEvent OnStun;
     public UnityEvent OnHeal;
     public UnityEvent<DamageInfo> OnDeath;
 
@@ -62,6 +61,7 @@ public class HealthHandler : MonoBehaviour
     public void ModifyMaxHealth(float amount, bool increase = true)
     {
         if (increase) maxHealth += amount; else maxHealth -= amount;
+        if (currentHealth > maxHealth) currentHealth = maxHealth;
         OnHealthChange?.Invoke(GetNormalisedHealth());
     }
 
@@ -121,14 +121,14 @@ public class HealthHandler : MonoBehaviour
             else
             {
                 TriggerHealthEvents();
-                if (damageInfo.stun) OnStun.Invoke();;
             }
             OnHealthChange?.Invoke(GetNormalisedHealth());
 
-            if (damageInfo.critical) OnReceiveCriticalDamage.Invoke(damageInfo); OnReceiveNormalDamage.Invoke();
             PopUpTextManager.Instance.PopUpText(transform, finalDamage.ToString("F0"), damageInfo.critical ? Color.red : Color.yellow);
 
-            OnHit?.Invoke(damageInfo);
+            if (damageInfo.critical) OnReceiveCriticalDamage?.Invoke(damageInfo); OnReceiveNormalDamage?.Invoke();
+            
+            if(!damageInfo.reflect) OnHit?.Invoke(damageInfo);
         }
         return finalDamage;
     }

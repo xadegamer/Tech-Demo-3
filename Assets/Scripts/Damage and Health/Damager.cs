@@ -116,17 +116,17 @@ public class DamageInfo
     public DamageType damageType;
     public float damageAmount;
     public bool critical;
-    public bool stun;
+    public bool reflect;
+
     public GameUnit owner;
 
     public DamageInfo(GameUnit owner) { this.owner = owner; }
 
-    public void SetUp(DamageType damageType, float damageAmount, bool critical, bool stun)
+    public void SetUp(DamageType damageType, float damageAmount, bool critical)
     {
         this.damageType = damageType;
         this.damageAmount = damageAmount;
         this.critical = critical;
-        this.stun = stun;
     }
 }
 

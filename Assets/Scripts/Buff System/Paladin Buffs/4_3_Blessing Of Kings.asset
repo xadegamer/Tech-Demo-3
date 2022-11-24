@@ -14,7 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: 0
   buffName: Blessing Of Kings
-  buffDescription: 
+  buffDescription: 'Deal an additional 5% base weapon damage, have a 0. 1 sec increase
+    in melee attack speed as well as an additional 2% more crit chance. Furthermore
+    that target will have his maximum Health and Mana increased by 10% of their base
+    health and base mana respectively. '
   buffIcon: {fileID: 21300000, guid: 29188f91b8e650a4e8e37d35d5fd7a4b, type: 3}
   buffType: 0
   isDebuff: 0

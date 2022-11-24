@@ -54,42 +54,40 @@ public class PaladinBuffController : GameUnitBuffController
 
         float timer = interval;
 
-        return new Buff(buffSO, target, () =>
-        { //Start
-
-        }
+        return new Buff(buffSO, target, null
         , () =>
         {// In Progress
 
             if (timer > 0) timer -= Time.deltaTime;
             else
             {
-                (gameUnit as PlayerUnit).PlayerStatHandler.GetManaValue().IncreaseValue(manaAmount);
+                (target as PlayerUnit).PlayerStatHandler.GetManaValue().IncreaseValue(manaAmount);
                 timer = interval;
             }
 
-        }, () =>
-        { // End
-
-        });
+        }, null);
     }
     public Buff RetributionAura(BuffSO buffSO, GameUnit target)
     {
         Debug.Log("Found DevotionalAuraBuff");
 
+        void DoAura(DamageInfo damageInfo)
+        {
+            float damage = Utility.CalculatePercentageOfValue(gameUnit.GetCharacterClassSO().maxbaseDamage, buffSO.buffbuffAttributes.GetAbilityValueByID("BaseMeleeDamage").GetValue<float>());
+            DamageInfo newDamageInfo = new DamageInfo(gameUnit);
+            newDamageInfo.SetUp(DamageInfo.DamageType.Holy, damage, false);
+            newDamageInfo.reflect = true;
+            damageInfo.owner.HealthHandler.TakeDamage(newDamageInfo);
+        }
+
         return new Buff(buffSO, target, () =>
         { //Start
-             gameUnit.HealthHandler.OnHit.AddListener(damageInfo =>
-            {
-                float damage = Utility.CalculatePercentageOfValue(gameUnit.GetCharacterClassSO().maxbaseDamage, buffSO.buffbuffAttributes.GetAbilityValueByID("BaseMeleeDamage").GetValue<float>());
-                DamageInfo newDamageInfo = new DamageInfo(gameUnit);
-                newDamageInfo.SetUp(DamageInfo.DamageType.Holy, damage, false, false);
-                damageInfo.owner.HealthHandler.TakeDamage(newDamageInfo);
-            });;
+            target.HealthHandler.OnHit.AddListener(DoAura);
         }
         , null, () =>
         { // End
-            gameUnit.HealthHandler.OnHit.RemoveAllListeners();
+            target.HealthHandler.OnHit.RemoveListener(DoAura);
+            Debug.Log("Count: " + target.HealthHandler.OnHit.GetPersistentEventCount());
         });
     }
    
@@ -150,7 +148,7 @@ public class PaladinBuffController : GameUnitBuffController
             {
                 float damage = Utility.CalculatePercentageOfValue(gameUnit.GetCharacterClassSO().maxbaseDamage, buffSO.buffbuffAttributes.GetAbilityValueByID("BaseWeaponDamage").GetValue<float>());
                 DamageInfo newDamageInfo = new DamageInfo(gameUnit);
-                newDamageInfo.SetUp(DamageInfo.DamageType.Holy, damage, false, false);
+                newDamageInfo.SetUp(DamageInfo.DamageType.Holy, damage, false);
                 if (healthHandler) healthHandler.TakeDamage(newDamageInfo);
             };
         }

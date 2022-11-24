@@ -72,7 +72,7 @@ public class PaladinAbilityController : GameUnitAbilityController
         float damage = Utility.CalculateValueWithPercentage(gameUnit.GetStat().GetCharacterClassSO().minbaseDamage, ability.abilitySO.abilityAttributie.GetAbilityValueByID("BasePhysicalDamage").GetValue<float>(), true);
 
         DamageInfo damageInfo = new DamageInfo(gameUnit);
-        damageInfo.SetUp(DamageInfo.DamageType.Physical, damage, false, false);
+        damageInfo.SetUp(DamageInfo.DamageType.Physical, damage, false);
 
         gameUnit.GetTarget().HealthHandler.TakeDamage(damageInfo);
 
@@ -91,7 +91,7 @@ public class PaladinAbilityController : GameUnitAbilityController
         float damage = Utility.CalculateValueWithPercentage(gameUnit.GetStat().GetCharacterClassSO().minbaseDamage, ability.abilitySO.abilityAttributie.GetAbilityValueByID("BasePhysicalDamage").GetValue<float>(), true);
 
         DamageInfo damageInfo = new DamageInfo(gameUnit);
-        damageInfo.SetUp(DamageInfo.DamageType.Physical, damage, false, false);
+        damageInfo.SetUp(DamageInfo.DamageType.Physical, damage, false);
 
         float healAmount = Utility.CalculatePercentageOfValue(PlayerUnit.Instance.GetTarget().GetComponent<HealthHandler>().TakeDamage(damageInfo), ability.abilitySO.abilityAttributie.GetAbilityValueByID("Heal").GetValue<float>());
        
@@ -105,7 +105,7 @@ public class PaladinAbilityController : GameUnitAbilityController
         float damage = Utility.CalculatePercentageOfValue(gameUnit.GetStat().GetCharacterClassSO().minbaseDamage, ability.abilitySO.abilityAttributie.GetAbilityValueByID("BaseWeaponDamage").GetValue<float>());
 
         DamageInfo damageInfo = new DamageInfo(gameUnit);
-        damageInfo.SetUp(DamageInfo.DamageType.Physical, damage, false, false);
+        damageInfo.SetUp(DamageInfo.DamageType.Physical, damage, false);
         gameUnit.GetTarget().GetComponent<HealthHandler>().TakeDamage(damageInfo);
 
         buffManager.SendBuff(currentJudgement.abilitySO.buff, PlayerUnit.Instance.GetTarget());

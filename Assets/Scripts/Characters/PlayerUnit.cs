@@ -73,7 +73,6 @@ public class PlayerUnit : GameUnit
         GetComponent<Collider2D>().enabled = false;
 
         killer = arg0.owner;
-        killer.GetComponent<GameUnit>().HealthHandler.ResetHealth();
         GameManager.Instance.RespawnPlayer();
     }
 
@@ -182,11 +181,10 @@ public class PlayerUnit : GameUnit
 
         animator.Play("Idle_Buttom");
 
-
         SetTarget(null);
         killer.Targetted(false);
         killer.SetTarget(null);
-
+        killer.GetComponent<GameUnit>().HealthHandler.ResetHealth();
         GetComponent<Collider2D>().enabled = true;
         state = State.Wandering;
     }

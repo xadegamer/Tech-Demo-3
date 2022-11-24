@@ -90,6 +90,7 @@ public class AbilityHolderUI : MonoBehaviour, IPointerDownHandler, IPointerUpHan
                         currentAbility.UseAbility();
                         abilityUIParent.SwapAbility(currentAbility);
                         abilityUIParent.ToggleConnectedAbilitiesUI(false);
+                       // AbilityUIManager.Instance.GlobalCooldown();
                     }
                     break;
                 case AbilitySO.Type.SetUpAndInstantCast:
@@ -103,6 +104,7 @@ public class AbilityHolderUI : MonoBehaviour, IPointerDownHandler, IPointerUpHan
                         PlayerUnit.Instance.TryUseAbility(currentAbility);
                         abilityUIParent.SwapAbility(currentAbility);
                         abilityUIParent.ToggleConnectedAbilitiesUI(false);
+                      //  AbilityUIManager.Instance.GlobalCooldown();
                     }
                     break;
                 default:  break;

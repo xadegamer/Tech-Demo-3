@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: 0
   buffName: Judgement Of Weakness
-  buffDescription: 
+  buffDescription: 'Reduce the enemy''s melee attack damage by 8%. '
   buffIcon: {fileID: 21300000, guid: 6ed5c7c34fdb12d4d8920ac101a71e25, type: 3}
   buffType: 1
   isDebuff: 0

@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: 0
   buffName: Seal Of Righteousness
-  buffDescription: 
+  buffDescription: 'Fills the caster with holy spirit for 10min, granting each single-target
+    me Meequal to 15% of base weapon damage. '
   buffIcon: {fileID: 21300000, guid: be95862704419624f8ebeedeb7c718f1, type: 3}
   buffType: 1
   isDebuff: 0
