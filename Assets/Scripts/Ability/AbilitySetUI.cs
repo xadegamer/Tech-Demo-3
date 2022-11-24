@@ -23,9 +23,9 @@ public class AbilitySetUI : MonoBehaviour
         GetComponent<CanvasGroup>().interactable = false;
     } 
     
-    public void SpawnAndSetAbility(AbilitySetSO abilitySetSO)
+    public void SpawnAndSetAbility(AbilitySet abilitySetSO)
     {
-        for (int i = 0; i < abilitySetSO.abilities.Length; i++)
+        for (int i = 0; i < abilitySetSO.abilities.Count; i++)
         {
             AbilityHolderUI abilityHolderUI = Instantiate(abilityPrefab, transform);
             
@@ -33,7 +33,7 @@ public class AbilitySetUI : MonoBehaviour
 
             abilityHolderUI.SetCurrentAbility(abilitySetSO.abilities[i]);
             
-            if (abilitySetSO.abilities[i].connectedAbilities.Length > 0) abilityHolderUI.SetConnectedAbilities(abilitySetSO.abilities[i].connectedAbilities);
+            if (abilitySetSO.abilities[i].abilitySO.connectedAbilities.Length > 0) abilityHolderUI.SetConnectedAbilities(abilitySetSO.abilities[i].connectedAbilities);
         } 
     }
 

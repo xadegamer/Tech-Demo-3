@@ -25,7 +25,12 @@ public static class Utility
         float percentageValue = ((float)percentageAmount / 100) * value;
         return Mathf.RoundToInt(percentageValue);
     }
-    
+
+    public static bool CalculateChance(float chance)
+    {
+        return (chance / 100f) >= UnityEngine.Random.value;
+    }
+
     public static void FaceVelocityDirection(Rigidbody2D rigidbody2D)
     {
         rigidbody2D.transform.localScale = new Vector2(rigidbody2D.velocity.x > 0 ? 1 : -1, 1);
@@ -306,7 +311,7 @@ public static class Utility
         OnBuffEnd?.Invoke();
     }
 
-    public static IEnumerator TimedAbility(AbilitySO abilitySO,Action OnAbilityStart, float duration, Action<AbilitySO> OnBuffEnd)
+    public static IEnumerator TimedAbility(Ability abilitySO,Action OnAbilityStart, float duration, Action<Ability> OnBuffEnd)
     {
         OnAbilityStart?.Invoke();
         float startDuration = duration;
@@ -316,6 +321,16 @@ public static class Utility
             yield return null;
         }
         OnBuffEnd?.Invoke(abilitySO);
+    }
+
+    public static IEnumerator IntervalAbility(Action OnAbilityStart, float interval, Action OnInterval)
+    {
+        OnAbilityStart?.Invoke();
+        while (true)
+        {
+            OnInterval?.Invoke();
+            yield return new WaitForSeconds(interval);
+        }
     }
 
     public static string FloatToTime(float timeToDisplay)
@@ -333,11 +348,22 @@ public static class Utility
 
     public static void DestroyAllChildren(this Transform transform)
     {
-        int childs = transform.childCount;
-        for (int i = childs - 1; i > 0; i--)
+        var children = new List<GameObject>();
+        foreach (Transform child in transform) children.Add(child.gameObject);
+        children.ForEach(child => GameObject.Destroy(child));
+    }
+
+    public static T CloneAbility<T>(this T scriptableObject) where T : AbilitySO
+    {
+        if (scriptableObject == null)
         {
-            GameObject.Destroy(transform.GetChild(i).gameObject);
+            Debug.LogError($"ScriptableObject was null. Returning default {typeof(T)} object.");
+            return (T)ScriptableObject.CreateInstance(typeof(T));
         }
+
+        T instance = UnityEngine.Object.Instantiate(scriptableObject);
+        instance.name = scriptableObject.name; // remove (Clone) from name
+        return instance;
     }
 
     public static void DrawBoxcast2D(Vector2 position, Vector2 size, float direction, float distance, Color color)

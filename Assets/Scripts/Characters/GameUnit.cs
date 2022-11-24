@@ -50,7 +50,7 @@ public abstract class GameUnit : MonoBehaviour
     {
         healthHandler.SetHealth(characterClassSO.health);
 
-        healthHandler.SetDamageResistance(characterClassSO.physicalDamageReduction);
+        healthHandler.ModifyPhysicalDamageResistance(characterClassSO.physicalDamageReduction);
 
         healthHandler.OnHealthChange.AddListener(OnHealthChanged);
 
@@ -79,7 +79,7 @@ public abstract class GameUnit : MonoBehaviour
         animator.SetTrigger("Dead");
     }
 
-    public abstract bool TryUseAbility(AbilitySO abilitySO);
+    public abstract bool TryUseAbility(Ability ability);
 
     public abstract bool TrySetTarget(Transform target);
 
@@ -122,6 +122,18 @@ public abstract class GameUnit : MonoBehaviour
     public virtual void SetTarget(GameUnit newTarget)
     {
         target = newTarget;
+    }
+
+    public void Stun(float stunDuration)
+    {
+        StartCoroutine(StunCoroutine(stunDuration));
+    }
+
+    IEnumerator StunCoroutine(float stunDuration)
+    {
+        ChangeState(State.Stun);
+        yield return new WaitForSeconds(stunDuration);
+        ChangeState(lastState);
     }
 
     public virtual void StartStun()

@@ -13,6 +13,7 @@ public class BuffSO : ScriptableObjectBase
     [FoldoutGroup("Info")]
     public string buffName;
     [FoldoutGroup("Info")]
+    [TextArea(10, 10)]
     public string buffDescription;
     [FoldoutGroup("Info")]
     public Sprite buffIcon;
@@ -36,7 +37,8 @@ public class BuffSO : ScriptableObjectBase
 public enum BuffType
 {
     Permanent,
-    Temporary
+    Temporary,
+    Continuous
 }
 
 public enum BuffValueModifyType {Add, Subtract,Multiply,Divide,Set, Precentage};

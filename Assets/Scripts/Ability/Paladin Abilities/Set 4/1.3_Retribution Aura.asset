@@ -19,7 +19,7 @@ MonoBehaviour:
   abilityCost: 0
   type: 2
   range: 0
-  abilityData:
-    values: []
+  abilityAttributie:
+    attributes: []
   connectedAbilities: []
-  buff: {fileID: 0}
+  buff: {fileID: 11400000, guid: 63d5dea3dbb6a48498ad6e01416c1b93, type: 2}

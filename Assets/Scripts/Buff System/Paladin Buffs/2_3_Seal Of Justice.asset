@@ -10,22 +10,25 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 718cab23b92aaa04baf926fc9874481c, type: 3}
-  m_Name: BlackfathomHamstringDebuff
+  m_Name: 2_3_Seal Of Justice
   m_EditorClassIdentifier: 
   ID: 0
-  buffName: Blackfathom Hamstring Debuff
-  buffDescription: Slows him down by 50% both in movement and attack speed. This
-    debuff lasts for 8 seconds
-  buffIcon: {fileID: 21300000, guid: 8c8016285e3d611458fcb81deb0a96c0, type: 3}
+  buffName: Seal Of Justice
+  buffDescription: 
+  buffIcon: {fileID: 21300000, guid: 6232060fa5cfe7d4084bcc1d7d2db48a, type: 3}
   buffType: 1
-  isDebuff: 1
+  isDebuff: 0
   buffbuffAttributes:
     attributes:
     - valueType: 3
-      timeType: 0
+      timeType: 1
       key: Duration
-      _value: 8
+      _value: 10
     - valueType: 0
       timeType: 0
-      key: Movement and Attack Speed Reduction
-      _value: 50
+      key: Chance
+      _value: 10
+    - valueType: 0
+      timeType: 0
+      key: StunDuration
+      _value: 

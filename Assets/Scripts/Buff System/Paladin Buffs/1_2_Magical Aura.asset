@@ -10,22 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 718cab23b92aaa04baf926fc9874481c, type: 3}
-  m_Name: BlackfathomHamstringDebuff
+  m_Name: 1_2_Magical Aura
   m_EditorClassIdentifier: 
   ID: 0
-  buffName: Blackfathom Hamstring Debuff
-  buffDescription: Slows him down by 50% both in movement and attack speed. This
-    debuff lasts for 8 seconds
-  buffIcon: {fileID: 21300000, guid: 8c8016285e3d611458fcb81deb0a96c0, type: 3}
-  buffType: 1
-  isDebuff: 1
+  buffName: Magical Aura
+  buffDescription: 
+  buffIcon: {fileID: 21300000, guid: a61ac171ca536244e8ef1c75895e6d18, type: 3}
+  buffType: 2
+  isDebuff: 0
   buffbuffAttributes:
     attributes:
     - valueType: 3
       timeType: 0
-      key: Duration
-      _value: 8
+      key: BaseMana
+      _value: 2
     - valueType: 0
       timeType: 0
-      key: Movement and Attack Speed Reduction
-      _value: 50
+      key: Interval
+      _value: 5

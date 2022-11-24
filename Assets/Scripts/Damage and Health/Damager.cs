@@ -19,18 +19,25 @@ public abstract class Damager : MonoBehaviour
     [SerializeField] protected float chanceToCrit;
     [SerializeField] protected float criticalDamageMultiplier;
 
+    [Header("Damage")]
+    [SerializeField] protected float damageDelay;
+
     [Header("Damage Reduction")]
     [SerializeField] protected float damageReductionPer;
 
-    [SerializeField] protected UnityEvent OnHit;
+    public Action<HealthHandler> OnHitTargetHealth;
 
     public Action<float> OnCriticalHit;
-    
+
+    public Action<float> OnHit;
+
     [SerializeField] protected bool destroyOnImpact;
 
     [SerializeField] protected bool hasHit;
 
     private bool doubleDamage = false;
+
+    private bool stun = false;
 
     public void SetUp(GameUnit owner, float minDamage, float maxDamage, float chanceToHit, float chanceToCrit, float criticalDamageMultiplier)
     {
@@ -44,10 +51,10 @@ public abstract class Damager : MonoBehaviour
     
     public void DealDamage(Collider2D collision)
     {
-        if (CalculateChance(chanceToHit))
+        if (Utility.CalculateChance(chanceToHit))
         {
             float damage = Utility.CalculateValueWithPercentage(UnityEngine.Random.Range(minDamage, maxDamage + 1), damageReductionPer, false);
-            float criticalDmgMultiplier = CalculateChance(chanceToCrit) ? criticalDamageMultiplier : 0;
+            float criticalDmgMultiplier = Utility.CalculateChance(chanceToCrit) ? criticalDamageMultiplier : 0;
 
             damageInfo.critical = criticalDmgMultiplier > 0;
 
@@ -57,8 +64,10 @@ public abstract class Damager : MonoBehaviour
             
             if (collision.TryGetComponent(out HealthHandler healthSystem))
             {
+                OnHitTargetHealth?.Invoke(healthSystem);
                 float damageDealth =  healthSystem.TakeDamage(damageInfo);
-                if (damageInfo.critical) OnCriticalHit?.Invoke(damageDealth);
+                OnHit?.Invoke(damageDealth);
+                if (damageInfo.critical) OnCriticalHit?.Invoke(damageDealth); 
             }
         }
         else
@@ -87,18 +96,13 @@ public abstract class Damager : MonoBehaviour
         this.damageReductionPer -= damageReductionPer;
     }
 
-    protected bool CalculateChance( float chance)
-    {
-        return (chance / 100f) >= UnityEngine.Random.value;
-    }
-
     public bool HasHit() { return hasHit; }
 }
 
 [System.Serializable]
 public class DamageInfo
 {
-    public enum DamageType { Melee, Spell }
+    public enum DamageType { Physical, Holy, Spell}
 
     public DamageType damageType;
     public float damageAmount;

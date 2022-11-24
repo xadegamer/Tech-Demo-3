@@ -9,7 +9,9 @@ public class HealthHandler : MonoBehaviour
     [SerializeField] float maxHealth;
 
     [Header("Damage Resistance")]
+    [SerializeField] float allDamageReduction;
     [SerializeField] float physicalDamageReduction;
+    [SerializeField] float holyDamageReduction;
 
     [Header("CoolDown")]
     [SerializeField] bool hasCooldown;
@@ -27,9 +29,6 @@ public class HealthHandler : MonoBehaviour
 
     [Header("HealthEvents")]
     [SerializeField] HealthEvent[] healthEvents;
-
-
-
 
     [Header("Debug")]
     [SerializeField] bool isInvulnerable = false;
@@ -59,9 +58,20 @@ public class HealthHandler : MonoBehaviour
         currentHealth = maxHealth;
         OnHealthChange?.Invoke(GetNormalisedHealth());
     }
-    public void SetDamageResistance(float physicalDamageReduction)
+
+    public void ModifyAllDamageResistance(float allDamageResistance, bool increase = true)
     {
-        this.physicalDamageReduction = physicalDamageReduction;
+        if (increase) this.allDamageReduction += allDamageResistance; else this.allDamageReduction -= allDamageResistance;
+    }
+
+    public void ModifyPhysicalDamageResistance(float physicalDamageResistance, bool increase = true)
+    {
+        if (increase) this.physicalDamageReduction += physicalDamageResistance; else this.physicalDamageReduction -= physicalDamageResistance;
+    }
+
+    public void ModifyHolyDamageResistance(float holyDamageResistance, bool increase = true)
+    {
+        if (increase) this.holyDamageReduction += holyDamageResistance; else this.holyDamageReduction -= holyDamageResistance;
     }
 
     public float GetHealth() => currentHealth;
@@ -81,19 +91,17 @@ public class HealthHandler : MonoBehaviour
         {
             if (hasCooldown) StartCoroutine(nameof(DamageDelay));
 
-            float damageAfterResisDeduction = Utility.CalculateValueWithPercentage(damageInfo.damageAmount, physicalDamageReduction, false);
+            float damageAfterResisDeduction = Utility.CalculateValueWithPercentage(damageInfo.damageAmount, allDamageReduction, false);
 
-            //damageAfterResisDeduction = Utility.CalculateValueWithPercentage(damageInfo.damageAmount, allDamageResistance, false);
-
-            //if (damageInfo.damageType == DamageInfo.DamageType.Melee)
-            //{
-            //    damageAfterResisDeduction = Utility.CalculateValueWithPercentage(damageAfterResisDeduction, meleeDamageResistance, false);
-            //}
-            //else if (damageInfo.damageType == DamageInfo.DamageType.Spell)
-            //{
-            //    damageAfterResisDeduction = Utility.CalculateValueWithPercentage(damageAfterResisDeduction, physicalDamageReduction, false);
-            //}
-
+            if (damageInfo.damageType == DamageInfo.DamageType.Physical)
+            {
+                damageAfterResisDeduction = Utility.CalculateValueWithPercentage(damageInfo.damageAmount, physicalDamageReduction, false);
+            }
+            else if (damageInfo.damageType == DamageInfo.DamageType.Holy)
+            {
+                damageAfterResisDeduction = Utility.CalculateValueWithPercentage(damageInfo.damageAmount, holyDamageReduction, false);
+            }
+            
             damageInfo.damageAmount = damageAfterResisDeduction;
             finalDamage = damageAfterResisDeduction;
 

@@ -81,9 +81,9 @@ public class EnemyUnit : GameUnit
         base.OnDeath(arg0);
     }
 
-    public override bool TryUseAbility(AbilitySO abilitySO)
+    public override bool TryUseAbility(Ability ability)
     {
-        abilitySO.UseAbility();
+        ability.UseAbility();
         return true;
     }
 
@@ -109,7 +109,7 @@ public class EnemyUnit : GameUnit
     {
         base.Targetted(status);
         UIManager.Instance.GetTargetUI().SetUp(status ? this : null);
-        UIManager.Instance.GetTargetOfTargetUI().SetUp(status ? target : null);
+        UIManager.Instance.GetTargetOfTargetUI().SetUp(status && isTargetted ? target : null);
     }
 
     public void Patrol()
@@ -185,11 +185,11 @@ public class EnemyUnit : GameUnit
         {
             if ((currentAbilityChace / 100f) >= UnityEngine.Random.value) 
             {
-                AbilitySetSO abilitySet = unitAbilityController.GetAbilitySetSO(0);
+                AbilitySet abilitySet = unitAbilityController.GetAbilitySetSO(0);
 
-                int abilityIndex = UnityEngine.Random.Range(0, abilitySet.abilities.Length);
+                int abilityIndex = UnityEngine.Random.Range(0, abilitySet.abilities.Count);
 
-                while (lastAbilityIndex == abilityIndex) abilityIndex = UnityEngine.Random.Range(0, abilitySet.abilities.Length);
+                while (lastAbilityIndex == abilityIndex) abilityIndex = UnityEngine.Random.Range(0, abilitySet.abilities.Count);
 
                 lastAbilityIndex = abilityIndex;
 

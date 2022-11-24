@@ -17,8 +17,6 @@ public class PlayerUnit : GameUnit
     [SerializeField] private PlayerStatHandler _playerStatHandler;
     [SerializeField] private LayerMask tapDetectlayer;
 
-
-private GameUnitBuffController gameUnitBuffController;
     private RaycastHit2D hitInfo;
     private Rigidbody2D rb2D;
 
@@ -29,7 +27,6 @@ private GameUnitBuffController gameUnitBuffController;
         base.Awake();
         Instance = this;
         rb2D = GetComponent<Rigidbody2D>();
-        gameUnitBuffController = GetComponent<GameUnitBuffController>();
     }
 
     protected override void Start()
@@ -80,14 +77,14 @@ private GameUnitBuffController gameUnitBuffController;
         GameManager.Instance.RespawnPlayer();
     }
 
-    public override bool TryUseAbility(AbilitySO abilitySO)
+    public override bool TryUseAbility(Ability ability)
     {
-        float cost = abilitySO.GetAbilityCost(_playerStatHandler.GetCharacterClassSO().mana);
+        float cost = ability.GetAbilityCost(_playerStatHandler.GetCharacterClassSO().mana);
 
         if (_playerStatHandler.GetManaValue().GetCurrentValue() >= cost)
         {
             _playerStatHandler.GetManaValue().ReduceValue(cost);
-            abilitySO.UseAbility();
+            ability.UseAbility();
             return true;
         }
         
@@ -101,8 +98,6 @@ private GameUnitBuffController gameUnitBuffController;
             if (target == clickedObject) return false;
 
             if (target is EnemyUnit lastEnemyUnit) lastEnemyUnit.Targetted(false);
-
-            AbilityUIManager.Instance.ToggleActive(gameUnit is EnemyUnit);
 
             Targetter.SetTarget(gameUnit);
 

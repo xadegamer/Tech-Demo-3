@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: 0
   buffName: Naga Spirit Buff
-  buffDescription: 
+  buffDescription: He heals himself for 60% of the damage caused over 10 seconds,
+    with a 10% healing every second starting the first.
   buffIcon: {fileID: 21300000, guid: ab4465ab72ca5544da8e8dd1110b6973, type: 3}
   buffType: 1
   isDebuff: 0

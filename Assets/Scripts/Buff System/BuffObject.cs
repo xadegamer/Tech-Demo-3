@@ -17,8 +17,26 @@ public class BuffObject : MonoBehaviour
         buff.OnBuffReset += Buff_ResetBuff;
         buff.OnBuffRemoved += Buff_OnBuffRemoved;
         buff.OnBuffStart?.Invoke();
-        buffCoroutine = StartCoroutine(ActivateBuffRoutine(buff.buffSO.buffbuffAttributes.GetAbilityValueByID("Duration").GetValue<float>()));
+
+        switch (buff.buffSO.buffType)
+        {
+            case BuffType.Permanent:
+
+                break;
+            case BuffType.Continuous:
+                buffCoroutine = StartCoroutine(Utility.IntervalAbility(null, buff.buffSO.buffbuffAttributes.GetAbilityValueByID("Interval").GetValue<float>(), BuffActiveAction));
+                break;
+            case BuffType.Temporary:
+                buffCoroutine = StartCoroutine(ActivateBuffRoutine(buff.buffSO.buffbuffAttributes.GetAbilityValueByID("Duration").GetValue<float>()));
+                break;
+            default: break;
+        }
     }
+
+    public void BuffActiveAction()
+    {
+        buff.InBuffProgress?.Invoke();
+    }  
     
     public IEnumerator ActivateBuffRoutine(float duration)
     {
@@ -27,7 +45,7 @@ public class BuffObject : MonoBehaviour
         {
             duration -= Time.deltaTime;
             InProgress?.Invoke(duration);
-            buff.InBuffProgress?.Invoke();
+            BuffActiveAction();
             yield return null;
         }
         buff.RemoveBuff();

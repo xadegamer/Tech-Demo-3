@@ -11,7 +11,7 @@ public enum PaladinAbilities
     Judgement,
 
     // Set 4 
-    DevotionalAura,
+    DevotionAura,
     MagicalAura,
     RetributionAura,
 
@@ -30,7 +30,19 @@ public enum PaladinAbilities
 
 public enum PaladinBuff
 {
+    DevotionAura,
+    MagicalAura,
+    RetributionAura,
+
+    SealOfRighteousness,
+    SealOfLight,
+    SealOfJustice,
+
     JudgementOfRighteousness,
     JudgementofWisdom,
-    JudgementofWeakness
+    JudgementofWeakness,
+
+    BlessingOfMight,
+    BlessingOfWisdom,
+    BlessingOfKings,
 }

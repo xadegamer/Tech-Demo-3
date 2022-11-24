@@ -84,10 +84,10 @@ public class AbilityUIManager : MonoBehaviour
         currentAbilitySetUI.ShowAbilitySet();
     }
 
-    public void SetAbilities(GameUnit owner, AbilitySetSO[] abilitySetSO)
+    public void SetAbilities(GameUnit owner, List<AbilitySet> abilitySet)
     {
         this.owner = owner;
-        for (int i = 0; i < abilitySetUI.Length; i++) abilitySetUI[i].SpawnAndSetAbility(abilitySetSO[i]);
+        for (int i = 0; i < abilitySetUI.Length; i++) abilitySetUI[i].SpawnAndSetAbility(abilitySet[i]);
     }
 
     public void ActivateCastBar(string abilityName)
@@ -103,12 +103,16 @@ public class AbilityUIManager : MonoBehaviour
 
     public void GlobalCooldown()
     {
-        abilitySetUI.ToList().ForEach(item => item.GetAbilityHolderUIList().Where(x => x.GetCurrentAbilitySO().type != AbilitySO.Type.SetUp).ToList().ForEach(x => x.ActivateGlobalCooldown()));
+        abilitySetUI.ToList().ForEach(item => item.GetAbilityHolderUIList().Where(x => x.GetCurrentAbility().abilitySO.type != AbilitySO.Type.SetUp).ToList().ForEach(x => x.ActivateGlobalCooldown()));
     }
 
     public void ToggleMeleeAbilities(bool toggle)
     {
-        abilitySetUI.ToList().ForEach(item => item.GetAbilityHolderUIList().Where(x => x.GetCurrentAbilitySO().range == AbilitySO.Range.Melee).ToList().ForEach(x => x.ToggleUseAbility(toggle)));
+        abilitySetUI.ToList().ForEach(item => item.GetAbilityHolderUIList().Where(x => x.GetCurrentAbility().abilitySO.range == AbilitySO.Range.Melee).ToList().ForEach(x => x.ToggleUseAbility(toggle)));
+    }
+    public void ToggleUseability(bool toggle)
+    {
+        abilitySetUI.ToList().ForEach(item => item.GetAbilityHolderUIList().ToList().ForEach(x => x.ToggleUseAbility(toggle)));
     }
 
     public GameUnit GetOwner() => owner;

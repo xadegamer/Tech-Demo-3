@@ -29,11 +29,12 @@ public abstract class GameUnitBuffController : MonoBehaviour
 
     public List<BuffObject> GetBuffObjects() => activeBuffObjects;
 
-    public void SendBuff(BuffSO buffSO, GameUnit target)
+    public Buff SendBuff(BuffSO buffSO, GameUnit target)
     {
-        if (target == null) return;
+        if (target == null) return null;
         Buff newBuffObject = CreateBuff(buffSO, target);
         target.GetComponent<GameUnitBuffController>().RecieveBuff(newBuffObject);
+        return newBuffObject;
     }
 
     protected void Buff_OnAnyBuffRemoved(object sender, EventArgs e)

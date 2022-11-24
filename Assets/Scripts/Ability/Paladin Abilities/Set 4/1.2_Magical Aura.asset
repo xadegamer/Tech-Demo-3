@@ -19,15 +19,7 @@ MonoBehaviour:
   abilityCost: 0
   type: 2
   range: 0
-  abilityData:
-    values:
-    - ID: BaseManaValue
-      valueType: 1
-      timeType: 0
-      value: 2
-    - ID: BaseMeleeDamageValue
-      valueType: 1
-      timeType: 0
-      value: 2
+  abilityAttributie:
+    attributes: []
   connectedAbilities: []
-  buff: {fileID: 0}
+  buff: {fileID: 11400000, guid: 47e7dd6b048472545bcf47e307f3aaa7, type: 2}

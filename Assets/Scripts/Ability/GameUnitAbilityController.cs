@@ -7,7 +7,9 @@ using System.Linq;
 public abstract class GameUnitAbilityController : MonoBehaviour
 {
     [SerializeField] protected AbilitySetSO[] abilitySetSOArray;
-    
+      
+    [SerializeField] protected List<AbilitySet> abilities;
+
     [SerializeField] protected List<GameUnit> targets;
 
     [SerializeField] protected List<GameUnit> allies;
@@ -23,17 +25,30 @@ public abstract class GameUnitAbilityController : MonoBehaviour
         gameUnit = GetComponent<GameUnit>();
         buffManager = GetComponent<GameUnitBuffController>();
         
-        AssignAbilityActions();
+        CreateAbility();
+
         damageInfo = new DamageInfo();
         damageInfo.owner = gameUnit;
+
+        AssignAbilityActions();
+    }
+
+    public void CreateAbility()
+    {
+        foreach (AbilitySetSO abilitySetSO in abilitySetSOArray)
+        {
+            AbilitySet abilitySet = new AbilitySet(abilitySetSO);
+            abilities.Add(abilitySet);
+        }
     }
 
     protected void AssignAbilityActions()
     {
-        abilitySetSOArray.ToList().ForEach(x => AssignSetAbilityActions(x));
+        abilities.ForEach(x => AssignSetAbilityActions(x));
     }
 
-    protected abstract void AssignSetAbilityActions(AbilitySetSO abilitySetSO);
+    protected abstract void AssignSetAbilityActions(AbilitySet abilitySetSO);
+
 
     protected IEnumerator Wait(float duration, Action action)
     {
@@ -54,8 +69,13 @@ public abstract class GameUnitAbilityController : MonoBehaviour
         OnEnd?.Invoke();
     }
 
-    public AbilitySetSO GetAbilitySetSO(int index)
+    public AbilitySet GetAbilitySetSO(int index)
     {
-        return abilitySetSOArray[index];
+        return abilities[index];
+    }
+
+    public Ability GetAbility(AbilitySO abilitySO)
+    {
+        return abilities.SelectMany(x => x.abilities).FirstOrDefault(x => x.abilitySO == abilitySO);
     }
 }

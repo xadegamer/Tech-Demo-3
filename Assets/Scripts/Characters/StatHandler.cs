@@ -37,11 +37,6 @@ public class StatBase
     [field: SerializeField] public float currentChanceToCrit { get; private set; }
     [field: SerializeField] public float currentCriticalDamageMultipier { get; private set; }
 
-    [FoldoutGroup("Buff")]
-    [SerializeField] private BuffSO[] allBuffsSO;
-    [FoldoutGroup("Buff")]
-    [SerializeField] private List<BuffSO> activeBuffs = new List<BuffSO>();
-
     private CharacterClassSO characterClassSO;
 
     public virtual void SetUp(CharacterClassSO characterClassSO)

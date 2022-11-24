@@ -76,9 +76,6 @@ public class AreaDamager : Damager
 				}
 			}
 		}
-
-        OnHit.Invoke();
-
         if (destroyOnImpact) Destroy(gameObject);
     }
 

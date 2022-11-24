@@ -27,8 +27,8 @@ public class AbilityHolderUI : MonoBehaviour, IPointerDownHandler, IPointerUpHan
 
     [Header("Ability Option")]
     [SerializeField] private AbilityState abilityState;
-    [SerializeField] private AbilitySO currentAbilitySO;
-    [SerializeField] private List<AbilitySO> connectedAbilitySOList;
+    [SerializeField] private Ability currentAbility;
+    [SerializeField] private List<Ability> connectedAbilityList;
 
     [Header("Additional Ability Option")]
     [SerializeField] private AbilityHolderUI additionalAbilityPrefab;
@@ -45,19 +45,19 @@ public class AbilityHolderUI : MonoBehaviour, IPointerDownHandler, IPointerUpHan
         ResetUI();
     }
 
-    public void SetCurrentAbility(AbilitySO abilitySO)
+    public void SetCurrentAbility(Ability abilitySO)
     {
-        abilityImage.sprite = abilitySO.abilityIcon;
-        currentAbilitySO = abilitySO;
-        currentAbilitySO.SetAbilityHolderUI(this);
+        abilityImage.sprite = abilitySO.abilitySO.abilityIcon;
+        currentAbility = abilitySO;
+        currentAbility.abilityHolderUI = this;
     }
 
-    public void SetConnectedAbilities(AbilitySO[] abilitySOs = null)
+    public void SetConnectedAbilities(List<Ability> abilitySOs = null)
     {
-        abilitySOs?.ToList().ForEach(x => connectedAbilitySOList.Add(x));
+        abilitySOs?.ToList().ForEach(x => connectedAbilityList.Add(x));
     }
 
-    public AbilitySO GetCurrentAbilitySO() => currentAbilitySO;
+    public Ability GetCurrentAbility() => currentAbility;
 
     public AbilityState GetAbilityState() => abilityState;
 
@@ -67,17 +67,17 @@ public class AbilityHolderUI : MonoBehaviour, IPointerDownHandler, IPointerUpHan
         
         if (abilityState == AbilityState.Ready)
         {        
-            switch (currentAbilitySO.type)
+            switch (currentAbility.abilitySO.type)
             {
                 case AbilitySO.Type.InstantCast:
-                    if (AbilityUIManager.Instance.GetOwner().TryUseAbility(currentAbilitySO))
+                    if (AbilityUIManager.Instance.GetOwner().TryUseAbility(currentAbility))
                     {
                         ActivateNormalCooldown();
                         AbilityUIManager.Instance.GlobalCooldown();
                     } 
                     break;
                 case AbilitySO.Type.DelayedCast:
-                    if (PlayerUnit.Instance.TryUseAbility(currentAbilitySO)) abilityState = AbilityState.active;
+                    if (PlayerUnit.Instance.TryUseAbility(currentAbility)) abilityState = AbilityState.active;
                     break;
                 case AbilitySO.Type.SetUp:
 
@@ -87,21 +87,21 @@ public class AbilityHolderUI : MonoBehaviour, IPointerDownHandler, IPointerUpHan
                     }
                     else
                     {
-                        currentAbilitySO.UseAbility();
-                        abilityUIParent.SwapAbility(currentAbilitySO);
+                        currentAbility.UseAbility();
+                        abilityUIParent.SwapAbility(currentAbility);
                         abilityUIParent.ToggleConnectedAbilitiesUI(false);
                     }
                     break;
                 case AbilitySO.Type.SetUpAndInstantCast:
                     if (!abilityUIParent)
                     {
-                        if (additionAbilitiesHolder.gameObject.activeInHierarchy) AbilityUIManager.Instance.GetOwner().TryUseAbility(currentAbilitySO);
+                        if (additionAbilitiesHolder.gameObject.activeInHierarchy) AbilityUIManager.Instance.GetOwner().TryUseAbility(currentAbility);
                         ToggleConnectedAbilitiesUI(!additionAbilitiesHolder.gameObject.activeInHierarchy); 
                     }
                     else
                     {
-                        PlayerUnit.Instance.TryUseAbility(currentAbilitySO);
-                        abilityUIParent.SwapAbility(currentAbilitySO);
+                        PlayerUnit.Instance.TryUseAbility(currentAbility);
+                        abilityUIParent.SwapAbility(currentAbility);
                         abilityUIParent.ToggleConnectedAbilitiesUI(false);
                     }
                     break;
@@ -116,12 +116,12 @@ public class AbilityHolderUI : MonoBehaviour, IPointerDownHandler, IPointerUpHan
 
     public void ActivateNormalCooldown()
     {
-        StartCoroutine(CoolDown(currentAbilitySO.abilityAttributie.GetAbilityValueByID("Cooldown").GetValue<float>()));
+        StartCoroutine(CoolDown(currentAbility.abilitySO.abilityAttributie.GetAbilityValueByID("Cooldown").GetValue<float>()));
     }
 
     public void ActivateGlobalCooldown()
     {
-        if (abilityState == AbilityState.Ready && currentAbilitySO.type != AbilitySO.Type.SetUp) StartCoroutine(CoolDown(1.5f));
+        if (abilityState == AbilityState.Ready && currentAbility.abilitySO.type != AbilitySO.Type.SetUp) StartCoroutine(CoolDown(1.5f));
     }
 
     IEnumerator CoolDown(float duration)
@@ -150,19 +150,19 @@ public class AbilityHolderUI : MonoBehaviour, IPointerDownHandler, IPointerUpHan
         abilityCoolDownText.enabled = false;
     }
 
-    public void SwapAbility(AbilitySO newCurrentAbilitySO)
+    public void SwapAbility(Ability newCurrentAbilitySO)
     {
-        connectedAbilitySOList.Remove(newCurrentAbilitySO);
-        connectedAbilitySOList.Insert(0,currentAbilitySO);
+        connectedAbilityList.Remove(newCurrentAbilitySO);
+        connectedAbilityList.Insert(0,currentAbility);
         SetCurrentAbility(newCurrentAbilitySO);
     }
 
     public void SpawnAdditonalAbilitieUI()
     {
-        for (int i = 0; i < connectedAbilitySOList.Count; i++)
+        for (int i = 0; i < connectedAbilityList.Count; i++)
         {
             AbilityHolderUI abilityHolderUI = Instantiate(additionalAbilityPrefab, additionAbilitiesHolder);
-            abilityHolderUI.SetCurrentAbility(connectedAbilitySOList[i]);
+            abilityHolderUI.SetCurrentAbility(connectedAbilityList[i]);
             abilityHolderUI.SetAbilityUIParent(this);
             connectedAbilityHolders.Add(abilityHolderUI);
         }
@@ -182,7 +182,7 @@ public class AbilityHolderUI : MonoBehaviour, IPointerDownHandler, IPointerUpHan
 
     public void Disable()
     {
-        if (currentAbilitySO.type == AbilitySO.Type.SetUp || currentAbilitySO.type == AbilitySO.Type.SetUpAndInstantCast) ToggleConnectedAbilitiesUI(false);
+        if (currentAbility.abilitySO.type == AbilitySO.Type.SetUp || currentAbility.abilitySO.type == AbilitySO.Type.SetUpAndInstantCast) ToggleConnectedAbilitiesUI(false);
     }
 
     public void ToggleUseAbility(bool toggle)
@@ -219,9 +219,9 @@ public class AbilityHolderUI : MonoBehaviour, IPointerDownHandler, IPointerUpHan
 
     public void SetAbilityUIParent(AbilityHolderUI abilityHolderUI) => abilityUIParent = abilityHolderUI;
 
-    public string GetHeader() => currentAbilitySO.abilityName;
+    public string GetHeader() => currentAbility.abilitySO.abilityName;
 
-    public string GetContent() => currentAbilitySO.abilityDescription;
+    public string GetContent() => currentAbility.abilitySO.abilityDescription;
 
     public Sprite GetBackground() => null;
 

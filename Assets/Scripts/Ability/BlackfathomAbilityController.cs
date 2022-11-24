@@ -7,88 +7,88 @@ using UnityEngine;
 public class BlackfathomAbilityController : GameUnitAbilityController
 {
     [SerializeField] private GameObject enGarde;
-
+    
     Coroutine vengefulStanceRoutine;
 
-    protected override void AssignSetAbilityActions(AbilitySetSO abilitySetSO)
+    protected override void AssignSetAbilityActions(AbilitySet abilitySet)
     {
-        foreach (AbilitySO abilitySO in abilitySetSO.abilities)
+        foreach (Ability ability in abilitySet.abilities)
         {
-            switch (abilitySO.GetAbilityType<BlackfathomAbilities>())
+            switch (ability.abilitySO.GetAbilityType<BlackfathomAbilities>())
             {
-                case BlackfathomAbilities.BlackfathomHamstring: abilitySO.SetAbilityAction(BlackfathomHamstring); break;
-                case BlackfathomAbilities.Bash: abilitySO.SetAbilityAction(Bash); break;
-                case BlackfathomAbilities.VengefulStance: abilitySO.SetAbilityAction(VengefulStance); break;
-                case BlackfathomAbilities.MyrmidonSlash: abilitySO.SetAbilityAction(MyrmidonSlash); break;
+                case BlackfathomAbilities.BlackfathomHamstring: ability.SetAbilityAction(BlackfathomHamstring); break;
+                case BlackfathomAbilities.Bash: ability.SetAbilityAction(Bash); break;
+                case BlackfathomAbilities.VengefulStance: ability.SetAbilityAction(VengefulStance); break;
+                case BlackfathomAbilities.MyrmidonSlash: ability.SetAbilityAction(MyrmidonSlash); break;
                 default: break;
             }
         }
     }
 
-    public void BlackfathomHamstring(AbilitySO abilitySO)
+    public void BlackfathomHamstring(Ability ability)
     {
-        float damage = Utility.CalculateValueWithPercentage(gameUnit.GetStat().GetCharacterClassSO().minbaseDamage, abilitySO.abilityAttributie.GetAbilityValueByID("DamageInc").GetValue<float>(), true);
-        damageInfo.SetUp(DamageInfo.DamageType.Melee, damage, false, false);
+        float damage = Utility.CalculateValueWithPercentage(gameUnit.GetStat().GetCharacterClassSO().minbaseDamage, ability.abilitySO.abilityAttributie.GetAbilityValueByID("DamageInc").GetValue<float>(), true);
+        damageInfo.SetUp(DamageInfo.DamageType.Physical, damage, false, false);
         gameUnit.GetTarget().GetComponent<HealthHandler>().TakeDamage(damageInfo);
 
-        buffManager.SendBuff(abilitySO.buff, gameUnit.GetTarget());
+        buffManager.SendBuff(ability.abilitySO.buff, gameUnit.GetTarget());
     }
-
-    public void Bash(AbilitySO abilitySO)
+    
+    public void Bash(Ability ability)
     {
-        buffManager.SendBuff(abilitySO.buff, gameUnit.GetTarget());
+        buffManager.SendBuff(ability.abilitySO.buff, gameUnit.GetTarget());
         Debug.Log("Bash");
     }
 
-    public void VengefulStance (AbilitySO abilitySO)
+    public void VengefulStance(Ability ability)
     {
-        float duration = abilitySO.abilityAttributie.GetAbilityValueByID("Duration").GetValue<float>();
+        float duration = ability.abilitySO.abilityAttributie.GetAbilityValueByID("Duration").GetValue<float>();
 
         if (vengefulStanceRoutine != null)
         {
             Debug.Log("Reset VengefulStance");
             StopCoroutine(vengefulStanceRoutine);
             gameUnit.HealthHandler.OnHit.RemoveAllListeners();
-            gameUnit.Damager.RemoveDamageReduction(abilitySO.abilityAttributie.GetAbilityValueByID("DamageReduction").GetValue<float>());
+            gameUnit.Damager.RemoveDamageReduction(ability.abilitySO.abilityAttributie.GetAbilityValueByID("DamageReduction").GetValue<float>());
         }
         
         vengefulStanceRoutine = StartCoroutine(Utility.TimedAbility
             
-        (abilitySO, () =>
+        (ability, () =>
         {
             Debug.Log("Start VengefulStance");
 
-            PopUpTextManager.Instance.PopUpText(transform, abilitySO.abilityAttributie.GetAbilityValueByID("Visual").GetValue<string>(), Color.red);
+            PopUpTextManager.Instance.PopUpText(transform, ability.abilitySO.abilityAttributie.GetAbilityValueByID("Visual").GetValue<string>(), Color.red);
             
             gameUnit.CanMove(false);
-            gameUnit.Damager.AddDamageReduction(abilitySO.abilityAttributie.GetAbilityValueByID("DamageReduction").GetValue<float>());
-
+            gameUnit.Damager.AddDamageReduction(ability.abilitySO.abilityAttributie.GetAbilityValueByID("DamageReduction").GetValue<float>());
+            
             damageInfo.owner = gameUnit;
-            damageInfo.damageType = DamageInfo.DamageType.Melee;
+            damageInfo.damageType = DamageInfo.DamageType.Physical;
 
             gameUnit.HealthHandler.OnHit.AddListener(damageInfo =>
             {
-                damageInfo.damageAmount = Utility.CalculatePercentageOfValue(damageInfo.damageAmount, abilitySO.abilityAttributie.GetAbilityValueByID("Damage Return").GetValue<float>());
+                damageInfo.damageAmount = Utility.CalculatePercentageOfValue(damageInfo.damageAmount, ability.abilitySO.abilityAttributie.GetAbilityValueByID("Damage Return").GetValue<float>());
                 Debug.Log(damageInfo.owner);
                 damageInfo.owner.HealthHandler.TakeDamage(damageInfo);
             });;
         }
-
-        , duration, (abilitySO) =>
+        
+        , duration, (ability) =>
         {
             Debug.Log("End VengefulStance");
 
             gameUnit.CanMove(true);
-            gameUnit.Damager.RemoveDamageReduction(abilitySO.abilityAttributie.GetAbilityValueByID("DamageReduction").GetValue<float>());
+            gameUnit.Damager.RemoveDamageReduction(ability.abilitySO.abilityAttributie.GetAbilityValueByID("DamageReduction").GetValue<float>());
             gameUnit.HealthHandler.OnHit.RemoveAllListeners();
             vengefulStanceRoutine = null;
         }));
     }
     
-    public void MyrmidonSlash(AbilitySO abilitySO)
+    public void MyrmidonSlash(Ability ability)
     {
         Debug.Log("MyrmidonSlash");
-        PopUpTextManager.Instance.PopUpText(transform, abilitySO.abilityAttributie.GetAbilityValueByID("Visual").GetValue<string>(), Color.red);
+        PopUpTextManager.Instance.PopUpText(transform, ability.abilitySO.abilityAttributie.GetAbilityValueByID("Visual").GetValue<string>(), Color.red);
         gameUnit.Damager.CanDoubleDamage();
     }
 }

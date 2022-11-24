@@ -5,6 +5,14 @@ using UnityEngine;
 
 public class GenericTest: MonoBehaviour
 {
+
+    //void Update()
+    //{
+    //    if (Input.GetKeyDown(KeyCode.Space))
+    //    {
+    //        transform.DestroyAllChildren();
+    //    }
+    //}
     //Coroutine test;
 
     //private void Start()

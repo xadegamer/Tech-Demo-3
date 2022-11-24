@@ -20,8 +20,10 @@ public class BuffObjectUI : MonoBehaviour,IToolTip
     public void SetUp(BuffObject buffObject)
     {
         this.buffObject = buffObject;
+        abilityImage.sprite = buffObject.GetBuff().buffSO.buffIcon;
         buffObject.GetBuff().OnBuffRemoved += Buff_OnBuffRemoved;
         buffObject.InProgress += UpdateTimerText;
+        coolDownText.enabled = buffObject.GetBuff().buffSO.buffType == BuffType.Temporary;
     }
 
     public void UpdateTimerText(float time)

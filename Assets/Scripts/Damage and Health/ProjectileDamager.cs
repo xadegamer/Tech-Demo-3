@@ -49,8 +49,6 @@ public class ProjectileDamager : Damager
 
             OnCollide?.Invoke(collision);
 
-            OnHit.Invoke();
-
             if (destroyOnImpact) Destroy(gameObject);
         }
     }

@@ -38,29 +38,34 @@ public class AbilitySO : ScriptableObject
     
     public BuffSO buff;
 
-    private Action<AbilitySO> OnUse = null;
-
-    public Action<AbilitySO> OnAbilityEnd = null;
-
-    private AbilityHolderUI abilityHolderUI;
-
     public T GetAbilityType<T>() where T : Enum
     {
         return (T)Enum.Parse(typeof(T), Utility.RemoveSpaceFromString(abilityName));
     }
+}
 
-    public void SetAbilityAction(Action<AbilitySO> useAction, Action<AbilitySO> endAction = null)
+[Serializable]
+public class Ability
+{
+    public AbilitySO abilitySO;
+    public List<Ability> connectedAbilities = new List<Ability>();
+    public Buff buff;
+
+    private Action<Ability> OnUse;
+    public Action<Ability> OnAbilityEnd;
+    public AbilityHolderUI abilityHolderUI;
+
+    public Ability(AbilitySO abilitySO)
     {
-        OnUse = useAction;
-        OnAbilityEnd = endAction;
+        this.abilitySO = abilitySO;
     }
 
-    public void SetAbilityHolderUI(AbilityHolderUI abilityHolderUI)
+    public void SetAbilityAction(Action<Ability> OnUse, Action<Ability> OnAbilityEnd = null)
     {
-        this.abilityHolderUI = abilityHolderUI;
+        this.OnUse = OnUse;
+        this.OnAbilityEnd = OnAbilityEnd;
     }
-
-    public float GetAbilityCost(float baseMana)=> Utility.CalculatePercentageOfValue(baseMana, abilityCost);
+    public float GetAbilityCost(float baseMana) => Utility.CalculatePercentageOfValue(baseMana, abilitySO.abilityCost);
 
     public void UseAbility()
     {
@@ -71,11 +76,24 @@ public class AbilitySO : ScriptableObject
     {
         OnAbilityEnd?.Invoke(this);
     }
-
-    public Action<AbilitySO> GetAbilityAction() => OnUse;
-
-    public AbilityHolderUI GetAbilityHolderUI() => abilityHolderUI;
 }
+[Serializable]
+public class AbilitySet
+{
+    public List<Ability> abilities;
+
+    public AbilitySet(AbilitySetSO abilitySetSOs)
+    {
+        abilities = new List<Ability>();
+        foreach (var abilitySO in abilitySetSOs.abilities)
+        {
+            Ability newAbility = new Ability(abilitySO);
+            foreach (var connectedAbility in abilitySO.connectedAbilities) newAbility.connectedAbilities.Add(new Ability(connectedAbility));
+            abilities.Add(newAbility);
+        }
+    }
+}
+
 
 [Serializable]
 public class AttributeContainer

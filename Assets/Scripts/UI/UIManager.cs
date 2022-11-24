@@ -60,20 +60,23 @@ public class CharacterUI
         this.gameUnit = gameUnit;
         icon.sprite = gameUnit.GetCharacterClassSO().characterIcon;
         SetHealthBar(gameUnit.HealthHandler.GetNormalisedHealth());
+        SpawnBuff();
         gameUnit.gameUnitBuffController.OnBuffAdded += AddBuffObject;
     }
 
     public void SetUp(GameUnit gameUnit)
     {
-        if (this.gameUnit)
+        if (this.gameUnit != null)
         {
             this.gameUnit.OnHealthChangedEvent -= HealthHandler_OnHealthChanged;
             if (buffHolder) this.gameUnit.gameUnitBuffController.OnBuffAdded -= AddBuffObject;
-        } 
+            this.gameUnit = null;
+        }
+        
+        if (buffHolder) ClearBuffObjects();
+        
         if (gameUnit)
         {
-            if (buffHolder) ClearBuffObjects();
-
             this.gameUnit = gameUnit;
             
             if(buffHolder) SpawnBuff();
@@ -126,7 +129,7 @@ public class CharacterUI
 
     public void ClearBuffObjects()
     {
-        buffHolder.transform.DestroyAllChildren();
+        buffHolder.DestroyAllChildren();
     }
 
     public void Hide()

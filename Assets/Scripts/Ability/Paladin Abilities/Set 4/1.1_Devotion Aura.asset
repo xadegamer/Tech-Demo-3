@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: aedde484368609b4c9360ed52ccf1928, type: 3}
-  m_Name: 1.1_Devotional Aura
+  m_Name: 1.1_Devotion Aura
   m_EditorClassIdentifier: 
-  abilityName: Devotional Aura
+  abilityName: Devotion Aura
   abilityDescription: 'The Paladin and all allies who benefit from this aura acquire
     an additional 10% damage reduction from all damage sources. '
   abilityIcon: {fileID: 21300000, guid: 82a5ca44e2eb20547b32564711825472, type: 3}
@@ -20,12 +20,8 @@ MonoBehaviour:
   type: 3
   range: 0
   abilityAttributie:
-    attributes:
-    - valueType: 3
-      timeType: 1
-      key: Duration
-      _value: 10
+    attributes: []
   connectedAbilities:
   - {fileID: 11400000, guid: fbb844808cb763248a32493ed8022ac5, type: 2}
   - {fileID: 11400000, guid: 04d1b53dc1c474545a3e12600bbbf5f8, type: 2}
-  buff: {fileID: 0}
+  buff: {fileID: 11400000, guid: fe9ee963f1f29004584fba944e3e7bb3, type: 2}
