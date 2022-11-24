@@ -53,7 +53,7 @@ public class BuffObject : MonoBehaviour
 
     public void DeactivateBuff()
     {
-        StopCoroutine(buffCoroutine);
+        if (buffCoroutine != null) StopCoroutine(buffCoroutine);
         buff.RemoveBuff();
     }
 
@@ -76,5 +76,11 @@ public class BuffObject : MonoBehaviour
     public Buff GetBuff()
     {
         return buff;
+    }
+
+    private void OnDestroy()
+    {
+        buff.OnBuffReset -= Buff_ResetBuff;
+        buff.OnBuffRemoved -= Buff_OnBuffRemoved;
     }
 }

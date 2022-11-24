@@ -13,13 +13,10 @@ public abstract class GameUnitBuffController : MonoBehaviour
     [SerializeField] protected List<BuffObject> activeBuffObjects = new List<BuffObject>();
 
     protected GameUnit gameUnit;
-    protected DamageInfo damageInfo;
 
     private void Awake()
     {
         gameUnit = GetComponent<GameUnit>();
-        damageInfo = new DamageInfo();
-        damageInfo.owner = gameUnit;
     }
 
     protected virtual void Start()

@@ -28,6 +28,8 @@ public class BlackfathomAbilityController : GameUnitAbilityController
     public void BlackfathomHamstring(Ability ability)
     {
         float damage = Utility.CalculateValueWithPercentage(gameUnit.GetStat().GetCharacterClassSO().minbaseDamage, ability.abilitySO.abilityAttributie.GetAbilityValueByID("DamageInc").GetValue<float>(), true);
+
+        DamageInfo damageInfo = new DamageInfo(gameUnit);
         damageInfo.SetUp(DamageInfo.DamageType.Physical, damage, false, false);
         gameUnit.GetTarget().GetComponent<HealthHandler>().TakeDamage(damageInfo);
 
@@ -49,7 +51,7 @@ public class BlackfathomAbilityController : GameUnitAbilityController
             Debug.Log("Reset VengefulStance");
             StopCoroutine(vengefulStanceRoutine);
             gameUnit.HealthHandler.OnHit.RemoveAllListeners();
-            gameUnit.Damager.RemoveDamageReduction(ability.abilitySO.abilityAttributie.GetAbilityValueByID("DamageReduction").GetValue<float>());
+            gameUnit.Damager.ModifyDamageReduction(ability.abilitySO.abilityAttributie.GetAbilityValueByID("DamageReduction").GetValue<float>(), false);
         }
         
         vengefulStanceRoutine = StartCoroutine(Utility.TimedAbility
@@ -61,16 +63,16 @@ public class BlackfathomAbilityController : GameUnitAbilityController
             PopUpTextManager.Instance.PopUpText(transform, ability.abilitySO.abilityAttributie.GetAbilityValueByID("Visual").GetValue<string>(), Color.red);
             
             gameUnit.CanMove(false);
-            gameUnit.Damager.AddDamageReduction(ability.abilitySO.abilityAttributie.GetAbilityValueByID("DamageReduction").GetValue<float>());
-            
+            gameUnit.Damager.ModifyDamageReduction(ability.abilitySO.abilityAttributie.GetAbilityValueByID("DamageReduction").GetValue<float>());
+
+            DamageInfo damageInfo = new DamageInfo(gameUnit);
             damageInfo.owner = gameUnit;
             damageInfo.damageType = DamageInfo.DamageType.Physical;
 
             gameUnit.HealthHandler.OnHit.AddListener(damageInfo =>
             {
                 damageInfo.damageAmount = Utility.CalculatePercentageOfValue(damageInfo.damageAmount, ability.abilitySO.abilityAttributie.GetAbilityValueByID("Damage Return").GetValue<float>());
-                Debug.Log(damageInfo.owner);
-                damageInfo.owner.HealthHandler.TakeDamage(damageInfo);
+                if(damageInfo.owner)damageInfo.owner.HealthHandler.TakeDamage(damageInfo);
             });;
         }
         
@@ -79,7 +81,7 @@ public class BlackfathomAbilityController : GameUnitAbilityController
             Debug.Log("End VengefulStance");
 
             gameUnit.CanMove(true);
-            gameUnit.Damager.RemoveDamageReduction(ability.abilitySO.abilityAttributie.GetAbilityValueByID("DamageReduction").GetValue<float>());
+            gameUnit.Damager.ModifyDamageReduction(ability.abilitySO.abilityAttributie.GetAbilityValueByID("DamageReduction").GetValue<float>(), false);
             gameUnit.HealthHandler.OnHit.RemoveAllListeners();
             vengefulStanceRoutine = null;
         }));

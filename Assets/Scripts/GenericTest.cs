@@ -1,18 +1,34 @@
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class GenericTest: MonoBehaviour
 {
+    public UnityEvent ops;
 
-    //void Update()
-    //{
-    //    if (Input.GetKeyDown(KeyCode.Space))
-    //    {
-    //        transform.DestroyAllChildren();
-    //    }
-    //}
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Test();
+        }
+
+        ops?.Invoke();
+    }
+
+    void Test()
+    {
+        void Yes()
+        {
+            Debug.Log("Yes");
+        }
+        
+        StartCoroutine(Test2(()=> ops.AddListener (Yes), null,()=> ops.RemoveListener(Yes), 5));
+    }
+    
     //Coroutine test;
 
     //private void Start()
@@ -61,5 +77,19 @@ public class GenericTest: MonoBehaviour
     //    test = null;
     //    Tester();
     //}
+
+    public IEnumerator Test2(Action start, Action<float> progress, Action end, float duration)
+    {
+        start?.Invoke();
+
+        float activeTime = 0;
+        while (activeTime < duration)
+        {
+            activeTime += Time.deltaTime;
+            progress?.Invoke(activeTime / duration);
+            yield return null;
+        }
+        end?.Invoke();
+    }
 }
 

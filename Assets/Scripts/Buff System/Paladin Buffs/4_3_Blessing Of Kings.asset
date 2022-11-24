@@ -10,18 +10,25 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 718cab23b92aaa04baf926fc9874481c, type: 3}
-  m_Name: 1_3_Retribution Aura
+  m_Name: 4_3_Blessing Of Kings
   m_EditorClassIdentifier: 
   ID: 0
-  buffName: Retribution Aura
-  buffDescription: 'Aura that lashes out against any melee attackers, dealing 2%
-    of Base Melee Damage as Holy Damage. '
-  buffIcon: {fileID: 21300000, guid: bf2e6ca7638ecc14cb7d552218419000, type: 3}
+  buffName: Blessing Of Kings
+  buffDescription: 
+  buffIcon: {fileID: 21300000, guid: 29188f91b8e650a4e8e37d35d5fd7a4b, type: 3}
   buffType: 0
   isDebuff: 0
   buffbuffAttributes:
     attributes:
     - valueType: 0
       timeType: 0
-      key: BaseMeleeDamage
-      _value: 2
+      key: AdditionalBaseDamage
+      _value: 8
+    - valueType: 0
+      timeType: 0
+      key: AttackSpeedInc
+      _value: 
+    - valueType: 0
+      timeType: 0
+      key: MaxManaHealthInc
+      _value: 

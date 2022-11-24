@@ -48,20 +48,15 @@ public class StatBase
         currentChanceToCrit = characterClassSO.chanceToCrit;
         currentCriticalDamageMultipier = characterClassSO.criticalDamageMultipier;
     }
-
+    
     public CharacterClassSO GetCharacterClassSO()
     {
         return characterClassSO;
     }
 
-    public void ModifyAttackSpeed(float percentage, bool increase)
+    public void ModifyAttackSpeed(float amount, bool increase = true)
     {
-        currentattackSpeed = Utility.CalculateValueWithPercentage(characterClassSO.attackSpeed, percentage, increase);
-    }
-
-    public void ResetAttackSpeed()
-    {
-        currentattackSpeed = characterClassSO.attackSpeed;
+        if (increase) currentattackSpeed += amount; else currentattackSpeed -= amount;
     }
 }
 
@@ -83,6 +78,12 @@ public class StatValue
         this.maxValue = maxValue;
         currentValue = fullAtStart ? maxValue : 0;
         OnValueChanged?.Invoke(this, currentValue / this.maxValue);
+    }
+
+    public void ModifyMaxValue(float amount ,  bool increase = true)
+    {
+        if (increase) maxValue += amount; else maxValue -= amount;
+        OnValueChanged?.Invoke(this, currentValue / maxValue);
     }
 
     public void SetRegenValue(float valueRegenInterval, float valueRegenAmount)

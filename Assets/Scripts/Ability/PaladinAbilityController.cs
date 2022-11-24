@@ -11,11 +11,13 @@ public class PaladinAbilityController : GameUnitAbilityController
 
     [SerializeField] Ability currentSeal;
 
-    Coroutine sealCoroutine;
+    [SerializeField] Ability currentBlessing;
 
     private bool sealActive;
 
     private bool auraActive;
+
+    private bool blessingActive;
 
 
     protected void Start()
@@ -23,6 +25,7 @@ public class PaladinAbilityController : GameUnitAbilityController
         AbilityUIManager.Instance.SetAbilities(gameUnit, abilities);
         currentAura.UseAbility();
         currentSeal.UseAbility();
+        currentBlessing.UseAbility();
     }
 
     protected override void AssignSetAbilityActions(AbilitySet abilitySet)
@@ -56,7 +59,7 @@ public class PaladinAbilityController : GameUnitAbilityController
             case PaladinAbilities.JudgementofWisdom: ability.SetAbilityAction(JudgementOfWisdom); break;
             case PaladinAbilities.JudgementofWeakness: ability.SetAbilityAction(JudgementOfWeakness); break;
 
-            case PaladinAbilities.BlessingOfMight: ability.SetAbilityAction(BlessingOfMight); break;
+            case PaladinAbilities.BlessingOfMight: ability.SetAbilityAction(BlessingOfMight); currentBlessing = ability; break;
             case PaladinAbilities.BlessingOfWisdom: ability.SetAbilityAction(BlessingOfWisdom); break;
             case PaladinAbilities.BlessingOfKings: ability.SetAbilityAction(BlessingOfKings); break;
 
@@ -69,6 +72,7 @@ public class PaladinAbilityController : GameUnitAbilityController
     {
         float damage = Utility.CalculateValueWithPercentage(gameUnit.GetStat().GetCharacterClassSO().minbaseDamage, ability.abilitySO.abilityAttributie.GetAbilityValueByID("BasePhysicalDamage").GetValue<float>(), true);
 
+        DamageInfo damageInfo = new DamageInfo(gameUnit);
         damageInfo.SetUp(DamageInfo.DamageType.Physical, damage, false, false);
 
         gameUnit.GetTarget().HealthHandler.TakeDamage(damageInfo);
@@ -79,7 +83,7 @@ public class PaladinAbilityController : GameUnitAbilityController
     public void HammerofJustice(Ability ability)
     {
         float stunDuration = ability.abilitySO.abilityAttributie.GetAbilityValueByID("StunDuration").GetValue<float>();
-        gameUnit.GetTarget().StartStun();
+        gameUnit.GetTarget().Stun(stunDuration);
         Debug.Log("Did Hammer of Justice : " + stunDuration);
     }
 
@@ -87,6 +91,7 @@ public class PaladinAbilityController : GameUnitAbilityController
     {
         float damage = Utility.CalculateValueWithPercentage(gameUnit.GetStat().GetCharacterClassSO().minbaseDamage, ability.abilitySO.abilityAttributie.GetAbilityValueByID("BasePhysicalDamage").GetValue<float>(), true);
 
+        DamageInfo damageInfo = new DamageInfo(gameUnit);
         damageInfo.SetUp(DamageInfo.DamageType.Physical, damage, false, false);
 
         float healAmount = Utility.CalculatePercentageOfValue(PlayerUnit.Instance.GetTarget().GetComponent<HealthHandler>().TakeDamage(damageInfo), ability.abilitySO.abilityAttributie.GetAbilityValueByID("Heal").GetValue<float>());
@@ -100,9 +105,9 @@ public class PaladinAbilityController : GameUnitAbilityController
     {
         float damage = Utility.CalculatePercentageOfValue(gameUnit.GetStat().GetCharacterClassSO().minbaseDamage, ability.abilitySO.abilityAttributie.GetAbilityValueByID("BaseWeaponDamage").GetValue<float>());
 
+        DamageInfo damageInfo = new DamageInfo(gameUnit);
         damageInfo.SetUp(DamageInfo.DamageType.Physical, damage, false, false);
         gameUnit.GetTarget().GetComponent<HealthHandler>().TakeDamage(damageInfo);
-        Debug.Log("Did Judgement : " + damage);
 
         buffManager.SendBuff(currentJudgement.abilitySO.buff, PlayerUnit.Instance.GetTarget());
         Debug.Log("Do " + currentJudgement.abilitySO.abilityName);
@@ -114,7 +119,7 @@ public class PaladinAbilityController : GameUnitAbilityController
     #region Aura
     public void DevotionAura(Ability ability)
     {
-        if (currentAura != null && auraActive) currentAura.buff.RemoveBuff();
+        if (currentAura != null && auraActive) currentAura.RemoveBuff();
         currentAura = ability;
         auraActive = true;
         ability.buff = buffManager.SendBuff(ability.abilitySO.buff, gameUnit);
@@ -122,7 +127,7 @@ public class PaladinAbilityController : GameUnitAbilityController
 
     public void MagicalAura(Ability ability)
     {
-        if (currentAura != null) currentAura.buff.RemoveBuff();
+        if (currentAura != null) currentAura.RemoveBuff();
         currentAura = ability;
         ability.buff = buffManager.SendBuff(ability.abilitySO.buff, gameUnit);
     }
@@ -130,7 +135,7 @@ public class PaladinAbilityController : GameUnitAbilityController
 
     public void RetributionAura(Ability ability)
     {
-        if (currentAura != null) currentAura.buff.RemoveBuff();
+        if (currentAura != null) currentAura.RemoveBuff();
         currentAura = ability;
         ability.buff = buffManager.SendBuff(ability.abilitySO.buff, gameUnit);
     }
@@ -140,7 +145,7 @@ public class PaladinAbilityController : GameUnitAbilityController
 
     public void SealOfRighteousness(Ability ability)
     {
-        if(currentSeal != null && sealActive) currentSeal.buff.RemoveBuff();
+        if(currentSeal != null && sealActive) currentSeal.RemoveBuff();
         currentSeal = ability;
         sealActive = true;
         ability.buff = buffManager.SendBuff(ability.abilitySO.buff, gameUnit);
@@ -148,14 +153,14 @@ public class PaladinAbilityController : GameUnitAbilityController
     
     public void SealOfLight(Ability ability)
     {
-        if (currentSeal != null) currentSeal.buff.RemoveBuff();
+        if (currentSeal != null) currentSeal.RemoveBuff();
         currentSeal = ability;
         ability.buff = buffManager.SendBuff(ability.abilitySO.buff, gameUnit);
     }
 
     public void SealOfJustice(Ability ability)
     {
-        if (currentSeal != null) currentSeal.buff.RemoveBuff();
+        if (currentSeal != null) currentSeal.RemoveBuff();
         currentSeal = ability;
         ability.buff = buffManager.SendBuff(ability.abilitySO.buff, gameUnit);
     }
@@ -184,19 +189,27 @@ public class PaladinAbilityController : GameUnitAbilityController
     #region Blessing
     public void BlessingOfMight(Ability ability)
     {
-        Debug.Log("Do BlessingOfMight");
+        if (currentBlessing != null && blessingActive) currentBlessing.RemoveBuff();
+        currentBlessing = ability;
+        blessingActive = true;
+        ability.buff = buffManager.SendBuff(ability.abilitySO.buff, gameUnit);
     }
 
     public void BlessingOfWisdom(Ability ability)
     {
-        Debug.Log("Do BlessingOfWisdom");
+        if (currentBlessing != null && blessingActive) currentBlessing.RemoveBuff();
+        currentBlessing = ability;
+        blessingActive = true;
+        ability.buff = buffManager.SendBuff(ability.abilitySO.buff, gameUnit);
     }
 
     public void BlessingOfKings(Ability ability)
     {
-        Debug.Log("Do BlessingOfKings");
+        if (currentBlessing != null && blessingActive) currentBlessing.RemoveBuff();
+        currentBlessing = ability;
+        blessingActive = true;
+        ability.buff = buffManager.SendBuff(ability.abilitySO.buff, gameUnit);
     }
-
 
     #endregion
     #endregion

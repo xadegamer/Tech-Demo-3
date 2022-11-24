@@ -20,19 +20,7 @@ MonoBehaviour:
   abilityCost: 0
   type: 2
   range: 0
-  abilityData:
-    values:
-    - ID: DebuffDuration
-      valueType: 2
-      timeType: 0
-      value: 20
-    - ID: DebuffChance
-      valueType: 1
-      timeType: 0
-      value: 30
-    - ID: DebuffInterval
-      valueType: 0
-      timeType: 0
-      value: 0
+  abilityAttributie:
+    attributes: []
   connectedAbilities: []
-  buff: {fileID: 11400000, guid: da4292b39922b794c8e26f6e15e7a10b, type: 2}
+  buff: {fileID: 11400000, guid: 870019273dde97944b4ef96155f3ce12, type: 2}

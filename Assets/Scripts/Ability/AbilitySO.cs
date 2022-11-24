@@ -76,6 +76,15 @@ public class Ability
     {
         OnAbilityEnd?.Invoke(this);
     }
+
+    public void RemoveBuff()
+    {
+        if (buff != null)
+        {
+            buff.RemoveBuff();
+            buff = null;
+        }
+    }
 }
 [Serializable]
 public class AbilitySet

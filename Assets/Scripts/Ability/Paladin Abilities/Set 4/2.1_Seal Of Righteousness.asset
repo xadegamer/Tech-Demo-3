@@ -22,12 +22,11 @@ MonoBehaviour:
   range: 0
   abilityAttributie:
     attributes:
-    - key: Duration
-      valueType: 3
+    - valueType: 3
       timeType: 1
-      value: 10
+      key: Duration
       _value: 10
   connectedAbilities:
   - {fileID: 11400000, guid: 849a462fc8b71f04395d4375feebefd1, type: 2}
   - {fileID: 11400000, guid: 8e50dc1ca83dc854f80fa95563b07e98, type: 2}
-  buff: {fileID: 0}
+  buff: {fileID: 11400000, guid: 0cd751f261dcd9c4e8f147c6493a1173, type: 2}

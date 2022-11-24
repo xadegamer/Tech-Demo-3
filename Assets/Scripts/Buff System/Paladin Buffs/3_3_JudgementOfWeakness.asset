@@ -10,18 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 718cab23b92aaa04baf926fc9874481c, type: 3}
-  m_Name: 1_3_Retribution Aura
+  m_Name: 3_3_JudgementOfWeakness
   m_EditorClassIdentifier: 
   ID: 0
-  buffName: Retribution Aura
-  buffDescription: 'Aura that lashes out against any melee attackers, dealing 2%
-    of Base Melee Damage as Holy Damage. '
-  buffIcon: {fileID: 21300000, guid: bf2e6ca7638ecc14cb7d552218419000, type: 3}
-  buffType: 0
+  buffName: Judgement Of Weakness
+  buffDescription: 
+  buffIcon: {fileID: 21300000, guid: 6ed5c7c34fdb12d4d8920ac101a71e25, type: 3}
+  buffType: 1
   isDebuff: 0
   buffbuffAttributes:
     attributes:
+    - valueType: 3
+      timeType: 0
+      key: Duration
+      _value: 20
     - valueType: 0
       timeType: 0
-      key: BaseMeleeDamage
-      _value: 2
+      key: MeleeAttackDamageReduc
+      _value: 8

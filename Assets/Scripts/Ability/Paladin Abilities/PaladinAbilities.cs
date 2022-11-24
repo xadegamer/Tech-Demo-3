@@ -39,8 +39,8 @@ public enum PaladinBuff
     SealOfJustice,
 
     JudgementOfRighteousness,
-    JudgementofWisdom,
-    JudgementofWeakness,
+    JudgementOfWisdom,
+    JudgementOfWeakness,
 
     BlessingOfMight,
     BlessingOfWisdom,

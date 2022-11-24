@@ -26,4 +26,4 @@ MonoBehaviour:
       key: Duration
       _value: 10
   connectedAbilities: []
-  buff: {fileID: 0}
+  buff: {fileID: 11400000, guid: 69f1b9646c65f7d48b47a576eaf30334, type: 2}

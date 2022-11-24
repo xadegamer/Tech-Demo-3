@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: 0
   buffName: Magical Aura
-  buffDescription: 
+  buffDescription: '2% of their base mana every 5 seconds. '
   buffIcon: {fileID: 21300000, guid: a61ac171ca536244e8ef1c75895e6d18, type: 3}
   buffType: 2
   isDebuff: 0

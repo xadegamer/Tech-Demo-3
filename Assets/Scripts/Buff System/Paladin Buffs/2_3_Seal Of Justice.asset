@@ -26,9 +26,9 @@ MonoBehaviour:
       _value: 10
     - valueType: 0
       timeType: 0
-      key: Chance
+      key: StunChance
       _value: 10
     - valueType: 0
       timeType: 0
       key: StunDuration
-      _value: 
+      _value: 2

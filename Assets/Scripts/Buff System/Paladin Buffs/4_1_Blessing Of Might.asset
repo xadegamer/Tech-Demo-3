@@ -10,18 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 718cab23b92aaa04baf926fc9874481c, type: 3}
-  m_Name: 1_3_Retribution Aura
+  m_Name: 4_1_Blessing Of Might
   m_EditorClassIdentifier: 
   ID: 0
-  buffName: Retribution Aura
-  buffDescription: 'Aura that lashes out against any melee attackers, dealing 2%
-    of Base Melee Damage as Holy Damage. '
-  buffIcon: {fileID: 21300000, guid: bf2e6ca7638ecc14cb7d552218419000, type: 3}
+  buffName: Blessing Of Might
+  buffDescription: 
+  buffIcon: {fileID: 21300000, guid: 015da782a0f483544b4716b65154ec98, type: 3}
   buffType: 0
   isDebuff: 0
   buffbuffAttributes:
     attributes:
     - valueType: 0
       timeType: 0
-      key: BaseMeleeDamage
-      _value: 2
+      key: ExtraDamage
+      _value: 10

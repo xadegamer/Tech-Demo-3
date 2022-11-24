@@ -25,7 +25,7 @@ public class BlackfathomBuffController : GameUnitBuffController
         return new Buff(buffSO, target, () =>
         { //Start
             ((PlayerUnit)target).MovementHandler.ModifySpeed(reduction, false);
-            ((PlayerUnit)target).GetStat().ModifyAttackSpeed(reduction, true);
+            target.GetStat().ModifyAttackSpeed(Utility.CalculatePercentageOfValue(target.GetCharacterClassSO().attackSpeed, reduction), true);
         }
         , () =>
         {// In Progress
@@ -33,7 +33,7 @@ public class BlackfathomBuffController : GameUnitBuffController
         }, () =>
         { // End
             ((PlayerUnit)target).MovementHandler.ResetSpeed();
-            ((PlayerUnit)target).GetStat().ResetAttackSpeed();
+            target.GetStat().ModifyAttackSpeed(Utility.CalculatePercentageOfValue(target.GetCharacterClassSO().attackSpeed, reduction), false);
         });
     }
 

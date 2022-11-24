@@ -59,6 +59,12 @@ public class HealthHandler : MonoBehaviour
         OnHealthChange?.Invoke(GetNormalisedHealth());
     }
 
+    public void ModifyMaxHealth(float amount, bool increase = true)
+    {
+        if (increase) maxHealth += amount; else maxHealth -= amount;
+        OnHealthChange?.Invoke(GetNormalisedHealth());
+    }
+
     public void ModifyAllDamageResistance(float allDamageResistance, bool increase = true)
     {
         if (increase) this.allDamageReduction += allDamageResistance; else this.allDamageReduction -= allDamageResistance;

@@ -20,13 +20,15 @@ MonoBehaviour:
   isDebuff: 0
   buffbuffAttributes:
     attributes:
-    - key: Duration
-      valueType: 3
+    - valueType: 3
       timeType: 0
-      value: 20
+      key: Duration
       _value: 20
-    - key: MeleeAttackDamageReduc
-      valueType: 0
+    - valueType: 0
       timeType: 0
-      value: 8
-      _value: 8
+      key: HealChance
+      _value: 30
+    - valueType: 0
+      timeType: 0
+      key: Health
+      _value: 2

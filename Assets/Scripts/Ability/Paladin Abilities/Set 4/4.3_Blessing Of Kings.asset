@@ -22,23 +22,7 @@ MonoBehaviour:
   abilityCost: 5
   type: 2
   range: 0
-  abilityData:
-    values:
-    - ID: BaseDamageInc
-      valueType: 1
-      timeType: 0
-      value: 5
-    - ID: AttackSpeedInc
-      valueType: 1
-      timeType: 0
-      value: 0.1
-    - ID: CritChanceInc
-      valueType: 1
-      timeType: 0
-      value: 2
-    - ID: MaxHealthAndManaInc
-      valueType: 1
-      timeType: 0
-      value: 10
+  abilityAttributie:
+    attributes: []
   connectedAbilities: []
-  buff: {fileID: 0}
+  buff: {fileID: 11400000, guid: 493053f30c86ee743b328f65aca5ea1d, type: 2}

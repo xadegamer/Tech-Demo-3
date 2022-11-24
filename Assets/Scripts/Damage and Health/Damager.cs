@@ -21,9 +21,13 @@ public abstract class Damager : MonoBehaviour
 
     [Header("Damage")]
     [SerializeField] protected float damageDelay;
+    
+    [Header("Damage Increase")]
+    [SerializeField] protected float extraDamage;
+
 
     [Header("Damage Reduction")]
-    [SerializeField] protected float damageReductionPer;
+    [SerializeField] protected float damageReduction;
 
     public Action<HealthHandler> OnHitTargetHealth;
 
@@ -53,7 +57,10 @@ public abstract class Damager : MonoBehaviour
     {
         if (Utility.CalculateChance(chanceToHit))
         {
-            float damage = Utility.CalculateValueWithPercentage(UnityEngine.Random.Range(minDamage, maxDamage + 1), damageReductionPer, false);
+            float damage = Utility.CalculateValueWithPercentage(UnityEngine.Random.Range(minDamage, maxDamage + 1), damageReduction, false);
+
+            damage = Utility.CalculateValueWithPercentage(damage, extraDamage, true);
+
             float criticalDmgMultiplier = Utility.CalculateChance(chanceToCrit) ? criticalDamageMultiplier : 0;
 
             damageInfo.critical = criticalDmgMultiplier > 0;
@@ -80,20 +87,22 @@ public abstract class Damager : MonoBehaviour
     {
         doubleDamage = true;
     }
-
-    public void SetDamageReducion(float damageReductionPer)
+    
+    public void ModifyChanceToHit(float chanceToHit, bool increase = true)
     {
-        this.damageReductionPer = damageReductionPer;
+        if (increase) this.chanceToHit += chanceToHit; else this.chanceToHit -= chanceToHit;
     }
 
-    public void AddDamageReduction(float damageReductionPer)
+    public void ModifyDamageReduction(float damageReductionPer, bool increase = false)
     {
-        this.damageReductionPer += damageReductionPer;
+        if (increase) this.damageReduction += damageReductionPer; else this.damageReduction -= damageReductionPer;
+        if (this.damageReduction < 0) this.damageReduction = 0;
     }
 
-    public void RemoveDamageReduction(float damageReductionPer)
+    public void ModifyExtraDamage(float damageIncrease, bool increase = false)
     {
-        this.damageReductionPer -= damageReductionPer;
+        if (increase) this.extraDamage += damageIncrease; else this.extraDamage -= damageIncrease;
+        if (this.extraDamage < 0) this.extraDamage = 0;
     }
 
     public bool HasHit() { return hasHit; }
@@ -110,7 +119,7 @@ public class DamageInfo
     public bool stun;
     public GameUnit owner;
 
-    public DamageInfo(){}
+    public DamageInfo(GameUnit owner) { this.owner = owner; }
 
     public void SetUp(DamageType damageType, float damageAmount, bool critical, bool stun)
     {

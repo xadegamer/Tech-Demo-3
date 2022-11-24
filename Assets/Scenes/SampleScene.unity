@@ -1163,6 +1163,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3e2a6754a71f8a4a8cd12299ea41190, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ops:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!4 &210568291
 Transform:
   m_ObjectHideFlags: 0
@@ -1498,6 +1501,13 @@ MonoBehaviour:
       buffSO: {fileID: 0}
       target: {fileID: 0}
     abilityHolderUI: {fileID: 0}
+  currentBlessing:
+    abilitySO: {fileID: 0}
+    connectedAbilities: []
+    buff:
+      buffSO: {fileID: 0}
+      target: {fileID: 0}
+    abilityHolderUI: {fileID: 0}
 --- !u!50 &273101650
 Rigidbody2D:
   serializedVersion: 4
@@ -1792,10 +1802,9 @@ MonoBehaviour:
   maxDamage: 0
   chanceToCrit: 0
   criticalDamageMultiplier: 0
-  damageReductionPer: 0
-  OnHit:
-    m_PersistentCalls:
-      m_Calls: []
+  damageDelay: 0
+  extraDamage: 0
+  damageReduction: 0
   destroyOnImpact: 0
   hasHit: 0
   color: {r: 1, g: 0, b: 0, a: 1}
@@ -2309,10 +2318,9 @@ MonoBehaviour:
   maxDamage: 0
   chanceToCrit: 0
   criticalDamageMultiplier: 0
-  damageReductionPer: 0
-  OnHit:
-    m_PersistentCalls:
-      m_Calls: []
+  damageDelay: 0
+  extraDamage: 0
+  damageReduction: 0
   destroyOnImpact: 0
   hasHit: 0
   color: {r: 1, g: 0, b: 0, a: 1}
@@ -3909,10 +3917,9 @@ MonoBehaviour:
   maxDamage: 0
   chanceToCrit: 0
   criticalDamageMultiplier: 0
-  damageReductionPer: 0
-  OnHit:
-    m_PersistentCalls:
-      m_Calls: []
+  damageDelay: 0
+  extraDamage: 0
+  damageReduction: 0
   destroyOnImpact: 0
   hasHit: 0
   color: {r: 1, g: 0, b: 0, a: 1}
@@ -7046,7 +7053,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   floatingText: {fileID: 1235528303566222114, guid: f53a30867b0a8f840874b7b3bcc520b1, type: 3}
   offset: {x: 0.1, y: 0.3}
-  randomIntensity: {x: 0.2, y: 0.2}
+  randomIntensity: {x: 0.5, y: 0.5}
 --- !u!4 &1473944350
 Transform:
   m_ObjectHideFlags: 0

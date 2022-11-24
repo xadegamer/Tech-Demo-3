@@ -19,13 +19,9 @@ MonoBehaviour:
   abilityCost: 5
   type: 3
   range: 0
-  abilityData:
-    values:
-    - ID: ExtraMeleeDamage
-      valueType: 1
-      timeType: 0
-      value: 10
+  abilityAttributie:
+    attributes: []
   connectedAbilities:
   - {fileID: 11400000, guid: 4ec77f0e9ec5ff242bda27b5e74c1643, type: 2}
   - {fileID: 11400000, guid: d33c40600ec68114a9f4122fc6e350fc, type: 2}
-  buff: {fileID: 0}
+  buff: {fileID: 11400000, guid: e8a661365ed0eb1409ddaf6a8de124ed, type: 2}
