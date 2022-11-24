@@ -73,12 +73,13 @@ public class EnemyUnit : GameUnit
     {
         lastCriticalDamageDealth = e;
         GetComponent<GameUnitBuffController>().SendBuff(nagaSpiritBuff, this);
-       PopUpTextManager.Instance.PopUpText(transform, "Critical", Color.red);
+        PopUpTextManager.Instance.PopUpText(transform, "Critical", Color.red);
     }
 
     protected override void OnDeath(DamageInfo arg0)
     {
         base.OnDeath(arg0);
+       if(isTargetted) UIManager.Instance.GetTargetOfTargetUI().SetUp(null);
     }
 
     public override bool TryUseAbility(Ability ability)
@@ -141,7 +142,7 @@ public class EnemyUnit : GameUnit
                     agent.SetDestination(canMove ? target.transform.position : transform.position);
                     Utility.LookAtPosition(transform, target.transform.position);
                     animator.SetBool("IsMoving", Mathf.Abs(agent.velocity.normalized.x) != 0 || Mathf.Abs(agent.velocity.normalized.y) != 0);
-                    animator.SetFloat("MoveY", agent.velocity.normalized.y);
+                    animator.SetFloat("MoveY", (target.transform.position.y - transform.position.y));
                 }
             }
             else
@@ -165,6 +166,7 @@ public class EnemyUnit : GameUnit
     public override void StartStun()
     {
         base.StartStun();
+        agent.SetDestination(transform.position);
     }
 
     public override void EndStun()

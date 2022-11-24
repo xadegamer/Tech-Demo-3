@@ -134,15 +134,22 @@ public class PlayerUnit : GameUnit
 
     public void TryTargetTouchedEnemy()
     {
-        if (Input.touches.Length > 0 && Input.touches[0].phase == TouchPhase.Moved) hitInfo = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.touches[0].position), Vector3.forward);
-        else if (Input.GetMouseButtonDown(0)) hitInfo = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector3.forward, tapDetectlayer);
+        if (Input.touches.Length > 0 && Input.touches[0].phase == TouchPhase.Moved)
+        {
+            GameObject gameObject = Utility.DetectUI();
+            if (gameObject != null && gameObject.name == "Self"){ TrySetTarget(transform); return;}
+
+            hitInfo = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.touches[0].position), Vector3.forward);
+        }
+        else if (Input.GetMouseButtonDown(0))
+        {
+            GameObject gameObject = Utility.DetectUI();
+            if (gameObject != null && gameObject.name == "Self") { TrySetTarget(transform); return; }
+            hitInfo = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector3.forward, tapDetectlayer);
+        }  
         else return;
 
-        if (hitInfo.collider != null)
-        {
-            Debug.Log("Hit: " + hitInfo.collider.name);
-            TrySetTarget(hitInfo.collider.transform);
-        }
+        if (hitInfo.collider != null) TrySetTarget(hitInfo.collider.transform);
     }
 
     void StatHandler_OnManaChanged(object sender, float value)

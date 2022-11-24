@@ -265,7 +265,7 @@ public static class Utility
         slider.fillAmount = targetValue;
     }
 
-    public static void DetectUI()
+    public static GameObject DetectUI()
     {
         var results = new List<RaycastResult>();
 
@@ -273,12 +273,8 @@ public static class Utility
 
         EventSystem.current.RaycastAll(pointerEventData, results);
 
-        if (results.Count > 0)
-        {
-            GameObject UI = results[0].gameObject;
-
-            if (UI) Debug.Log(UI.name);
-        }
+        if (results.Count > 0) return results[0].gameObject;
+        else return null;
     }
 
     public static bool RandomPosition(Vector3 center, float range, out Vector2 result)
