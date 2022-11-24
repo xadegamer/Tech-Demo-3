@@ -23,12 +23,16 @@ MonoBehaviour:
     - valueType: 0
       timeType: 0
       key: AdditionalBaseDamage
-      _value: 8
+      _value: 5
     - valueType: 0
       timeType: 0
       key: AttackSpeedInc
-      _value: 
+      _value: .1
+    - valueType: 0
+      timeType: 0
+      key: CritInc
+      _value: 2
     - valueType: 0
       timeType: 0
       key: MaxManaHealthInc
-      _value: 
+      _value: 10

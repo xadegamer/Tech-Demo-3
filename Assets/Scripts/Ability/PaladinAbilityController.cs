@@ -46,7 +46,6 @@ public class PaladinAbilityController : GameUnitAbilityController
             case PaladinAbilities.DivineStorm: ability.SetAbilityAction(DivineStorm); break;
             case PaladinAbilities.Judgement: ability.SetAbilityAction(Judgement); break;
 
-
             case PaladinAbilities.DevotionAura: ability.SetAbilityAction(DevotionAura); currentAura = ability; break;
             case PaladinAbilities.MagicalAura: ability.SetAbilityAction(MagicalAura); break;
             case PaladinAbilities.RetributionAura: ability.SetAbilityAction(RetributionAura); break;

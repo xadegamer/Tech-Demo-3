@@ -264,6 +264,8 @@ public class PaladinBuffController : GameUnitBuffController
 
         float attackSpeedIncrease = buffSO.buffbuffAttributes.GetAbilityValueByID("AttackSpeedInc").GetValue<float>();
 
+        float critIncrease = buffSO.buffbuffAttributes.GetAbilityValueByID("CritInc").GetValue<float>();
+
         float manaAndHealthIncrease = buffSO.buffbuffAttributes.GetAbilityValueByID("MaxManaHealthInc").GetValue<float>();
 
         return new Buff(buffSO, target, () =>
@@ -271,6 +273,7 @@ public class PaladinBuffController : GameUnitBuffController
             target.Damager.ModifyExtraDamage(damage);
             target.GetStat().ModifyAttackSpeed(Utility.CalculatePercentageOfValue(target.GetCharacterClassSO().attackSpeed, attackSpeedIncrease), false);
             target.HealthHandler.ModifyMaxHealth(Utility.CalculatePercentageOfValue(target.GetCharacterClassSO().health, manaAndHealthIncrease), true);
+            target.Damager.ModifyChanceToHit(Utility.CalculatePercentageOfValue(target.GetCharacterClassSO().chanceToHit, critIncrease), true);
             (target as PlayerUnit).PlayerStatHandler.GetManaValue().ModifyMaxValue(Utility.CalculatePercentageOfValue(target.GetCharacterClassSO().mana, manaAndHealthIncrease), true);
         }
         , null, () =>
@@ -278,6 +281,7 @@ public class PaladinBuffController : GameUnitBuffController
             target.Damager.ModifyDamageReduction(damage, false);
             target.GetStat().ModifyAttackSpeed(Utility.CalculatePercentageOfValue(target.GetCharacterClassSO().attackSpeed, attackSpeedIncrease), true);
             target.HealthHandler.ModifyMaxHealth(Utility.CalculatePercentageOfValue(target.GetCharacterClassSO().health, manaAndHealthIncrease), false);
+            target.Damager.ModifyChanceToHit(Utility.CalculatePercentageOfValue(target.GetCharacterClassSO().chanceToHit, critIncrease), false);
             (target as PlayerUnit).PlayerStatHandler.GetManaValue().ModifyMaxValue(Utility.CalculatePercentageOfValue(target.GetCharacterClassSO().mana, manaAndHealthIncrease), false);    
         });
     }

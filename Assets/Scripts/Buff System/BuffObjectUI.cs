@@ -1,10 +1,6 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class BuffObjectUI : MonoBehaviour,IToolTip
@@ -15,11 +11,14 @@ public class BuffObjectUI : MonoBehaviour,IToolTip
 
     [Header("Debug")]
     [SerializeField] private BuffObject buffObject;
-    Vector2 pos;
+    private Buff buff;
+    private Vector2 pos;
 
     public void SetUp(BuffObject buffObject)
     {
         this.buffObject = buffObject;
+        buff = buffObject.GetBuff();
+        
         abilityImage.sprite = buffObject.GetBuff().buffSO.buffIcon;
         buffObject.GetBuff().OnBuffRemoved += Buff_OnBuffRemoved;
         buffObject.InProgress += UpdateTimerText;
@@ -61,10 +60,6 @@ public class BuffObjectUI : MonoBehaviour,IToolTip
 
     private void OnDestroy()
     {
-        if (buffObject)
-        {
-            buffObject.GetBuff().OnBuffRemoved -= Buff_OnBuffRemoved;
-            buffObject.InProgress -= UpdateTimerText;
-        }
+        if (buff != null) buff.OnBuffRemoved -= Buff_OnBuffRemoved;
     }
 }

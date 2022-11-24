@@ -121,7 +121,8 @@ public class AbilityHolderUI : MonoBehaviour, IPointerDownHandler, IPointerUpHan
 
     public void ActivateGlobalCooldown()
     {
-        if (abilityState == AbilityState.Ready && currentAbility.abilitySO.type != AbilitySO.Type.SetUp) StartCoroutine(CoolDown(1.5f));
+       // if (abilityState == AbilityState.Ready && currentAbility.abilitySO.type != AbilitySO.Type.SetUp)  StartCoroutine(CoolDown(1.5f));
+        if (abilityState == AbilityState.Ready) StartCoroutine(CoolDown(1.5f));
     }
 
     IEnumerator CoolDown(float duration)
