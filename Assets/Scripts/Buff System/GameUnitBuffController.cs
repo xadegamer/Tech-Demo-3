@@ -44,10 +44,8 @@ public abstract class GameUnitBuffController : MonoBehaviour
 
     public virtual void RemoveBuffs()
     {
-        for (int i = 0; i < activeBuffObjects.Count; i++)
-        {
-            activeBuffObjects[i].GetBuff().RemoveBuff();
-        }
+        List<Buff> activeBuffs = activeBuffObjects.Select(x => x.GetBuff()).ToList();
+        foreach (Buff buff in activeBuffs) buff.RemoveBuff();
     }
 
     protected abstract Buff CreateBuff(BuffSO buffSO, GameUnit target);

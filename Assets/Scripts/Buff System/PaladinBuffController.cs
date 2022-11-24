@@ -32,8 +32,6 @@ public class PaladinBuffController : GameUnitBuffController
 
     public Buff DevotionAura(BuffSO buffSO, GameUnit target)
     {
-        Debug.Log("Found DevotionalAuraBuff");
-
         float allDamageResistance = buffSO.buffbuffAttributes.GetAbilityValueByID("AllDamageResistance").GetValue<float>();
 
         return new Buff(buffSO, target, () =>
@@ -46,9 +44,7 @@ public class PaladinBuffController : GameUnitBuffController
         });
     }
     public Buff MagicalAura(BuffSO buffSO, GameUnit target)
-    {
-        Debug.Log("Found MagicalAuraBuff");
-        
+    {      
         float interval = buffSO.buffbuffAttributes.GetAbilityValueByID("Interval").GetValue<float>();
         float manaAmount = Utility.CalculatePercentageOfValue(gameUnit.GetCharacterClassSO().mana, buffSO.buffbuffAttributes.GetAbilityValueByID("BaseMana").GetValue<float>());
 
@@ -69,8 +65,6 @@ public class PaladinBuffController : GameUnitBuffController
     }
     public Buff RetributionAura(BuffSO buffSO, GameUnit target)
     {
-        Debug.Log("Found DevotionalAuraBuff");
-
         void DoAura(DamageInfo damageInfo)
         {
             float damage = Utility.CalculatePercentageOfValue(gameUnit.GetCharacterClassSO().maxbaseDamage, buffSO.buffbuffAttributes.GetAbilityValueByID("BaseMeleeDamage").GetValue<float>());
@@ -93,8 +87,6 @@ public class PaladinBuffController : GameUnitBuffController
    
     public Buff SealOfLight(BuffSO buffSO, GameUnit target)
     {
-        Debug.Log("Found SealOfLight Buff");
-
         float duration = buffSO.buffbuffAttributes.GetAbilityValueByID("Duration").GetValue<float>();
 
         return new Buff(buffSO, target, () =>
@@ -115,8 +107,6 @@ public class PaladinBuffController : GameUnitBuffController
     }
     public Buff SealOfJustice(BuffSO buffSO, GameUnit target)
     {
-        Debug.Log("Found SealOfJustice Buff");
-
         float duration = buffSO.buffbuffAttributes.GetAbilityValueByID("Duration").GetValue<float>();
 
         return new Buff(buffSO, target, () =>
@@ -138,8 +128,6 @@ public class PaladinBuffController : GameUnitBuffController
     }
     public Buff SealOfRighteousness(BuffSO buffSO, GameUnit target)
     {
-        Debug.Log("Found SealOfRighteousness Buff");
-
         float duration = buffSO.buffbuffAttributes.GetAbilityValueByID("Duration").GetValue<float>();
 
         return new Buff(buffSO, target, () =>
@@ -160,8 +148,6 @@ public class PaladinBuffController : GameUnitBuffController
 
     public Buff JudgementOfRighteousness(BuffSO buffSO, GameUnit target)
     {
-        Debug.Log("Found JudgementOfRighteousness Buff");
-
         void RestoreTargetHealth(DamageInfo damageInfo)
         {
             if (Utility.CalculateChance(buffSO.buffbuffAttributes.GetAbilityValueByID("HealChance").GetValue<float>()))
@@ -182,8 +168,6 @@ public class PaladinBuffController : GameUnitBuffController
     }
     public Buff JudgementOfWisdom(BuffSO buffSO, GameUnit target)
     {
-        Debug.Log("Found JudgementOfWisdom Buff");
-
         void RestoreTargetMana(DamageInfo damageInfo)
         {
             if (Utility.CalculateChance(buffSO.buffbuffAttributes.GetAbilityValueByID("ManaChance").GetValue<float>()))
@@ -204,8 +188,6 @@ public class PaladinBuffController : GameUnitBuffController
     }
     public Buff JudgementOfWeakness(BuffSO buffSO, GameUnit target)
     {
-        Debug.Log("Found JudgementOfWeakness Buff");
-
         float damageReduction = buffSO.buffbuffAttributes.GetAbilityValueByID("MeleeAttackDamageReduc").GetValue<float>();
 
         return new Buff(buffSO, target, () =>
@@ -220,8 +202,6 @@ public class PaladinBuffController : GameUnitBuffController
 
     public Buff BlessingOfMight(BuffSO buffSO, GameUnit target)
     {
-        Debug.Log("Found BlessingOfMight Buff");
-
         float damageIncrease = buffSO.buffbuffAttributes.GetAbilityValueByID("ExtraDamage").GetValue<float>();
 
         return new Buff(buffSO, target, () =>
@@ -235,8 +215,6 @@ public class PaladinBuffController : GameUnitBuffController
     }
     public Buff BlessingOfWisdom(BuffSO buffSO, GameUnit target)
     {
-        Debug.Log("Found BlessingOfWisdom Buff");
-
         float mana = buffSO.buffbuffAttributes.GetAbilityValueByID("Mana").GetValue<float>();
 
         float timer = buffSO.buffbuffAttributes.GetAbilityValueByID("Interval").GetValue<float>();
@@ -256,8 +234,6 @@ public class PaladinBuffController : GameUnitBuffController
     }
     public Buff BlessingOfKings(BuffSO buffSO, GameUnit target)
     {
-        Debug.Log("Found JudgementOfWeakness Buff");
-
         float damage = buffSO.buffbuffAttributes.GetAbilityValueByID("AdditionalBaseDamage").GetValue<float>();
 
         float attackSpeedIncrease = buffSO.buffbuffAttributes.GetAbilityValueByID("AttackSpeedInc").GetValue<float>();

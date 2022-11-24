@@ -18,8 +18,6 @@ public class BlackfathomBuffController : GameUnitBuffController
 
     public Buff BlackfathomHamstringDebuff(BuffSO buffSO, GameUnit target)
     {
-        Debug.Log("Found BlackfathomHamstringDebuff");
-
         float reduction = buffSO.buffbuffAttributes.GetAbilityValueByID("Movement and Attack Speed Reduction").GetValue<float>();
 
         return new Buff(buffSO, target, () =>
@@ -36,8 +34,6 @@ public class BlackfathomBuffController : GameUnitBuffController
 
     public Buff BashDebuff(BuffSO buffSO, GameUnit target)
     {
-        Debug.Log("Found JudgementOfWeaknessBuff");
-
         return new Buff(buffSO, target, () =>
         { //Start
             target.StartStun();
@@ -50,7 +46,6 @@ public class BlackfathomBuffController : GameUnitBuffController
     
     public Buff NagaSpiritBuff(BuffSO buffSO, GameUnit target)
     {
-        Debug.Log("Found NagaSpiritBuff");
         float healPercentage = buffSO.buffbuffAttributes.GetAbilityValueByID("HealPercentage").GetValue<float>();
         float healthPerSecond = buffSO.buffbuffAttributes.GetAbilityValueByID("HealthPerSecond").GetValue<float>();
 

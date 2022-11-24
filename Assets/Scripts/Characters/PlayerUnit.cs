@@ -70,7 +70,6 @@ public class PlayerUnit : GameUnit
     {
         base.OnDeath(arg0);
         _movementHandler.StopMovement();
-        GetComponent<Collider2D>().enabled = false;
 
         killer = arg0.owner;
         GameManager.Instance.RespawnPlayer();

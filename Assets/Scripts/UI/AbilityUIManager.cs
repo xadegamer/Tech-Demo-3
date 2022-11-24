@@ -37,6 +37,7 @@ public class AbilityUIManager : MonoBehaviour
         ScreenSwapHandler.Instance.OnRightSwipe += SwapHandler_OnRightSwipe;
 
         PlayerUnit.Instance.OnTargetFound += ToggleActive;
+        PlayerUnit.Instance.OnStun += ToggleUseability;
     }
 
     private void Update()
@@ -112,7 +113,7 @@ public class AbilityUIManager : MonoBehaviour
     }
     public void ToggleUseability(bool toggle)
     {
-        abilitySetUI.ToList().ForEach(item => item.GetAbilityHolderUIList().ToList().ForEach(x => x.ToggleUseAbility(toggle)));
+        abilitySetUI.ToList().ForEach(item => item.GetAbilityHolderUIList().ToList().ForEach(x => x.ToggleUseAbility(!toggle)));
     }
 
     public GameUnit GetOwner() => owner;

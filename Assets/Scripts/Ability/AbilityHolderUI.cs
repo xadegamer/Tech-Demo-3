@@ -190,8 +190,8 @@ public class AbilityHolderUI : MonoBehaviour, IPointerDownHandler, IPointerUpHan
 
     public void ToggleUseAbility(bool toggle)
     {
-        if (abilityState == AbilityState.OnCooldown) return;
         GetComponent<Button>().interactable = toggle;
+        if (abilityState == AbilityState.OnCooldown) return;
         coolDownSlider.fillAmount = toggle ? 0 : 1;
     }
 

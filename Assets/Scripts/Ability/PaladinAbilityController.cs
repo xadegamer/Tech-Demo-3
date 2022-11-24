@@ -75,15 +75,12 @@ public class PaladinAbilityController : GameUnitAbilityController
         damageInfo.SetUp(DamageInfo.DamageType.Physical, damage, false);
 
         gameUnit.GetTarget().HealthHandler.TakeDamage(damageInfo);
-
-        Debug.Log("Did Crusader Strike : " + damage);
     }
 
     public void HammerofJustice(Ability ability)
     {
         float stunDuration = ability.abilitySO.abilityAttributie.GetAbilityValueByID("StunDuration").GetValue<float>();
         gameUnit.GetTarget().Stun(stunDuration);
-        Debug.Log("Did Hammer of Justice : " + stunDuration);
     }
 
     public void DivineStorm(Ability ability)
@@ -96,8 +93,6 @@ public class PaladinAbilityController : GameUnitAbilityController
         float healAmount = Utility.CalculatePercentageOfValue(PlayerUnit.Instance.GetTarget().GetComponent<HealthHandler>().TakeDamage(damageInfo), ability.abilitySO.abilityAttributie.GetAbilityValueByID("Heal").GetValue<float>());
        
         gameUnit.HealthHandler.RestoreHealth(healAmount);
-
-        Debug.Log("Did Divine Storm : " + damage + " : Heal : " + healAmount);
     }
 
     public void Judgement(Ability ability)
@@ -105,11 +100,10 @@ public class PaladinAbilityController : GameUnitAbilityController
         float damage = Utility.CalculatePercentageOfValue(gameUnit.GetStat().GetCharacterClassSO().minbaseDamage, ability.abilitySO.abilityAttributie.GetAbilityValueByID("BaseWeaponDamage").GetValue<float>());
 
         DamageInfo damageInfo = new DamageInfo(gameUnit);
-        damageInfo.SetUp(DamageInfo.DamageType.Physical, damage, false);
+        damageInfo.SetUp(DamageInfo.DamageType.Holy, damage, false);
         gameUnit.GetTarget().GetComponent<HealthHandler>().TakeDamage(damageInfo);
 
         buffManager.SendBuff(currentJudgement.abilitySO.buff, PlayerUnit.Instance.GetTarget());
-        Debug.Log("Do " + currentJudgement.abilitySO.abilityName);
     }
     #endregion
 
@@ -169,19 +163,16 @@ public class PaladinAbilityController : GameUnitAbilityController
     public void JudgementOfRighteousness(Ability ability)
     {
         currentJudgement = ability;
-        Debug.Log("Selected Judgement of Righteousness");
     }
 
     public void JudgementOfWisdom(Ability ability)
     {
         currentJudgement = ability;
-        Debug.Log("Selected Judgement of Wisdom");
     }
 
     public void JudgementOfWeakness(Ability ability)
     {
         currentJudgement = ability;
-        Debug.Log("Selected Judgement of Weakness");
     }
     #endregion
 

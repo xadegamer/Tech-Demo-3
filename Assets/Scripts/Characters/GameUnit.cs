@@ -9,6 +9,8 @@ public abstract class GameUnit : MonoBehaviour
 
     public event EventHandler<float> OnHealthChangedEvent;
 
+    public Action<bool> OnStun;
+
     public Damager Damager { get => damager; }
     public HealthHandler HealthHandler { get => healthHandler; }
     public GameUnitAbilityController gameUnitAbilityController { get => unitAbilityController; }
@@ -76,6 +78,7 @@ public abstract class GameUnit : MonoBehaviour
     protected virtual void OnDeath(DamageInfo arg0)
     {
         ChangeState(State.Dead);
+        GetComponent<Collider2D>().enabled = false;
         animator.SetTrigger("Dead");
     }
 
@@ -131,19 +134,22 @@ public abstract class GameUnit : MonoBehaviour
 
     IEnumerator StunCoroutine(float stunDuration)
     {
-        ChangeState(State.Stun);
+        StartStun();
         yield return new WaitForSeconds(stunDuration);
-        ChangeState(lastState);
+        EndStun();
     }
 
     public virtual void StartStun()
     {
+        OnStun?.Invoke(true);
+        PopUpTextManager.Instance.PopUpText(transform, "Stunned", Color.red);
         ChangeState(State.Stun);
     }
 
     public virtual void EndStun()
     {
         ChangeState(lastState);
+        OnStun?.Invoke(false);
     }
 
     public bool IsDead()
@@ -154,11 +160,6 @@ public abstract class GameUnit : MonoBehaviour
     public virtual void CanMove(bool status)
     {
         canMove = status;
-    }
-
-    protected virtual void SetResistance()
-    {
-        
     }
 
     public GameUnitAbilityController GetUnitAbilityController()

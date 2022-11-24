@@ -124,7 +124,7 @@ public class HealthHandler : MonoBehaviour
             }
             OnHealthChange?.Invoke(GetNormalisedHealth());
 
-            PopUpTextManager.Instance.PopUpText(transform, finalDamage.ToString("F0"), damageInfo.critical ? Color.red : Color.yellow);
+            PopUpTextManager.Instance.PopUpText(transform, finalDamage.ToString("F0"), damageInfo.damageType == DamageInfo.DamageType.Physical ? Color.white : Color.yellow);
 
             if (damageInfo.critical) OnReceiveCriticalDamage?.Invoke(damageInfo); OnReceiveNormalDamage?.Invoke();
             

@@ -39,7 +39,6 @@ public class BlackfathomAbilityController : GameUnitAbilityController
     public void Bash(Ability ability)
     {
         buffManager.SendBuff(ability.abilitySO.buff, gameUnit.GetTarget());
-        Debug.Log("Bash");
     }
 
     public void VengefulStance(Ability ability)
@@ -48,7 +47,6 @@ public class BlackfathomAbilityController : GameUnitAbilityController
 
         if (vengefulStanceRoutine != null)
         {
-            Debug.Log("Reset VengefulStance");
             StopCoroutine(vengefulStanceRoutine);
             gameUnit.HealthHandler.OnHit.RemoveListener(OnHit);
             gameUnit.Damager.ModifyDamageReduction(ability.abilitySO.abilityAttributie.GetAbilityValueByID("DamageReduction").GetValue<float>(), false);
@@ -66,21 +64,15 @@ public class BlackfathomAbilityController : GameUnitAbilityController
         vengefulStanceRoutine = StartCoroutine(Utility.TimedAbility         
         (() =>
         {
-            Debug.Log("Start VengefulStance");
-
             PopUpTextManager.Instance.PopUpText(transform, ability.abilitySO.abilityAttributie.GetAbilityValueByID("Visual").GetValue<string>(), Color.red);
             
             gameUnit.CanMove(false);
             gameUnit.Damager.ModifyDamageReduction(ability.abilitySO.abilityAttributie.GetAbilityValueByID("DamageReduction").GetValue<float>());
 
             gameUnit.HealthHandler.OnHit.AddListener(OnHit);
-
-            Debug.Log("Count: " +gameUnit.HealthHandler.OnHit.GetPersistentEventCount());
         }
         , duration, () =>
         {
-            Debug.Log("End VengefulStance");
-
             gameUnit.CanMove(true);
             gameUnit.Damager.ModifyDamageReduction(ability.abilitySO.abilityAttributie.GetAbilityValueByID("DamageReduction").GetValue<float>(), false);
             gameUnit.HealthHandler.OnHit.RemoveListener(OnHit);
@@ -90,7 +82,6 @@ public class BlackfathomAbilityController : GameUnitAbilityController
     
     public void MyrmidonSlash(Ability ability)
     {
-        Debug.Log("MyrmidonSlash");
         PopUpTextManager.Instance.PopUpText(transform, ability.abilitySO.abilityAttributie.GetAbilityValueByID("Visual").GetValue<string>(), Color.red);
         gameUnit.Damager.CanDoubleDamage();
     }
