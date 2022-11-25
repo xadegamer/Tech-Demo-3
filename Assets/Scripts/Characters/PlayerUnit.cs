@@ -204,6 +204,8 @@ public class PlayerUnit : GameUnit
         killer.Targetted(false);
         killer.SetTarget(null);
         killer.GetComponent<GameUnit>().HealthHandler.ResetHealth();
+        killer.ResetStun();
+
         GetComponent<Collider2D>().enabled = true;
         state = State.Wandering;
     }

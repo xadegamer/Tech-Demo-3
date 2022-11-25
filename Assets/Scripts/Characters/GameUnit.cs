@@ -24,6 +24,7 @@ public abstract class GameUnit : MonoBehaviour
     [SerializeField] protected GameUnit target;
     [SerializeField] protected Radar2D attackRadar;
     [SerializeField] protected Damager damager;
+    [SerializeField] protected FlashEffect flashEffect;
 
     protected GameUnitAbilityController unitAbilityController;
 
@@ -146,12 +147,14 @@ public abstract class GameUnit : MonoBehaviour
         OnStun?.Invoke(false);
         PopUpTextManager.Instance.PopUpText(transform, "Stunned", Color.red);
         ChangeState(State.Stun);
+        flashEffect.ToggleNegative(true);
     }
 
     public virtual void EndStun()
     {
         ChangeState(lastState);
         OnStun?.Invoke(true);
+        flashEffect.ToggleNegative(false);
     }
 
     public bool IsDead()
@@ -162,6 +165,15 @@ public abstract class GameUnit : MonoBehaviour
     public virtual void CanMove(bool status)
     {
         canMove = status;
+    }
+
+    public virtual void ResetStun()
+    {
+        if (state == State.Stun)
+        {
+            StopAllCoroutines();
+            EndStun();
+        }
     }
 
     public GameUnitAbilityController GetUnitAbilityController()

@@ -35,4 +35,9 @@ public class FlashEffect : MonoBehaviour
     {
         mat.EnableKeyword(toggle ? "HITEFFECT_ON" : "HITEFFECT_OFF");
     }
+
+    public void ToggleNegative(bool toggle)
+    {
+        mat.EnableKeyword(toggle ? "NEGATIVE_ON" : "NEGATIVE_OFF");
+    }
 }
