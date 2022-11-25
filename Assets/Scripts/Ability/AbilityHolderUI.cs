@@ -29,6 +29,10 @@ public class AbilityHolderUI : MonoBehaviour, IPointerDownHandler, IPointerUpHan
     [SerializeField] private AbilityState abilityState;
     [SerializeField] private Ability currentAbility;
     [SerializeField] private List<Ability> connectedAbilityList;
+    
+    [Header("Lock")]
+    [SerializeField] private Button useBotton;
+    [SerializeField] private GameObject lockImage;
 
     [Header("Additional Ability Option")]
     [SerializeField] private AbilityHolderUI additionalAbilityPrefab;
@@ -38,6 +42,7 @@ public class AbilityHolderUI : MonoBehaviour, IPointerDownHandler, IPointerUpHan
     private AbilityHolderUI abilityUIParent;
     private float activeTime;
     private bool buttonHeld;
+    private bool isLocked;
     Vector2 pos;
 
     private void Start()
@@ -90,21 +95,19 @@ public class AbilityHolderUI : MonoBehaviour, IPointerDownHandler, IPointerUpHan
                         currentAbility.UseAbility();
                         abilityUIParent.SwapAbility(currentAbility);
                         abilityUIParent.ToggleConnectedAbilitiesUI(false);
-                       // AbilityUIManager.Instance.GlobalCooldown();
                     }
                     break;
                 case AbilitySO.Type.SetUpAndInstantCast:
                     if (!abilityUIParent)
                     {
-                        if (additionAbilitiesHolder.gameObject.activeInHierarchy) AbilityUIManager.Instance.GetOwner().TryUseAbility(currentAbility);
+                        if (additionAbilitiesHolder.gameObject.activeInHierarchy) if (AbilityUIManager.Instance.GetOwner().TryUseAbility(currentAbility)) AbilityUIManager.Instance.GlobalCooldown();
                         ToggleConnectedAbilitiesUI(!additionAbilitiesHolder.gameObject.activeInHierarchy); 
                     }
                     else
                     {
-                        PlayerUnit.Instance.TryUseAbility(currentAbility);
+                        if (PlayerUnit.Instance.TryUseAbility(currentAbility)) AbilityUIManager.Instance.GlobalCooldown();
                         abilityUIParent.SwapAbility(currentAbility);
                         abilityUIParent.ToggleConnectedAbilitiesUI(false);
-                      //  AbilityUIManager.Instance.GlobalCooldown();
                     }
                     break;
                 default:  break;
@@ -190,9 +193,13 @@ public class AbilityHolderUI : MonoBehaviour, IPointerDownHandler, IPointerUpHan
 
     public void ToggleUseAbility(bool toggle)
     {
-        GetComponent<Button>().interactable = toggle;
-        if (abilityState == AbilityState.OnCooldown) return;
-        coolDownSlider.fillAmount = toggle ? 0 : 1;
+        useBotton.interactable = toggle;
+        if (abilityState != AbilityState.OnCooldown) coolDownSlider.fillAmount = toggle ? 0 : 1;
+    }
+
+    public void ToggleLock(bool toggle)
+    {
+        lockImage.SetActive(toggle);
     }
 
     public void OnPointerDown(PointerEventData eventData)

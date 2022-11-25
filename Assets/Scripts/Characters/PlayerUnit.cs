@@ -39,6 +39,17 @@ public class PlayerUnit : GameUnit
 
         _playerStatHandler.GetManaValue().OnValueChanged += StatHandler_OnManaChanged;
         _playerStatHandler.SetUp(characterClassSO);
+
+        EnemyUnit.OnAnyEnemyDeath += EnemyUnit_OnAnyEnemyDeath;
+    }
+
+    private void EnemyUnit_OnAnyEnemyDeath(object sender, EventArgs e)
+    {
+        if ((sender as EnemyUnit) == target)
+        {
+            SetTarget(null);
+            ChangeState(State.Wandering);
+        } 
     }
 
     protected override void Update()
@@ -184,6 +195,7 @@ public class PlayerUnit : GameUnit
     {
         gameUnitBuffController.RemoveBuffs();
         transform.position = startPos;
+        
         healthHandler.SetHealth(characterClassSO.health);
         _playerStatHandler.SetUp(characterClassSO);
 

@@ -8,6 +8,8 @@ using System;
 
 public class EnemyUnit : GameUnit
 {
+    public static event EventHandler OnAnyEnemyDeath;
+
     public StatBase StatHandler { get => _statHandler; }
 
     [Header("Enemy Handlers")]
@@ -73,7 +75,16 @@ public class EnemyUnit : GameUnit
     protected override void OnDeath(DamageInfo arg0)
     {
         base.OnDeath(arg0);
-        if(isTargetted) UIManager.Instance.GetTargetOfTargetUI().SetUp(null);
+        agent.velocity = Vector2.zero;
+        agent.isStopped = true;
+        OnAnyEnemyDeath?.Invoke(this, EventArgs.Empty);
+        gameUnitBuffController.RemoveBuffs();
+
+        if (isTargetted)
+        {
+            UIManager.Instance.GetTargetOfTargetUI().SetUp(null);
+            Targetter.SetTarget(null);
+        } 
     }
 
     public override bool TryUseAbility(Ability ability)
@@ -148,7 +159,7 @@ public class EnemyUnit : GameUnit
         }
         else
         {
-            state = State.Wandering;
+            ChangeState(State.Wandering);
         }
     }
 

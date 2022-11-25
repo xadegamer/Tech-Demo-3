@@ -143,7 +143,7 @@ public abstract class GameUnit : MonoBehaviour
 
     public virtual void StartStun()
     {
-        OnStun?.Invoke(true);
+        OnStun?.Invoke(false);
         PopUpTextManager.Instance.PopUpText(transform, "Stunned", Color.red);
         ChangeState(State.Stun);
     }
@@ -151,7 +151,7 @@ public abstract class GameUnit : MonoBehaviour
     public virtual void EndStun()
     {
         ChangeState(lastState);
-        OnStun?.Invoke(false);
+        OnStun?.Invoke(true);
     }
 
     public bool IsDead()

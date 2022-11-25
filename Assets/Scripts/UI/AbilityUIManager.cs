@@ -37,7 +37,9 @@ public class AbilityUIManager : MonoBehaviour
         ScreenSwapHandler.Instance.OnRightSwipe += SwapHandler_OnRightSwipe;
 
         PlayerUnit.Instance.OnTargetFound += ToggleActive;
-        PlayerUnit.Instance.OnStun += ToggleUseability;
+        PlayerUnit.Instance.OnStun += ToggleActive;
+
+        PlayerUnit.Instance.PlayerStatHandler.GetManaValue().OnValueChanged += StatHandler_OnManaChanged;
     }
 
     private void Update()
@@ -79,6 +81,13 @@ public class AbilityUIManager : MonoBehaviour
         ShowAbililitySetUI(abilitySetUI[1]);
     }
 
+    private void StatHandler_OnManaChanged(object sender, float normaliseValue)
+    {
+        float maxMana = PlayerUnit.Instance.GetCharacterClassSO().mana;
+        float currentMana = maxMana * normaliseValue;
+        abilitySetUI.ToList().ForEach(item => item.GetAbilityHolderUIList().ToList().ForEach(x => x.ToggleLock(x.GetCurrentAbility().GetAbilityCost(maxMana) >= currentMana)));
+    }
+
     public void ShowAbililitySetUI(AbilitySetUI abilitySetUI)
     {
         if (abilitySetUI == currentAbilitySetUI) return;
@@ -112,10 +121,6 @@ public class AbilityUIManager : MonoBehaviour
     public void ToggleMeleeAbilities(bool toggle)
     {
         abilitySetUI.ToList().ForEach(item => item.GetAbilityHolderUIList().Where(x => x.GetCurrentAbility().abilitySO.range == AbilitySO.Range.Melee).ToList().ForEach(x => x.ToggleUseAbility(toggle)));
-    }
-    public void ToggleUseability(bool toggle)
-    {
-        abilitySetUI.ToList().ForEach(item => item.GetAbilityHolderUIList().ToList().ForEach(x => x.ToggleUseAbility(!toggle)));
     }
 
     public GameUnit GetOwner() => owner;

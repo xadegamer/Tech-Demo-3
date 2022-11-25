@@ -17,7 +17,7 @@ MonoBehaviour:
     their mana over time, providing 2% of their base mana every 5 seconds. '
   abilityIcon: {fileID: 21300000, guid: a61ac171ca536244e8ef1c75895e6d18, type: 3}
   abilityCost: 0
-  type: 2
+  type: 3
   range: 0
   abilityAttributie:
     attributes: []

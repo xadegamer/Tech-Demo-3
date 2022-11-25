@@ -336,7 +336,7 @@ public static class Utility
         {
             float minutes = Mathf.FloorToInt(timeToDisplay / 60);
             float seconds = timeToDisplay % 60;
-            time = (minutes == 0) ? $"{seconds.ToString("F0")}s" : $"{minutes:00}m : {seconds:00}s";
+            time = (minutes == 0) ? $"{seconds.ToString("F0")}s" : $"{minutes:0}m : {seconds:00}s";
         }
         else time = "0 s";
         return time;

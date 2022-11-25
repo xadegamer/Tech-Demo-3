@@ -81,7 +81,6 @@ public class PaladinBuffController : GameUnitBuffController
         , null, () =>
         { // End
             target.HealthHandler.OnHit.RemoveListener(DoAura);
-            Debug.Log("Count: " + target.HealthHandler.OnHit.GetPersistentEventCount());
         });
     }
    

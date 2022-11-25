@@ -17,7 +17,7 @@ MonoBehaviour:
     be able to recover an additional 10 mana per 5 seconds. '
   abilityIcon: {fileID: 21300000, guid: bd5cad58732a50c4bb5f281d9f948eae, type: 3}
   abilityCost: 5
-  type: 2
+  type: 3
   range: 0
   abilityAttributie:
     attributes: []

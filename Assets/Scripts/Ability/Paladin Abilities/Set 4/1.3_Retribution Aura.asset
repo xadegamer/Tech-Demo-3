@@ -17,7 +17,7 @@ MonoBehaviour:
     out against any melee attackers, dealing 2% of Base Melee Damage as Holy Damage. '
   abilityIcon: {fileID: 21300000, guid: bf2e6ca7638ecc14cb7d552218419000, type: 3}
   abilityCost: 0
-  type: 2
+  type: 3
   range: 0
   abilityAttributie:
     attributes: []

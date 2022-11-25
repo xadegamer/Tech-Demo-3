@@ -17,7 +17,7 @@ MonoBehaviour:
     each attack a 10% chance to stun an enemy target for 2 sec. '
   abilityIcon: {fileID: 21300000, guid: 6232060fa5cfe7d4084bcc1d7d2db48a, type: 3}
   abilityCost: 8
-  type: 2
+  type: 3
   range: 0
   abilityAttributie:
     attributes:
