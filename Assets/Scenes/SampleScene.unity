@@ -649,8 +649,8 @@ GameObject:
   m_Component:
   - component: {fileID: 36243550}
   - component: {fileID: 36243553}
-  - component: {fileID: 36243552}
   - component: {fileID: 36243551}
+  - component: {fileID: 36243554}
   m_Layer: 3
   m_Name: Door
   m_TagString: Untagged
@@ -699,22 +699,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &36243552
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 36243549}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_OverrideArea: 1
-  m_Area: 1
-  m_IgnoreFromBuild: 0
-  m_AffectedAgents: ffffffff
 --- !u!212 &36243553
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -767,6 +751,22 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!208 &36243554
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 36243549}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 2, y: 0.5, z: 0.1}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!224 &42689934 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7277246265027299025, guid: 73b218326655d424da493471591d439c, type: 3}
@@ -1107,10 +1107,10 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 26.523361, y: 19.99528}
-      - {x: -13.583848, y: 19.973444}
-      - {x: -13.573574, y: -20.2877}
-      - {x: 26.585934, y: -20.241976}
+    - - {x: 25.508587, y: 19.741585}
+      - {x: -11.892554, y: 19.804316}
+      - {x: -11.88228, y: -19.695747}
+      - {x: 25.486595, y: -19.734587}
 --- !u!1 &128522406
 GameObject:
   m_ObjectHideFlags: 0
@@ -1463,7 +1463,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 50.805, y: -79.105}
+  m_AnchoredPosition: {x: 50.805, y: -99.105}
   m_SizeDelta: {x: 81.61, y: 22.35}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &172991806
@@ -1666,7 +1666,7 @@ Transform:
   m_GameObject: {fileID: 181548331}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 38, y: 38, z: 1}
+  m_LocalScale: {x: 50, y: 50, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 771761642}
@@ -4203,7 +4203,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -344.6171, y: -695.4149, z: -11.705395}
+  m_LocalPosition: {x: -342.92575, y: -695.4145, z: -11.705395}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -5299,8 +5299,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 25, y: -25}
-  m_SizeDelta: {x: 30, y: 30}
+  m_AnchoredPosition: {x: 35, y: -35}
+  m_SizeDelta: {x: 50, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &772968706
 MonoBehaviour:
@@ -5317,8 +5317,8 @@ MonoBehaviour:
   m_IgnoreLayout: 0
   m_MinWidth: -1
   m_MinHeight: -1
-  m_PreferredWidth: 30
-  m_PreferredHeight: 30
+  m_PreferredWidth: 50
+  m_PreferredHeight: 50
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
@@ -6908,7 +6908,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 134.26999, y: 100.28}
+  m_SizeDelta: {x: 134.26999, y: 120.28}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1020454768
 GameObject:
@@ -7538,8 +7538,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1245731378}
   - component: {fileID: 1245731381}
-  - component: {fileID: 1245731380}
   - component: {fileID: 1245731379}
+  - component: {fileID: 1245731382}
   m_Layer: 3
   m_Name: Door
   m_TagString: Untagged
@@ -7588,22 +7588,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &1245731380
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1245731377}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_OverrideArea: 1
-  m_Area: 1
-  m_IgnoreFromBuild: 0
-  m_AffectedAgents: ffffffff
 --- !u!212 &1245731381
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -7656,6 +7640,22 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!208 &1245731382
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1245731377}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 2, y: 0.5, z: 0.1}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &1252859141
 GameObject:
   m_ObjectHideFlags: 0
@@ -7982,7 +7982,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 67.134995, y: -53.965}
+  m_AnchoredPosition: {x: 67.134995, y: -73.965}
   m_SizeDelta: {x: 114.26999, y: 27.93}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1277678121
@@ -8715,7 +8715,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1473294571}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -3.3379211, y: -0.0008544922, z: 0}
+  m_LocalPosition: {x: -5.0292664, y: -0.0012817383, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

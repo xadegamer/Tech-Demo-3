@@ -9,11 +9,10 @@ public class PaladinAbilityController : GameUnitAbilityController
 
     [SerializeField] Ability currentAura;
 
-    [SerializeField] Ability currentSeal;
+    [SerializeField] Ability currentSeal = null;
 
     [SerializeField] Ability currentBlessing;
 
-    private bool sealActive;
 
     private bool auraActive;
 
@@ -24,7 +23,6 @@ public class PaladinAbilityController : GameUnitAbilityController
     {
         AbilityUIManager.Instance.SetAbilities(gameUnit, abilities);
         currentAura.UseAbility();
-        currentSeal.UseAbility();
         currentBlessing.UseAbility();
     }
 
@@ -50,7 +48,7 @@ public class PaladinAbilityController : GameUnitAbilityController
             case PaladinAbilities.MagicalAura: ability.SetAbilityAction(MagicalAura); break;
             case PaladinAbilities.RetributionAura: ability.SetAbilityAction(RetributionAura); break;
 
-            case PaladinAbilities.SealOfRighteousness: ability.SetAbilityAction(SealOfRighteousness); currentSeal = ability; break;
+            case PaladinAbilities.SealOfRighteousness: ability.SetAbilityAction(SealOfRighteousness); break;
             case PaladinAbilities.SealOfLight: ability.SetAbilityAction(SealOfLight); break;
             case PaladinAbilities.SealOfJustice: ability.SetAbilityAction(SealOfJustice); break;
 
@@ -138,9 +136,8 @@ public class PaladinAbilityController : GameUnitAbilityController
 
     public void SealOfRighteousness(Ability ability)
     {
-        if(currentSeal != null && sealActive) currentSeal.RemoveBuff();
+        if(currentSeal != null) currentSeal.RemoveBuff();
         currentSeal = ability;
-        sealActive = true;
         ability.buff = buffManager.SendBuff(ability.abilitySO.buff, gameUnit);
     }
     
