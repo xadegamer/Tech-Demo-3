@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityName: Bash
   abilityDescription: 
-  abilityIcon: {fileID: 0}
+  abilityIcon: {fileID: 21300000, guid: c768a974ea3f00949a9f68e4e96175fe, type: 3}
   abilityCost: 0
   type: 0
   range: 0

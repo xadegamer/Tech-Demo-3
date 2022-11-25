@@ -13,6 +13,9 @@ public class HealthHandler : MonoBehaviour
     [SerializeField] float physicalDamageReduction;
     [SerializeField] float holyDamageReduction;
 
+    [Header("Healing Multipliers")]
+    [SerializeField] float healingMultiplier;
+
     [Header("CoolDown")]
     [SerializeField] bool hasCooldown;
     [SerializeField] float coolDownDuration;
@@ -80,6 +83,11 @@ public class HealthHandler : MonoBehaviour
         if (increase) this.holyDamageReduction += holyDamageResistance; else this.holyDamageReduction -= holyDamageResistance;
     }
 
+    public void ModifyHealingMultiplier(float healingMultiplier, bool increase = true)
+    {
+        if (increase) this.healingMultiplier += healingMultiplier; else this.healingMultiplier -= healingMultiplier;
+    }
+
     public float GetHealth() => currentHealth;
     public float GetMaxHealth() => maxHealth;
 
@@ -135,7 +143,9 @@ public class HealthHandler : MonoBehaviour
 
     public void RestoreHealth(float amount)
     {
-        currentHealth += amount;
+        float health = Utility.CalculateValueWithPercentage(amount, healingMultiplier, true);
+        currentHealth += health;
+        
         if (currentHealth > maxHealth) currentHealth = maxHealth;
         OnHeal.Invoke();
         OnHealthChange?.Invoke(GetNormalisedHealth());

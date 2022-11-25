@@ -16,7 +16,7 @@ MonoBehaviour:
   buffName: Blackfathom Hamstring Debuff
   buffDescription: Slows him down by 50% both in movement and attack speed. This
     debuff lasts for 8 seconds
-  buffIcon: {fileID: 21300000, guid: 8c8016285e3d611458fcb81deb0a96c0, type: 3}
+  buffIcon: {fileID: 21300000, guid: ff72ccc5ce6166447a5f0cf4ce1f1132, type: 3}
   buffType: 1
   isDebuff: 1
   buffbuffAttributes:

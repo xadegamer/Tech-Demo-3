@@ -42,13 +42,15 @@ public class AbilityUIManager : MonoBehaviour
 
     private void Update()
     {
+        //if (Input.GetKeyDown(KeyCode.RightArrow)) ShowAbililitySetUI(abilitySetUI[0]);
+        //if (Input.GetKeyDown(KeyCode.LeftArrow)) ShowAbililitySetUI(abilitySetUI[1]);
+        //if (Input.GetKeyDown(KeyCode.UpArrow)) ShowAbililitySetUI(abilitySetUI[2]);
+        //if (Input.GetKeyDown(KeyCode.DownArrow)) ShowAbililitySetUI(abilitySetUI[3]);
+
         if (Input.GetKeyDown(KeyCode.RightArrow)) ShowAbililitySetUI(abilitySetUI[0]);
-
-        if (Input.GetKeyDown(KeyCode.LeftArrow)) ShowAbililitySetUI(abilitySetUI[1]);
-
-        if (Input.GetKeyDown(KeyCode.UpArrow)) ShowAbililitySetUI(abilitySetUI[2]);
-
-        if (Input.GetKeyDown(KeyCode.DownArrow)) ShowAbililitySetUI(abilitySetUI[3]);
+        if (Input.GetKeyDown(KeyCode.DownArrow)) ShowAbililitySetUI(abilitySetUI[1]);
+        if (Input.GetKeyDown(KeyCode.LeftArrow)) ShowAbililitySetUI(abilitySetUI[2]);
+        if (Input.GetKeyDown(KeyCode.UpArrow)) ShowAbililitySetUI(abilitySetUI[3]);
     }
 
     public void ToggleActive(bool toggle)
@@ -64,17 +66,17 @@ public class AbilityUIManager : MonoBehaviour
 
     private void SwapHandler_OnLeftSwipe(object sender, EventArgs e)
     {
-        ShowAbililitySetUI(abilitySetUI[1]);
+        ShowAbililitySetUI(abilitySetUI[2]);
     }
 
     private void SwapHandler_OnUpSwipe(object sender, EventArgs e)
     {
-        ShowAbililitySetUI(abilitySetUI[2]);
+        ShowAbililitySetUI(abilitySetUI[3]);
     }
 
     private void SwapHandler_OnDownSwipe(object sender, EventArgs e)
     {
-        ShowAbililitySetUI(abilitySetUI[3]);
+        ShowAbililitySetUI(abilitySetUI[1]);
     }
 
     public void ShowAbililitySetUI(AbilitySetUI abilitySetUI)
@@ -88,7 +90,7 @@ public class AbilityUIManager : MonoBehaviour
     public void SetAbilities(GameUnit owner, List<AbilitySet> abilitySet)
     {
         this.owner = owner;
-        for (int i = 0; i < abilitySetUI.Length; i++) abilitySetUI[i].SpawnAndSetAbility(abilitySet[i]);
+        for (int i = 0; i < abilitySet.Count; i++) abilitySetUI[i].SpawnAndSetAbility(abilitySet[i]);
     }
 
     public void ActivateCastBar(string abilityName)

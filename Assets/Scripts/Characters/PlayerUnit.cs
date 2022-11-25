@@ -69,6 +69,8 @@ public class PlayerUnit : GameUnit
     protected override void OnDeath(DamageInfo arg0)
     {
         base.OnDeath(arg0);
+
+        SetTarget(null);
         _movementHandler.StopMovement();
 
         killer = arg0.owner;
@@ -187,7 +189,6 @@ public class PlayerUnit : GameUnit
 
         animator.Play("Idle_Buttom");
 
-        SetTarget(null);
         killer.Targetted(false);
         killer.SetTarget(null);
         killer.GetComponent<GameUnit>().HealthHandler.ResetHealth();
@@ -203,5 +204,12 @@ public class PlayerUnit : GameUnit
     public override void Attack()
     {
         animator.SetTrigger("Melee");
+    }
+
+    public override void ChangeState(State newState)
+    {
+        base.ChangeState(newState);
+        PlayerStatHandler.GetManaValue().SetRegenValue(state == State.Combat ? characterClassSO.manaRegenWhileNotCasting.regenInterval : characterClassSO.manaRegenWhileNotInCombat.regenInterval, 
+            state == State.Combat ? characterClassSO.manaRegenWhileNotCasting.regenAmount : characterClassSO.manaRegenWhileNotInCombat.regenAmount);
     }
 }

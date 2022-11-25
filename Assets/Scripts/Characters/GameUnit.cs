@@ -54,6 +54,8 @@ public abstract class GameUnit : MonoBehaviour
 
         healthHandler.ModifyPhysicalDamageResistance(characterClassSO.physicalDamageReduction);
 
+        healthHandler.ModifyHealingMultiplier(characterClassSO.healingMultipier);
+
         healthHandler.OnHealthChange.AddListener(OnHealthChanged);
 
         healthHandler.OnDeath.AddListener(OnDeath);
@@ -109,7 +111,7 @@ public abstract class GameUnit : MonoBehaviour
 
     public abstract StatBase GetStat();
 
-    public void ChangeState(State newState)
+    public virtual void ChangeState(State newState)
     {
         if (state == State.Dead) return;    
         lastState = state;

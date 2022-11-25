@@ -16,7 +16,7 @@ MonoBehaviour:
   buffName: Bash Debuff
   buffDescription: The Myrmidon instantly bashes the character, stunning him in place
     for 5 seconds.
-  buffIcon: {fileID: 21300000, guid: ab4465ab72ca5544da8e8dd1110b6973, type: 3}
+  buffIcon: {fileID: 21300000, guid: c768a974ea3f00949a9f68e4e96175fe, type: 3}
   buffType: 1
   isDebuff: 1
   buffbuffAttributes:
